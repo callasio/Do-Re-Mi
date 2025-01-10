@@ -186,7 +186,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4302826911097729736}
   - component: {fileID: -5876406561737143855}
-  - component: {fileID: 8580470783851377105}
   m_Layer: 0
   m_Name: ButtonPrefab
   m_TagString: Untagged
@@ -224,18 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8231b245a35ec4a4abb87a0c1573cecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8580470783851377105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6437263245089263327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8231b245a35ec4a4abb87a0c1573cecc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  SceneName: GamePlayScene
 --- !u!1 &6682059152845633238
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,6 +358,7 @@ GameObject:
   - component: {fileID: 4943357217158547668}
   - component: {fileID: 7274265628244544268}
   - component: {fileID: 9116739449385849894}
+  - component: {fileID: 994918092342358521}
   m_Layer: 0
   m_Name: Cube
   m_TagString: MainCamera
@@ -387,8 +376,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 40, y: 6, z: 3}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 35, y: 6, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4302826911097729736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -478,3 +467,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8231b245a35ec4a4abb87a0c1573cecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneName: 
+--- !u!114 &994918092342358521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8145805366062587154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2faaa400f4ac5b645a519e7c0138c9d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolution: 4
+  size: 1
+  roundness: 1

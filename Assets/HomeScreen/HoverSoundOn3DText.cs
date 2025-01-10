@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MouseHoverSound : MonoBehaviour
 {
+    public string SceneName;
     // public AudioSource audioSource;  // 소리를 재생할 AudioSource
     // public AudioClip hoverSound;     // 마우스를 올렸을 때 재생할 소리
 
@@ -13,7 +15,6 @@ public class MouseHoverSound : MonoBehaviour
         //     audioSource = GetComponent<AudioSource>();
         // }
     }
-
     private void Update()
     {
         // 마우스 좌표로 Ray를 쏴서 해당 오브젝트가 맞는지 확인
@@ -35,6 +36,18 @@ public class MouseHoverSound : MonoBehaviour
                 //     audioSource.PlayOneShot(hoverSound);
                 //     Debug.Log("Mouse is over the object! Playing sound.");
                 // }
+                if (Input.GetMouseButtonDown(0)) //마우스 왼쪽 클릭
+                {
+                    Debug.Log("Mouse click the object! Go Next Scene!");
+                    if (!string.IsNullOrEmpty(SceneName))
+                    {
+                        SceneManager.LoadScene(SceneName);
+                    }
+                    else
+                    { 
+                        Debug.LogWarning("Scene name is not set.");
+                    }
+                }
             }
         }
     }
