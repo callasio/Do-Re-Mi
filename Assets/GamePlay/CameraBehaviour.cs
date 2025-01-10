@@ -1,17 +1,19 @@
 using UnityEngine;
 
-public class CameraBehaviour : MonoBehaviour
+namespace GamePlay
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class CameraBehaviour : MonoBehaviour
     {
-        transform.position = new Vector3(30, 30, 30); 
-        transform.LookAt(Vector3.zero);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        public static readonly Vector3 Position = new (-30, 30, -30);
         
+        void Start()
+        {
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+        
+        }
     }
 }
