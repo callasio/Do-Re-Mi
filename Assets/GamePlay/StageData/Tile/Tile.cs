@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace GamePlay.StageData.Tile
 {
     using UnityEngine;
@@ -25,7 +27,10 @@ namespace GamePlay.StageData.Tile
 
         public override void OnClicked()
         {
-            _animation.Play();
+            if (!Data.CurrentStageData.Any(element => element.Type == StageElementType.Speaker && element.Coordinates == Data.Coordinates))
+            {
+                _animation.Play();
+            }
             Player.ElementClicked(Data);
         }
     }
