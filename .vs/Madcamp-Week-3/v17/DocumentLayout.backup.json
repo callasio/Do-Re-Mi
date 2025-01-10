@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\jeals\\Desktop\\flow24W\\Madcamp-Week-3\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jeals\\Desktop\\flow24W\\Madcamp-Week-3\\Assets\\HomeScreen\\StartScene.unity||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\HomeScreen\\StartScene.unity||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jeals\\Desktop\\flow24W\\Madcamp-Week-3\\Assets\\HomeScreen\\StartPrefab.prefab||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\HomeScreen\\StartPrefab.prefab||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jeals\\Desktop\\flow24W\\Madcamp-Week-3\\Assets\\HomeScreen\\StartScene.unity||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\HomeScreen\\StartScene.unity||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,30 +18,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "StartScene.unity",
               "DocumentMoniker": "C:\\Users\\jeals\\Desktop\\flow24W\\Madcamp-Week-3\\Assets\\HomeScreen\\StartScene.unity",
               "RelativeDocumentMoniker": "Assets\\HomeScreen\\StartScene.unity",
               "ToolTip": "C:\\Users\\jeals\\Desktop\\flow24W\\Madcamp-Week-3\\Assets\\HomeScreen\\StartScene.unity",
               "RelativeToolTip": "Assets\\HomeScreen\\StartScene.unity",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAWlSURBVEhLjVZpTFRXFP7evFmYBcZRCgwWrdQKiBYRxAFEEGyKRkmD1WjUpP7RpK3G2D9t0lpja1qLNbV1T5PWBS1gbFNb6x\u002BbRlwLKrYGRAdZZBkWwWHWN/NmpudeYJRASM/Ny7tz7r3nO\u002Bc75543QigUApPa2lr\u002BnkiOnP0tJYQQ3l23smFYNaEsyMwMhQEEQeDv8eTDvYejBwYGPg\u002BFgltkv4xAQD42aLd//POPB/uGt4wrNTU1mBBgxYbNivip07bJfv\u002BuYDBgVIgigoEgrdAZQbAz/a8Vp74d7O1gyjEyIcDWnWXFfr9/vyzLKWQIolKEQIOAoFSpOBA7S6PB43bvOHuk7NLw0bCMC7Dt030pHo/na6JjGdfT0KhEFBYsRndvP9RKATGxcbh24xYG7HYCDHKwgCz/4fP7Pjhz\u002BKtwfkYBbNz6kUFviPyMNr5HOhU7qNGokJE2FxmZCyASPdVXr0FLOkt2NhkMoO7ePdyqvQOZ5uQQ/LLsp/OHyNlPThzY42QACm6dJCj7mynU7XJAVgUCASTPnIF1q9/GgqyFUCgU3IgkSfB6JTIGDpieno71a9cgZdZMRgFjQUWmtrc1PWweskrqkQgsS5aHIo2TkJKaimXFxYiLj\u002Bd6Zs1m68atv2tg6\u002B3lVE5/eSpyc7JhMpmG8kBPd3c3zlVW4saVP\u002BGTvGi8f1cYFQHzwEGcRmq1UKs1nAImDqcTf12pRldPD3HNqAihtb0DVVXn4Ha5eDROhwN9He1Q\u002BFyQPG7u1IiEAURRCUEhcDpcdLCroxODz\u002Bww6PVYvaoUedkW6HQ6CJSbhfPTsGnTO5ymFmsj7t28BmtjPXq6bXTWyRM/ImGKcpeWhAQyXpCfD0vOoqHqoEdJ5WmaPBlavQ4up4scEDhQT1cX\u002Bm2dGOjvQ2trC9Q6A5LTMqCO0KL1USPiXpoyO3mGuWEURUxYBGzOuK44exrNjx\u002Bjm3Jg6\u002BjiHvu8xO8/dbD32mjNilMnf4DWOAVZi4sQEx2NWIMGuZnz8EpCfO1Tu2d6GIAZZI9CVHAQFllvXx8qKn7CpYsXePgdT56go9lK1A3g4u8XcPzYYeJWDXPCDCjoAurFIKIMOhgMeuh1\u002BlaNRmMaEwFNaAxFIghsOYT6\u002BgY8eviAdCJUShXNG3G7tgYejwtziBaB7kCURoTk9aCsbC8VQCXK9u0rMkQo6pTcJslz84CPWsMdMkCt4oWCGI6QAdPjJWNRUSbExpkxyaClYtDhzJnzWLKkCLm5OdQQg1aHy535PIJhCGtTE74/fhS3b9egdNUqZNOtZXSxAJlx1vBYohl4cupcaKmsp5iM9NuHpKRkFBUVUgfQsL06UaHIC1dRXnEp3fYgN5CeloY3l6\u002BgpqbklWTrZNXyFImvvoag14kHDawkOyGqIhAbPw0FixaSE3SWnCgvL8fKkhLExMTC6XRveSECuFkQ1Otxt64ON69fhdfj5Qtx5ngkpaTyOdszKymJNzylSoOoSAPIU3pH4vSpk2hra6eL54LP52etpTYM4HY65vgkqZK1Zomu\u002BuXLl3HouwOov/8v9SHKBdvEKo0Gi5ol3Ol08Kpja8FgCNbHLUhMTIQ53gyvJFXrNbgTpoglkMm8nMI8MnKUev5sVvdMn5CQgMKiN2A2T4XsGURbazN\u002BOX8OqggdVpSUIjtrPiI0ajRZrRRZLAN3uz2edKNO\u002BXAMwIik5yzdTAB7KKHR3GMCS3s9DZLrGdF3nVeR0zGIt1avd65bu8Zg0Gk5VVSBrdRxNxblW6on/KIxSc3IjVSpNbupIt4nACVrdq5nTyH7JVZFMoEc9Ho8O0\u002BUV8wzGY0bKH\u002BNZO/o0oIc6nj/45s8InOz8lNEUbGf9hY7B/qoHUuXKC87utpbJvx3MQqgqqqKvyeSXV9\u002BU\u002Byy96Psi91jvr/jicViwX9GLNRJBW/rsgAAAABJRU5ErkJggg==",
               "WhenOpened": "2025-01-10T05:39:05.699Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "StartPrefab.prefab",
               "DocumentMoniker": "C:\\Users\\jeals\\Desktop\\flow24W\\Madcamp-Week-3\\Assets\\HomeScreen\\StartPrefab.prefab",
               "RelativeDocumentMoniker": "Assets\\HomeScreen\\StartPrefab.prefab",
               "ToolTip": "C:\\Users\\jeals\\Desktop\\flow24W\\Madcamp-Week-3\\Assets\\HomeScreen\\StartPrefab.prefab",
               "RelativeToolTip": "Assets\\HomeScreen\\StartPrefab.prefab",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAAAAkAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-01-10T05:38:55.549Z",
               "EditorCaption": ""
