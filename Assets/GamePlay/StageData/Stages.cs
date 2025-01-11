@@ -96,16 +96,39 @@ namespace GamePlay.StageData
             {
             var tileList = new List<StageElementData>();
                 tileList.Add(NewData(new(3,-5), Direction.Up, StageElementType.Player));
-                for(int i = 3; i <= 5; i++)
-                {
-                    for(int e = -3; e <= 5; e++)
-                    {
-                        tileList.Add(NewData(new(i, e), Direction.Up, StageElementType.FixTile));
-                    }
-                }
+                
+                tileList.Add(NewTileData(new(3, 4), Direction.Up, "true", "A"));
+                tileList.Add(NewTileData(new(3, 3), Direction.Up, "true", "B"));
+                tileList.Add(NewTileData(new(3, 2), Direction.Up, "true", "O"));
+                tileList.Add(NewTileData(new(3, 1), Direction.Up, "true", "U"));
+                tileList.Add(NewTileData(new(3, 0), Direction.Up, "true", "T"));
+                
+                tileList.Add(NewTileData(new(4, 4), Direction.Up, "true", "S"));
+                tileList.Add(NewTileData(new(4, 3), Direction.Up, "true", "E"));
+                tileList.Add(NewTileData(new(4, 2), Direction.Up, "true", "T"));
+                tileList.Add(NewTileData(new(4, 1), Direction.Up, "true", "T"));
+                tileList.Add(NewTileData(new(4, 0), Direction.Up, "true", "I"));
+                tileList.Add(NewTileData(new(4, -1), Direction.Up, "true", "N"));
+                tileList.Add(NewTileData(new(4, -2), Direction.Up, "true", "G"));
+                tileList.Add(NewTileData(new(4, -3), Direction.Up, "true", "S"));
+                
+                tileList.Add(NewTileData(new(5, 4), Direction.Up, "true", "S"));
+                tileList.Add(NewTileData(new(5, 3), Direction.Up, "true", "T"));
+                tileList.Add(NewTileData(new(5, 2), Direction.Up, "true", "A"));
+                tileList.Add(NewTileData(new(5, 1), Direction.Up, "true", "R"));
+                tileList.Add(NewTileData(new(5, 0), Direction.Up, "true", "T"));
+                
+                tileList.Add(NewTileData(new(3, -1),Direction.Up,"true", null));
+                tileList.Add(NewTileData(new(3, -2),Direction.Up,"true", null));
+                tileList.Add(NewTileData(new(3, -3),Direction.Up,"true", null));
+                tileList.Add(NewTileData(new(5, -1),Direction.Up,"true", null));
+                tileList.Add(NewTileData(new(5, -2),Direction.Up,"true", null));
+                tileList.Add(NewTileData(new(5, -3),Direction.Up,"true", null));
+                
                 for (int i = 3; i <= 5; i++)
                 {
-                    tileList.Add(NewData(new(i, -5), Direction.Up, StageElementType.Tile));
+                    tileList.Add(NewTileData(new(i, 5),Direction.Up,"true", null));
+                    tileList.Add(NewTileData(new(i, -5), Direction.Up, "false", null));
                     tileList.Add(NewSpeakerData(new(i, 5), Direction.Down, null));
                 }
             return tileList.ToArray();
@@ -168,13 +191,20 @@ namespace GamePlay.StageData
             data.Metadata["note"] = note;
             return data;
         }
+        
+        private StageElementData NewTileData(Coordinates coordinates, Direction direction, string fix, [CanBeNull] string text)
+        {
+            var data = NewData(coordinates, direction, StageElementType.Tile);
+            data.Metadata["fix"] = fix;
+            data.Metadata["text"] = text;
+            return data;
+        }
 
         private StageElementData NewData(Coordinates coordinates, Direction direction, StageElementType type)
         {
             var prefab = type switch
             {
                 StageElementType.Tile => TilePrefab,
-                StageElementType.FixTile => TilePrefab,
                 StageElementType.Player => PlayerPrefab,
                 StageElementType.Speaker => SpeakerPrefab,
                 _ => null
