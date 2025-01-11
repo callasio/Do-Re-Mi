@@ -18,7 +18,7 @@ namespace GamePlay
         {
             _camera = Camera.main;
             _stages = new Stages(this);
-            OnStageSelect();
+            OnStage(1);
         }
 
         void OnStageSelect()

@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GamePlay.StageData
@@ -32,6 +32,7 @@ namespace GamePlay.StageData
         public Direction Direction { get; set; }
         public StageElementType Type { get; set; }
         public StageElementData[] CurrentStageData;
+        public readonly Dictionary<string, string> Metadata = new();
 
         private StageElementBehaviour _stageElementInstanceBehaviour;
         
@@ -70,7 +71,13 @@ namespace GamePlay.StageData
         public virtual void Start()
         {
             transform.position = new Vector3(Data.Coordinates.X, transform.position.y, Data.Coordinates.Y);
-            transform.LookAt(transform.position + Data.Direction.ToVector3()); 
+            LookAt(Data.Direction);
+        }
+        
+        protected void LookAt(Direction direction)
+        {
+            if (Data.Direction != Direction.None)
+                transform.LookAt(transform.position + direction.ToVector3());
         }
 
         public abstract void OnClicked();
