@@ -10,30 +10,35 @@ namespace GamePlay.StageData.Player.Sound
         private StageElementData PlayerData => Player.Data;
         private StageElementData[] CurrentStageData => PlayerData.CurrentStageData;
         
-        public HashSet<Note> Notes => _previousNotes;
-        
-        private HashSet<Note> _previousNotes = new();
+        private HashSet<Note> _currentNotes = new();
+
+        public HashSet<Note> RecordedNotes { get; private set; } = new();
 
         public SoundManager(Player player)
         {
             Player = player;
         }
 
+        public void Record()
+        {
+            RecordedNotes = _currentNotes;
+        }
+
         public void Update()
         {
-            var currentNotes = GetNotes();
+            var newNotes = GetNotes();
 
-            var newNotes = currentNotes.Except(_previousNotes);
-            var oldNotes = _previousNotes.Except(currentNotes);
-            _previousNotes = currentNotes;
+            var playNotes = newNotes.Except(_currentNotes);
+            var stopNotes = _currentNotes.Except(newNotes);
+            _currentNotes = newNotes;
 
-            foreach (var newNote in newNotes)
+            foreach (var playNote in playNotes)
             {
-                Debug.Log("Play: " + newNote);
+                Debug.Log("Play: " + playNote);
             }
-            foreach (var oldNote in oldNotes)
+            foreach (var stopNote in stopNotes)
             {
-                Debug.Log("stop: " + oldNote);
+                Debug.Log("Stop: " + stopNote);
             }
         }
         
