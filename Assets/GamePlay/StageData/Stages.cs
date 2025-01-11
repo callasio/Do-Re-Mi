@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GamePlay.UI.Start;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -108,7 +109,7 @@ namespace GamePlay.StageData
         
         private static StageConfiguration HomeConfiguration => new (
             new Vector3(4.5f, 0, 0),
-            new HashSet<UIType>(),
+            new HashSet<UIType>{UIType.Start},
             null
         );
 

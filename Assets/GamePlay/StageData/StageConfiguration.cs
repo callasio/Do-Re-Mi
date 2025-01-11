@@ -8,6 +8,7 @@ namespace GamePlay.StageData
 {
     public enum UIType
     {
+        Start,
         Record,
         Goal,
     }
