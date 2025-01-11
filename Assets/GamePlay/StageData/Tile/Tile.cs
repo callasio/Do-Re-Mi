@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 
 
 namespace GamePlay.StageData.Tile
@@ -35,10 +36,10 @@ namespace GamePlay.StageData.Tile
             var x = Data.Coordinates.X;
             var y = Data.Coordinates.Y;
             
-            var cube = transform.Find("Cube").gameObject;
+            var cube = transform.GetChild(0).Find("Cube").gameObject;
             cube.GetComponent<Renderer>().material = (x + y) % 2 == 0 ? material1 : material2;
             
-            _animation = GetComponent<Animation>();
+            _animation = GetComponentInChildren<Animation>();
 
             if (textMesh == null || !Data.Metadata.TryGetValue("text", out var text)) return;
             textMesh.text = text;
@@ -55,12 +56,15 @@ namespace GamePlay.StageData.Tile
 
         public override void OnClicked()
         {
-            if (!Data.CurrentStageData.Any(element => element.Type == StageElementType.Speaker && element.Coordinates == Data.Coordinates))
-            {
-                if (!Data.Metadata.TryGetValue("fix", out var fix) || fix == "false")
-                {  
-                    _animation.Play();
-                }
+            if (!Data.Metadata.TryGetValue("fix", out var fix) || fix == "false")
+            {  
+                var elementOnTile = Data.CurrentStageData.Where(element => element.Coordinates == Data.Coordinates && element.Type != StageElementType.Tile).ToList();
+                elementOnTile.ForEach(element =>
+                {
+                    element.StageElementInstanceBehaviour.OnClicked();
+                });
+                _animation.Stop();
+                _animation.Play();
             }
             Player.ElementClicked(Data);
         }

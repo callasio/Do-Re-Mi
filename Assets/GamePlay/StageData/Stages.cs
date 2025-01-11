@@ -60,16 +60,6 @@ namespace GamePlay.StageData
         
         private void CreateStageElements(StageElementData[] elementsData, GameObject parent) =>
             elementsData.ToList().ForEach(elementData => elementData.CreateStageElement(parent));
-
-        private StageElementData[][] StagesData => new[]
-        {
-            FirstStageData,
-        };
-        
-        private static StageConfiguration[] StagesConfiguration => new[]
-        {
-            FirstStageConfiguration,
-        };
         
         private StageElementData[] HomeData
         {
@@ -121,6 +111,18 @@ namespace GamePlay.StageData
             new HashSet<UIType>(),
             null
         );
+
+        private StageElementData[][] StagesData => new[]
+        {
+            FirstStageData,
+            SecondStageData,
+        };
+        
+        private static StageConfiguration[] StagesConfiguration => new[]
+        {
+            FirstStageConfiguration,
+            SecondStageConfiguration,
+        };
         
         private StageElementData[] FirstStageData 
         {
@@ -154,6 +156,31 @@ namespace GamePlay.StageData
             null
         );
 
+        private StageElementData[] SecondStageData
+        {
+            get
+            {
+                var elementList = new List<StageElementData>();
+                for (var i = -3; i <= 3; i++)
+                {
+                    for (var j = -3; j <= 3; j++)
+                    {
+                        elementList.Add(NewTileData(new (i, j), Direction.None, "false", null));
+                    }
+                }
+                elementList.Add(NewData(new(0, 0), Direction.Right, StageElementType.Player));
+                elementList.Add(NewSpeakerData(new (0, 2), Direction.Down, "D1", pushable: true));
+                elementList.Add(NewSpeakerData(new (0, -2), Direction.Up, "F1", pushable: true));
+                return elementList.ToArray();
+            }
+        }
+        
+        private static StageConfiguration SecondStageConfiguration => new (
+            Vector3.zero,
+            new HashSet<UIType> { UIType.Record, UIType.Goal },
+            null
+        );
+
         private StageElementData[] StageSelectData
         {
             get
@@ -178,10 +205,11 @@ namespace GamePlay.StageData
             null
         );
 
-        private StageElementData NewSpeakerData(Coordinates coordinates, Direction direction, [CanBeNull] string note)
+        private StageElementData NewSpeakerData(Coordinates coordinates, Direction direction, [CanBeNull] string note, bool pushable = false)
         {
             var data = NewData(coordinates, direction, StageElementType.Speaker);
             data.Metadata["note"] = note;
+            data.Metadata["pushable"] = pushable.ToString();
             return data;
         }
         

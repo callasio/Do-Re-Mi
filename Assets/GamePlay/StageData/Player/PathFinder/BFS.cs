@@ -18,10 +18,8 @@ namespace GamePlay.StageData.Player.PathFinder
         [CanBeNull]
         public static List<Coordinates> GetPath(StageElementData[] elements, Coordinates from, Coordinates to)
         {
-            var excludePathElements = elements.Where(element => element.Type == StageElementType.Speaker);
             var pathElements = elements.Where(element => element.Type == StageElementType.Tile);
-            var excludeCoordinates = excludePathElements.Select(element => element.Coordinates);
-            var pathCoordinates = pathElements.Select(element => element.Coordinates).Except(excludeCoordinates).ToHashSet();
+            var pathCoordinates = pathElements.Select(element => element.Coordinates).ToHashSet();
             var queue = new Queue<Coordinates>();
             var visited = new HashSet<Coordinates>();
             var parentMap = new Dictionary<Coordinates, Coordinates>();

@@ -25,7 +25,7 @@ namespace GamePlay.StageData
     
     public class StageElementData
     {
-        private GameObject _prefab;
+        private readonly GameObject _prefab;
         public Coordinates Coordinates { get; set; }
         public Direction Direction { get; set; }
         public StageElementType Type { get; set; }
@@ -41,7 +41,7 @@ namespace GamePlay.StageData
          */
         public readonly Dictionary<string, string> Metadata = new();
 
-        private StageElementBehaviour _stageElementInstanceBehaviour;
+        public StageElementBehaviour StageElementInstanceBehaviour { get; private set; }
         
         public StageElementData(GameObject prefab, Coordinates coordinates, Direction direction, StageElementType type, StageElementData[] currentStageData)
         {
@@ -60,14 +60,14 @@ namespace GamePlay.StageData
                 Quaternion.identity);
             
             instance.transform.SetParent(parent.transform);
-            _stageElementInstanceBehaviour = instance.GetComponent<StageElementBehaviour>();
-            _stageElementInstanceBehaviour.Data = this;
+            StageElementInstanceBehaviour = instance.GetComponent<StageElementBehaviour>();
+            StageElementInstanceBehaviour.Data = this;
         }
         
         public void DestroyStageElement()
         {
             CurrentStageData = CurrentStageData.Where(data => data != this).ToArray();
-            Object.Destroy(_stageElementInstanceBehaviour.gameObject);
+            Object.Destroy(StageElementInstanceBehaviour.gameObject);
         }
     }
     
