@@ -16,8 +16,22 @@ namespace GamePlay.StageData
         
         public Direction(int x, int y)
         {
+            // Normalize the direction
+            if (x != 0)
+            {
+                x /= Math.Abs(x);
+            }
+            if (y != 0)
+            {
+                y /= Math.Abs(y);
+            }
             X = x;
             Y = y;
+        }
+        
+        public bool IsValid()
+        {
+            return X == 0 || Y == 0;
         }
         
         public Vector3 ToVector3()
@@ -38,6 +52,11 @@ namespace GamePlay.StageData
         public static bool operator !=(Direction left, Direction right)
         {
             return !(left == right);
+        }
+
+        public static Direction operator -(Direction d)
+        {
+            return new Direction(-d.X, -d.Y);
         }
 
         public bool Equals(Direction other)

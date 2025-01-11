@@ -8,14 +8,14 @@ namespace GamePlay.StageData.Player
 {
     public class Player: StageElementBehaviour
     {
-        public const float DefaultMovingSpeed = 4f;
+        public const float DefaultMovingSpeed = 3f;
         public static event Action<StageElementData> OnElementClicked;
         public float movingSpeed = DefaultMovingSpeed;
 
-        public Direction MovingDirection => _targetCoordinates - Data.Coordinates;
+        public Direction MovingDirection { get; private set; }
 
         private List<Coordinates> _movingQueue = new ();
-        private Coordinates _targetCoordinates;
+        public Coordinates TargetCoordinates { get; private set; }
         private SoundManager _soundManager;
         
         public static void ElementClicked(StageElementData clickedElementData)
@@ -26,7 +26,8 @@ namespace GamePlay.StageData.Player
         public override void Start()
         {
             base.Start();
-            _targetCoordinates = Data.Coordinates;
+            TargetCoordinates = Data.Coordinates;
+            MovingDirection = Direction.None;
             _soundManager = new SoundManager(this);
             OnElementClicked += ElementClickedHandler;
         }
@@ -43,13 +44,13 @@ namespace GamePlay.StageData.Player
             if (clickedElementData.Type != StageElementType.Tile) return;
             
             var clickedCoordinates = clickedElementData.Coordinates;
-            var movePath = BFS.GetPath(Data.CurrentStageData, _targetCoordinates, clickedCoordinates);
+            var movePath = BFS.GetPath(Data.CurrentStageData, TargetCoordinates, clickedCoordinates);
             
             if (movePath == null) return;
             _movingQueue = movePath;
-            if (Data.Coordinates != _targetCoordinates)
+            if (Data.Coordinates != TargetCoordinates)
             {
-                _movingQueue.Insert(0, _targetCoordinates);
+                _movingQueue.Insert(0, TargetCoordinates);
             }
         }
 
@@ -62,11 +63,16 @@ namespace GamePlay.StageData.Player
         
         private void Move()
         {
-            if (_movingQueue.Count == 0) return;
+            if (_movingQueue.Count == 0)
+            {
+                MovingDirection = Direction.None;
+                return;
+            }
             
-            _targetCoordinates = _movingQueue[0];
+            TargetCoordinates = _movingQueue[0];
+            MovingDirection = TargetCoordinates - Data.Coordinates;
             var currentPosition = transform.position;
-            var target = _targetCoordinates.ToVector3();
+            var target = TargetCoordinates.ToVector3();
 
             var distance = Vector3.Distance(currentPosition, target);
             var step = movingSpeed * Time.deltaTime;
@@ -74,7 +80,7 @@ namespace GamePlay.StageData.Player
             if (step >= distance)
             {
                 transform.position = target;
-                Data.Coordinates = _targetCoordinates;
+                Data.Coordinates = TargetCoordinates;
                 _movingQueue.RemoveAt(0);
             }
             else
