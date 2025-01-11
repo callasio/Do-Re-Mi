@@ -106,7 +106,7 @@ namespace GamePlay.StageData
                 for (int i = 3; i <= 5; i++)
                 {
                     tileList.Add(NewData(new(i, -5), Direction.Up, StageElementType.Tile));
-                    tileList.Add(NewData(new(i, 5), Direction.Down, StageElementType.OffSoundSpeaker));
+                    tileList.Add(NewSpeakerData(new(i, 5), Direction.Down, null));
                 }
             return tileList.ToArray();
             }
@@ -133,8 +133,8 @@ namespace GamePlay.StageData
                 }
                 
                 elementList.Add(NewData(new(-4, 0), Direction.Right, StageElementType.Player));
-                elementList.Add(NewData(new (0, 4), Direction.Down, StageElementType.Speaker));
-                elementList.Add(NewData(new (1, -4), Direction.Up, StageElementType.Speaker));
+                elementList.Add(NewSpeakerData(new (0, 4), Direction.Down, "C"));
+                elementList.Add(NewSpeakerData(new (1, -4), Direction.Up, null));
                 
                 return elementList.ToArray();
             }
@@ -177,7 +177,6 @@ namespace GamePlay.StageData
                 StageElementType.FixTile => TilePrefab,
                 StageElementType.Player => PlayerPrefab,
                 StageElementType.Speaker => SpeakerPrefab,
-                StageElementType.OffSoundSpeaker => SpeakerPrefab,
                 _ => null
             };
             

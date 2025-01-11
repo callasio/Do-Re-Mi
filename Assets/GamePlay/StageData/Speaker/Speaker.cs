@@ -16,7 +16,7 @@ namespace GamePlay.StageData.Speaker
         {
             base.Start();
             _soundParticleSystem = GetComponentInChildren<ParticleSystem>();
-            if ((Data.Type & StageElementType.OffSound) == 0)
+            if (Data.Metadata["note"] != null)
             {  
                 TurnOnSound();
             }
