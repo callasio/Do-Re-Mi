@@ -10,6 +10,8 @@ namespace GamePlay.StageData.Player.Sound
         private StageElementData PlayerData => Player.Data;
         private StageElementData[] CurrentStageData => PlayerData.CurrentStageData;
         
+        public HashSet<Note> Notes => _previousNotes;
+        
         private HashSet<Note> _previousNotes = new();
 
         public SoundManager(Player player)

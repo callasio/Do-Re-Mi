@@ -133,7 +133,7 @@ namespace GamePlay.StageData
                 }
                 
                 elementList.Add(NewData(new(-4, 0), Direction.Right, StageElementType.Player));
-                elementList.Add(NewSpeakerData(new (0, 4), Direction.Down, "C"));
+                elementList.Add(NewSpeakerData(new (0, 4), Direction.Down, "C1"));
                 elementList.Add(NewSpeakerData(new (1, -4), Direction.Up, null));
                 
                 return elementList.ToArray();
