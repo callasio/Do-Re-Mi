@@ -18,7 +18,19 @@ namespace GamePlay
         {
             _camera = Camera.main;
             _stages = new Stages(this);
-            _stages.InitFirstStage();
+            OnStageSelect();
+        }
+
+        void OnStageSelect()
+        {
+            _stages.DestroyCurrentStage();
+            _stages.InitStageSelect();
+        }
+
+        void OnStage(int stageIndex)
+        {
+            _stages.DestroyCurrentStage();
+            _stages.InitStage(stageIndex);
         }
 
         // Update is called once per frame

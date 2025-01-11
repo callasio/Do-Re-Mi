@@ -19,6 +19,7 @@ namespace GamePlay.StageData.Player
         public override void Start()
         {
             base.Start();
+            _targetCoordinates = Data.Coordinates;
             OnElementClicked += ElementClickedHandler;
         }
 
@@ -41,7 +42,7 @@ namespace GamePlay.StageData.Player
             
             if (movePath == null) return;
             _movingQueue = movePath;
-            if (movePath.Count > 0 && Data.Coordinates != _targetCoordinates)
+            if (Data.Coordinates != _targetCoordinates)
             {
                 _movingQueue.Insert(0, _targetCoordinates);
             }

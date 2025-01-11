@@ -5,6 +5,7 @@ namespace GamePlay.StageData
 {
     public readonly struct Direction : IEquatable<Direction>
     {
+        public static readonly Direction None = new Direction(0, 0);
         public static readonly Direction Up = new Direction(0, 1);
         public static readonly Direction Down = new Direction(0, -1);
         public static readonly Direction Left = new Direction(-1, 0);
