@@ -9,8 +9,7 @@ namespace GamePlay.StageData.Player
     public class Player: StageElementBehaviour
     {
         public const float DefaultMovingSpeed = 3f;
-        public static event Action<StageElementData> OnElementClicked;
-        public static event Action OnRecordClicked;
+        
         public float movingSpeed = DefaultMovingSpeed;
 
         public Direction MovingDirection { get; private set; }
@@ -19,30 +18,35 @@ namespace GamePlay.StageData.Player
         public Coordinates TargetCoordinates { get; private set; }
         private SoundManager _soundManager;
         
-        public static void ElementClicked(StageElementData clickedElementData)
-        {
-            OnElementClicked?.Invoke(clickedElementData);
-        }
+        public static event Action<StageElementData> OnElementClicked;
+        public static event Action OnRecordClicked;
+        public static event Action OnRecordHovered;
+        public static event Action OnRecordHoverEnded;
         
-        public static void RecordClicked()
-        {
-            OnRecordClicked?.Invoke();
-        }
+        public static void ElementClicked(StageElementData clickedElementData) => OnElementClicked?.Invoke(clickedElementData);
+        public static void RecordClicked() => OnRecordClicked?.Invoke();
+        public static void RecordHovered() => OnRecordHovered?.Invoke();
+        public static void RecordHoverEnded() => OnRecordHoverEnded?.Invoke();
+        
         
         public override void Start()
         {
             base.Start();
             TargetCoordinates = Data.Coordinates;
             MovingDirection = Direction.None;
-            _soundManager = new SoundManager(this);
+            _soundManager = new SoundManager(this, AudioSources.Player);
             OnElementClicked += ElementClickedHandler;
             OnRecordClicked += RecordClickedHandler;
+            OnRecordHovered += RecordHoveredHandler;
+            OnRecordHoverEnded += RecordHoverEndedHandler;
         }
 
         public void OnDestroy()
         {
             OnElementClicked -= ElementClickedHandler;
             OnRecordClicked -= RecordClickedHandler;
+            OnRecordHovered -= RecordHoveredHandler;
+            OnRecordHoverEnded -= RecordHoverEndedHandler;
         }
 
         public override void OnClicked() { }
@@ -65,6 +69,16 @@ namespace GamePlay.StageData.Player
         private void RecordClickedHandler()
         {
             _soundManager.Record();
+        }
+        
+        private void RecordHoveredHandler()
+        {
+            _soundManager.AudioSource = AudioSources.Record;
+        }
+        
+        private void RecordHoverEndedHandler()
+        {
+            _soundManager.AudioSource = AudioSources.Player;
         }
 
         public void Update()

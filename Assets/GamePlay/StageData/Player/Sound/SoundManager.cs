@@ -4,24 +4,34 @@ using UnityEngine;
 
 namespace GamePlay.StageData.Player.Sound
 {
+    public enum AudioSources
+    {
+        Player,
+        Record,
+        Goal,
+    }
+    
     public class SoundManager
     {
         private Player Player { get; }
         private StageElementData PlayerData => Player.Data;
         private StageElementData[] CurrentStageData => PlayerData.CurrentStageData;
+        public AudioSources AudioSource { get; set; }
         
         private HashSet<Note> _currentNotes = new();
 
         public HashSet<Note> RecordedNotes { get; private set; } = new();
+        // public HashSet<Note> GoalNotes { get; private set; } = new();
 
-        public SoundManager(Player player)
+        public SoundManager(Player player, AudioSources audioSource)
         {
             Player = player;
+            AudioSource = audioSource;
         }
 
         public void Record()
         {
-            RecordedNotes = _currentNotes;
+            RecordedNotes = GetPlayerNotes();
         }
 
         public void Update()
@@ -41,8 +51,18 @@ namespace GamePlay.StageData.Player.Sound
                 Debug.Log("Stop: " + stopNote);
             }
         }
-        
+
         private HashSet<Note> GetNotes()
+        {
+            return AudioSource switch
+            {
+                AudioSources.Player => GetPlayerNotes(),
+                AudioSources.Record => RecordedNotes,
+                _ => null
+            };
+        }
+        
+        private HashSet<Note> GetPlayerNotes()
         {
             var notes = new HashSet<Note>();
             foreach (var stageElementData in CurrentStageData)

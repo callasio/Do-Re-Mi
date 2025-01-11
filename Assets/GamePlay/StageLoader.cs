@@ -1,5 +1,6 @@
 using System;
 using GamePlay.StageData;
+using GamePlay.UI;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,31 +13,39 @@ namespace GamePlay
         public GameObject speakerPrefab;
         private Stages _stages;
         private Camera _camera;
-        
+        private UILoader _uiLoader;
+        private StageElementData[] _currentStageData;
+
+        private StageConfiguration StageConfiguration
+        {
+            set => _uiLoader.ReloadUI(value);
+        }
+
         // Start is called before the first frame update
         void Start()
         {
             _camera = Camera.main;
             _stages = new Stages(this);
+            _uiLoader = GetComponentInChildren<UILoader>();
             OnStage(1);
         }
 
         void OnHome()
         {
             _stages.DestroyCurrentStage();
-            _stages.InitHome();
+            (_currentStageData, StageConfiguration) = _stages.InitHome();
         }
 
         void OnStageSelect()
         {
             _stages.DestroyCurrentStage();
-            _stages.InitStageSelect();
+            (_currentStageData, StageConfiguration) = _stages.InitStageSelect();
         }
 
         void OnStage(int stageIndex)
         {
             _stages.DestroyCurrentStage();
-            _stages.InitStage(stageIndex);
+            (_currentStageData, StageConfiguration) = _stages.InitStage(stageIndex);
         }
 
         // Update is called once per frame

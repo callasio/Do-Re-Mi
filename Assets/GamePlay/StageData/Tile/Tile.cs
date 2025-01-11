@@ -16,7 +16,6 @@ namespace GamePlay.StageData.Tile
         private Animation _animation;
 
         public TextMeshPro textMesh;
-        //특정 글자에 색깔 지정
         private static readonly Dictionary<string, string> LetterColorMap = new Dictionary<string, string>
         {
             { "A", "#D04848"},
@@ -41,19 +40,16 @@ namespace GamePlay.StageData.Tile
             
             _animation = GetComponent<Animation>();
 
-            if (textMesh != null && Data.Metadata.TryGetValue("text", out var text))
-            {
-                textMesh.text = text;
+            if (textMesh == null || !Data.Metadata.TryGetValue("text", out var text)) return;
+            textMesh.text = text;
                 
-                // HEX 코드를 Color로 변환
-                if (LetterColorMap.TryGetValue(text, out var hexColor) && ColorUtility.TryParseHtmlString(hexColor, out var color))
-                {
-                    textMesh.color = color;
-                }
-                else
-                {
-                    textMesh.color = Color.black; // 기본 색상
-                }
+            if (text != null && LetterColorMap.TryGetValue(text, out var hexColor) && ColorUtility.TryParseHtmlString(hexColor, out var color))
+            {
+                textMesh.color = color;
+            }
+            else
+            {
+                textMesh.color = Color.black; // 기본 색상
             }
         }
 
@@ -61,7 +57,7 @@ namespace GamePlay.StageData.Tile
         {
             if (!Data.CurrentStageData.Any(element => element.Type == StageElementType.Speaker && element.Coordinates == Data.Coordinates))
             {
-                if (Data.Metadata["fix"] == "false")
+                if (!Data.Metadata.TryGetValue("fix", out var fix) || fix == "false")
                 {  
                     _animation.Play();
                 }

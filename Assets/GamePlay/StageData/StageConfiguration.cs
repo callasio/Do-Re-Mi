@@ -22,7 +22,7 @@ namespace GamePlay.StageData
         {
             CameraLookingPosition = cameraLookingPosition;
             UIs = uis.ToHashSet();
-            Goal = goal.ToHashSet();
+            Goal = goal?.ToHashSet();
         }
     }
 }

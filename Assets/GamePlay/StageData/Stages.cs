@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -30,17 +31,13 @@ namespace GamePlay.StageData
             }
         }
 
-        public void InitStage(int stageIndex)
-        {
-            InitStage(StagesData[stageIndex], StagesConfiguration[stageIndex]);
-        }
+        public (StageElementData[], StageConfiguration) InitStage(int stageIndex) => InitStage(StagesData[stageIndex-1], StagesConfiguration[stageIndex-1]);
+        
+        public (StageElementData[], StageConfiguration) InitStageSelect() => InitStage(StageSelectData, StageSelectConfiguration);
 
-        public void InitStageSelect()
-        {
-            InitStage(StageSelectData, StageSelectConfiguration);
-        }
+        public (StageElementData[], StageConfiguration) InitHome() => InitStage(HomeData, HomeConfiguration);
 
-        private void InitStage(StageElementData[] stageElementsData, StageConfiguration stageConfiguration)
+        private (StageElementData[], StageConfiguration) InitStage(StageElementData[] stageElementsData, StageConfiguration stageConfiguration)
         {
             _currentStageData = stageElementsData;
             foreach (var stageElementData in _currentStageData)
@@ -57,26 +54,12 @@ namespace GamePlay.StageData
                 camera.transform.LookAt(cameraLookingPosition);
             }
             CreateStageElements(_currentStageData, StageLoader);
+            
+            return (_currentStageData, stageConfiguration);
         }
         
-        private void CreateStageElements(StageElementData[] elementsData, GameObject parent)
-        {
-            foreach (var elementData in elementsData)
-            {
-                elementData.CreateStageElement(parent);
-            }
-        }
-        
-        public void InitHome()
-        {
-            _currentStageData = HomeData;
-            if (Camera.main != null)
-            {
-                Camera.main.transform.position = HomeCameraLookingPosition + CameraBehaviour.Position;
-                Camera.main.transform.LookAt(HomeCameraLookingPosition);
-            }
-            CreateStageElements(HomeData, StageLoader);
-        }
+        private void CreateStageElements(StageElementData[] elementsData, GameObject parent) =>
+            elementsData.ToList().ForEach(elementData => elementData.CreateStageElement(parent));
 
         private StageElementData[][] StagesData => new[]
         {
@@ -133,8 +116,12 @@ namespace GamePlay.StageData
             }
         }
         
-        private static Vector3 HomeCameraLookingPosition => new (4.5f, 0, 0);
-
+        private static StageConfiguration HomeConfiguration => new (
+            new Vector3(4.5f, 0, 0),
+            new HashSet<UIType>(),
+            null
+        );
+        
         private StageElementData[] FirstStageData 
         {
             get
@@ -147,8 +134,8 @@ namespace GamePlay.StageData
                     {
                         if (i + Math.Abs(j) <= size)
                         {
-                            elementList.Add(NewData(new(-i, j), Direction.None, StageElementType.Tile));
-                            elementList.Add(NewData(new(i + 1, j), Direction.None, StageElementType.Tile));
+                            elementList.Add(NewTileData(new(-i, j), Direction.None, "false", null));
+                            elementList.Add(NewTileData(new(i + 1, j), Direction.None, "false", null));
                         }
                     }
                 }
