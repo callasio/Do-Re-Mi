@@ -22,7 +22,9 @@ namespace GamePlay.StageData
         Tile = 2,
         Speaker = 4,
         NotClickable = 8,
+        OffSound = 16,
         FixTile = Tile | NotClickable,
+        OffSoundSpeaker = Speaker | OffSound,
     }
     
     public class StageElementData
