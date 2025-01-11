@@ -18,11 +18,9 @@ namespace GamePlay.StageData
     [Flags]
     public enum StageElementType
     {
-        Player = 1,
-        Tile = 2,
-        Speaker = 4,
-        NotClickable = 8,
-        FixTile = Tile | NotClickable,
+        Player,
+        Tile,
+        Speaker,
     }
     
     public class StageElementData
