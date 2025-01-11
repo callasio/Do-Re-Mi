@@ -69,15 +69,15 @@ namespace GamePlay.StageData
             }
         }
         
-        public void InitZeroStage()
+        public void InitHome()
         {
-            _currentStageData = ZeroStageData;
+            _currentStageData = HomeData;
             if (Camera.main != null)
             {
-                Camera.main.transform.position = ZeroStageCameraLookingPosition + CameraBehaviour.Position;
-                Camera.main.transform.LookAt(ZeroStageCameraLookingPosition);
+                Camera.main.transform.position = HomeCameraLookingPosition + CameraBehaviour.Position;
+                Camera.main.transform.LookAt(HomeCameraLookingPosition);
             }
-            CreateStageElements(ZeroStageData, StageLoader);
+            CreateStageElements(HomeData, StageLoader);
         }
 
         private StageElementData[][] StagesData => new[]
@@ -90,7 +90,7 @@ namespace GamePlay.StageData
             FirstStageCameraLookingPosition,
         };
         
-        private StageElementData[] ZeroStageData
+        private StageElementData[] HomeData
         {
             get
             {
@@ -103,16 +103,16 @@ namespace GamePlay.StageData
                         tileList.Add(NewData(new(i, e), Direction.Up, StageElementType.FixTile));
                     }
                 }
-
                 for (int i = 3; i <= 5; i++)
                 {
                     tileList.Add(NewData(new(i, -5), Direction.Up, StageElementType.Tile));
+                    tileList.Add(NewData(new(i, 5), Direction.Down, StageElementType.OffSoundSpeaker));
                 }
             return tileList.ToArray();
             }
         }
         
-        private static Vector3 ZeroStageCameraLookingPosition => new (4.5f, 0, 0);
+        private static Vector3 HomeCameraLookingPosition => new (4.5f, 0, 0);
 
         private StageElementData[] FirstStageData 
         {
@@ -177,6 +177,7 @@ namespace GamePlay.StageData
                 StageElementType.FixTile => TilePrefab,
                 StageElementType.Player => PlayerPrefab,
                 StageElementType.Speaker => SpeakerPrefab,
+                StageElementType.OffSoundSpeaker => SpeakerPrefab,
                 _ => null
             };
             

@@ -21,6 +21,12 @@ namespace GamePlay
             OnStage(1);
         }
 
+        void OnHome()
+        {
+            _stages.DestroyCurrentStage();
+            _stages.InitHome();
+        }
+
         void OnStageSelect()
         {
             _stages.DestroyCurrentStage();
