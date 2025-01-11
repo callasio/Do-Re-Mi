@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace GamePlay.StageData
@@ -17,17 +18,40 @@ namespace GamePlay.StageData
             SpeakerPrefab = stageLoader.speakerPrefab;
         }
 
-        private StageElementData[] _currentStageData;
-
-        public void InitFirstStage()
+        private StageElementData[] _currentStageData = Array.Empty<StageElementData>();
+        
+        public void DestroyCurrentStage()
         {
-            _currentStageData = FirstStageData;
+            foreach (var elementData in _currentStageData)
+            {
+                elementData.DestroyStageElement();
+            }
+        }
+
+        public void InitStage(int stageIndex)
+        {
+            _currentStageData = StagesData[stageIndex - 1];
+            var cameraLookingPosition = StagesCameraLookingPositions[stageIndex - 1];
+            var camera = Camera.main;
+            
+            if (camera != null)
+            {
+                camera.transform.position = cameraLookingPosition + CameraBehaviour.Position;
+                camera.transform.LookAt(cameraLookingPosition);
+            }
+            CreateStageElements(_currentStageData, StageLoader);
+        }
+
+        public void InitStageSelect()
+        {
+            _currentStageData = StageSelectData;
+            
             if (Camera.main != null)
             {
-                Camera.main.transform.position = FirstStageCameraLookingPosition + CameraBehaviour.Position;
-                Camera.main.transform.LookAt(FirstStageCameraLookingPosition);
+                Camera.main.transform.position = StageSelectCameraLookingPosition + CameraBehaviour.Position;
+                Camera.main.transform.LookAt(StageSelectCameraLookingPosition);
             }
-            CreateStageElements(FirstStageData, StageLoader);
+            CreateStageElements(_currentStageData, StageLoader);
         }
         
         private void CreateStageElements(StageElementData[] elementsData, GameObject parent)
@@ -38,6 +62,16 @@ namespace GamePlay.StageData
             }
         }
 
+        private StageElementData[][] StagesData => new[]
+        {
+            FirstStageData,
+        };
+        
+        private static Vector3[] StagesCameraLookingPositions => new[]
+        {
+            FirstStageCameraLookingPosition,
+        };
+        
         private StageElementData[] FirstStageData => new StageElementData[]
         {
             NewData(new (0, 0), Direction.Up,  StageElementType.Player),
@@ -72,6 +106,26 @@ namespace GamePlay.StageData
         };
         
         private static Vector3 FirstStageCameraLookingPosition => new (4.5f, 0, 0);
+
+        private StageElementData[] StageSelectData
+        {
+            get
+            {
+                const int width = 9;
+                _currentStageData = new StageElementData[width + 1];
+
+                for (int i = 0; i < width; i++)
+                {
+                    _currentStageData[i] = NewData(new(i, 0), Direction.None, StageElementType.Tile);
+                }
+            
+                _currentStageData[width] = NewData(new(width-1, 0), Direction.Down, StageElementType.Player);
+
+                return _currentStageData;
+            }
+        }
+        
+        private static Vector3 StageSelectCameraLookingPosition => new (4.5f, 0, -4.5f);
 
         private StageElementData NewData(Coordinates coordinates, Direction direction, StageElementType type)
         {
