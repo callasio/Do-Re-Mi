@@ -6,19 +6,21 @@ namespace GamePlay.StageData.Player.PathFinder
 {
     public class BFS
     {
-        private static readonly IEnumerable<MovingDirection> _movingDirections = new List<MovingDirection>
+        private static readonly IEnumerable<Direction> _movingDirections = new List<Direction>
         {
-            MovingDirection.Up,
-            MovingDirection.Down,
-            MovingDirection.Left,
-            MovingDirection.Right,
+            Direction.Up,
+            Direction.Down,
+            Direction.Left,
+            Direction.Right,
         };
         
         [CanBeNull]
         public static List<Coordinates> GetPath(StageElementData[] elements, Coordinates from, Coordinates to)
         {
-            var pathElements = elements.Where(element => element.IsPath);
-            var pathCoordinates = pathElements.Select(element => element.Coordinates).ToHashSet();
+            var excludePathElements = elements.Where(element => element.Type == StageElementType.Speaker);
+            var pathElements = elements.Where(element => element.Type == StageElementType.Tile);
+            var excludeCoordinates = excludePathElements.Select(element => element.Coordinates);
+            var pathCoordinates = pathElements.Select(element => element.Coordinates).Except(excludeCoordinates).ToHashSet();
             var queue = new Queue<Coordinates>();
             var visited = new HashSet<Coordinates>();
             var parentMap = new Dictionary<Coordinates, Coordinates>();
