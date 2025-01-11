@@ -1,3 +1,5 @@
+using System;
+
 using System.Linq;
 
 namespace GamePlay.StageData
@@ -13,12 +15,14 @@ namespace GamePlay.StageData
             Value = value;
         }
     }
-
+    [Flags]
     public enum StageElementType
     {
-        Player,
-        Tile,
-        Speaker,
+        Player = 1,
+        Tile = 2,
+        Speaker = 4,
+        NotClickable = 8,
+        FixTile = Tile | NotClickable,
     }
     
     public class StageElementData
