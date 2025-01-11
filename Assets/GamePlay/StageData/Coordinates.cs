@@ -3,20 +3,25 @@ using UnityEngine;
 
 namespace GamePlay.StageData
 {
-    public readonly struct MovingDirection : IEquatable<MovingDirection>
+    public readonly struct Direction : IEquatable<Direction>
     {
-        public static readonly MovingDirection Up = new MovingDirection(0, 1);
-        public static readonly MovingDirection Down = new MovingDirection(0, -1);
-        public static readonly MovingDirection Left = new MovingDirection(-1, 0);
-        public static readonly MovingDirection Right = new MovingDirection(1, 0);
+        public static readonly Direction Up = new Direction(0, 1);
+        public static readonly Direction Down = new Direction(0, -1);
+        public static readonly Direction Left = new Direction(-1, 0);
+        public static readonly Direction Right = new Direction(1, 0);
         
         public int X { get; }
         public int Y { get; }
         
-        public MovingDirection(int x, int y)
+        public Direction(int x, int y)
         {
             X = x;
             Y = y;
+        }
+        
+        public Vector3 ToVector3()
+        {
+            return new Vector3(X, 0, Y);
         }
 
         public override int GetHashCode()
@@ -24,24 +29,24 @@ namespace GamePlay.StageData
             return HashCode.Combine(X, Y);
         }
 
-        public static bool operator ==(MovingDirection left, MovingDirection right)
+        public static bool operator ==(Direction left, Direction right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(MovingDirection left, MovingDirection right)
+        public static bool operator !=(Direction left, Direction right)
         {
             return !(left == right);
         }
 
-        public bool Equals(MovingDirection other)
+        public bool Equals(Direction other)
         {
             return X == other.X && Y == other.Y;
         }
         
         public override bool Equals(object obj)
         {
-            return obj is MovingDirection other && Equals(other);
+            return obj is Direction other && Equals(other);
         }
     }
     
@@ -86,7 +91,7 @@ namespace GamePlay.StageData
             return obj is Coordinates other && Equals(other);
         }
         
-        public static Coordinates operator +(Coordinates left, MovingDirection right)
+        public static Coordinates operator +(Coordinates left, Direction right)
         {
             return new Coordinates(left.X + right.X, left.Y + right.Y);
         }

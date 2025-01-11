@@ -7,8 +7,9 @@ namespace GamePlay.StageData.Player
 {
     public class Player: StageElementBehaviour
     {
+        public const float DefaultMovingSpeed = 4f;
         public static event Action<StageElementData> OnElementClicked;
-        public float movingSpeed;
+        public float movingSpeed = DefaultMovingSpeed;
         
         public static void ElementClicked(StageElementData clickedElementData)
         {
@@ -33,7 +34,7 @@ namespace GamePlay.StageData.Player
         
         private void ElementClickedHandler(StageElementData clickedElementData)
         {
-            if (!clickedElementData.IsPath) return;
+            if (clickedElementData.Type != StageElementType.Tile) return;
             
             var clickedCoordinates = clickedElementData.Coordinates;
             var movePath = BFS.GetPath(Data.CurrentStageData, _targetCoordinates, clickedCoordinates);

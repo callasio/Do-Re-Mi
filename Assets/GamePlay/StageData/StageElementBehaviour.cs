@@ -11,21 +11,30 @@ namespace GamePlay.StageData
             Value = value;
         }
     }
+
+    public enum StageElementType
+    {
+        Player,
+        Tile,
+        Speaker,
+    }
     
     public class StageElementData
     {
         private GameObject _prefab;
         public Coordinates Coordinates { get; set; }
-        public bool IsPath;
+        public Direction Direction { get; set; }
+        public StageElementType Type { get; set; }
         public StageElementData[] CurrentStageData;
 
         private StageElementBehaviour _stageElementInstanceBehaviour;
         
-        public StageElementData(GameObject prefab, Coordinates coordinates, IsPath isPath, StageElementData[] currentStageData)
+        public StageElementData(GameObject prefab, Coordinates coordinates, Direction direction, StageElementType type, StageElementData[] currentStageData)
         {
             _prefab = prefab;
             Coordinates = coordinates;
-            IsPath = isPath.Value;
+            Direction = direction;
+            Type = type;
             CurrentStageData = currentStageData;
         }
 
@@ -49,6 +58,7 @@ namespace GamePlay.StageData
         public virtual void Start()
         {
             transform.position = new Vector3(Data.Coordinates.X, transform.position.y, Data.Coordinates.Y);
+            transform.LookAt(transform.position + Data.Direction.ToVector3()); 
         }
 
         public abstract void OnClicked();

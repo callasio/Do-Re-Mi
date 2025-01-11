@@ -9,6 +9,7 @@ namespace GamePlay
     {
         public GameObject playerPrefab;
         public GameObject tilePrefab;
+        public GameObject speakerPrefab;
         private Stages _stages;
         private Camera _camera;
         
