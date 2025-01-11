@@ -32,6 +32,15 @@ namespace GamePlay.StageData
         public Direction Direction { get; set; }
         public StageElementType Type { get; set; }
         public StageElementData[] CurrentStageData;
+        
+        /*
+         * - Speaker
+         *   - note?
+         *
+         * - Tile
+         *   - fixed
+         *   - text?
+         */
         public readonly Dictionary<string, string> Metadata = new();
 
         private StageElementBehaviour _stageElementInstanceBehaviour;
