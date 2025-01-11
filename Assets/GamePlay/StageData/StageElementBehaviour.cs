@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace GamePlay.StageData
 {
     using UnityEngine;
@@ -48,6 +50,12 @@ namespace GamePlay.StageData
             instance.transform.SetParent(parent.transform);
             _stageElementInstanceBehaviour = instance.GetComponent<StageElementBehaviour>();
             _stageElementInstanceBehaviour.Data = this;
+        }
+        
+        public void DestroyStageElement()
+        {
+            CurrentStageData = CurrentStageData.Where(data => data != this).ToArray();
+            Object.Destroy(_stageElementInstanceBehaviour.gameObject);
         }
     }
     
