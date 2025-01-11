@@ -27,7 +27,7 @@ namespace GamePlay
             _camera = Camera.main;
             _stages = new Stages(this);
             _uiLoader = GetComponentInChildren<UILoader>();
-            OnStage(1);
+            OnStage(2);
         }
 
         void OnHome()
@@ -64,8 +64,11 @@ namespace GamePlay
             
             if (Physics.Raycast(ray, out var hit, float.MaxValue, layerMask))
             {
-                var hitCollider = hit.collider.transform.parent.GameObject();
+                var hitCollider = hit.collider.transform.parent;
                 if (hitCollider.TryGetComponent<StageElementBehaviour>(out var stageElement))
+                {
+                    stageElement.OnClicked();
+                } else if (hitCollider.parent.TryGetComponent<StageElementBehaviour>(out stageElement))
                 {
                     stageElement.OnClicked();
                 }

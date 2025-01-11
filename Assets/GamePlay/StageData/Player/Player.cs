@@ -1,21 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using GamePlay.StageData.Player.PathFinder;
 using GamePlay.StageData.Player.Sound;
 using UnityEngine;
 
 namespace GamePlay.StageData.Player
 {
-    public class Player: StageElementBehaviour
+    public class Player: MovingElement
     {
         public const float DefaultMovingSpeed = 3f;
         
         public float movingSpeed = DefaultMovingSpeed;
 
-        public Direction MovingDirection { get; private set; }
-
         private List<Coordinates> _movingQueue = new ();
-        public Coordinates TargetCoordinates { get; private set; }
         private SoundManager _soundManager;
         
         public static event Action<StageElementData> OnElementClicked;
@@ -32,7 +30,6 @@ namespace GamePlay.StageData.Player
         public override void Start()
         {
             base.Start();
-            TargetCoordinates = Data.Coordinates;
             MovingDirection = Direction.None;
             _soundManager = new SoundManager(this, AudioSources.Player);
             OnElementClicked += ElementClickedHandler;
@@ -81,39 +78,56 @@ namespace GamePlay.StageData.Player
             _soundManager.AudioSource = AudioSources.Player;
         }
 
-        public void Update()
+        public override void Update()
         {
+            base.Update();
             LookAt(Data.Direction);
-            Move();
             _soundManager.Update();
         }
-        
-        private void Move()
-        {
-            if (_movingQueue.Count == 0)
-            {
-                MovingDirection = Direction.None;
-                return;
-            }
-            
-            TargetCoordinates = _movingQueue[0];
-            MovingDirection = TargetCoordinates - Data.Coordinates;
-            var currentPosition = transform.position;
-            var target = TargetCoordinates.ToVector3();
 
-            var distance = Vector3.Distance(currentPosition, target);
-            var step = movingSpeed * Time.deltaTime;
-            
-            if (step >= distance)
+        public override Direction MovingDirection { get; protected set; }
+        public override Coordinates TargetCoordinates { get; set; }
+
+        public override bool Push(Direction direction) => false;
+
+        protected override bool IsMoving => _movingQueue.Count > 0;
+
+        protected override bool SetNewTarget()
+        {
+            if (TargetCoordinates == _movingQueue[0]) return true;
+            if (!OnNewMoveEvent(_movingQueue[0]))
             {
-                transform.position = target;
-                Data.Coordinates = TargetCoordinates;
-                _movingQueue.RemoveAt(0);
+                _movingQueue.Clear();
+                return false;
             }
-            else
+            TargetCoordinates = _movingQueue[0];
+            return true;
+        }
+
+        protected override void OnReachedTarget()
+        {
+            _movingQueue.RemoveAt(0);
+        }
+        
+        private bool OnNewMoveEvent(Coordinates targetCoordinates)
+        {
+            var elements = Data.CurrentStageData.Where(element => element.Coordinates == targetCoordinates);
+            var direction = targetCoordinates - Data.Coordinates;
+            foreach (var element in elements)
             {
-                transform.position = Vector3.MoveTowards(currentPosition, target, step);
+                switch (element.Type)
+                {
+                    case StageElementType.Speaker:
+                        var speaker = element.StageElementInstanceBehaviour as Speaker.Speaker;
+                        return speaker?.Push(direction) ?? true;
+                    case StageElementType.Player:
+                    case StageElementType.Tile:
+                    default:
+                        break;
+                }
             }
+
+            return true;
         }
     }
 }

@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7892764600949058430, guid: 5754c53ea610a6b4faae6a9fce5861df, type: 3}
-  tilePrefab: {fileID: 6213471988697695177, guid: 30d0e6a193430b64187b4ef90419e8c4, type: 3}
+  tilePrefab: {fileID: 8569926418505682571, guid: 8597eb0e7cf0b9747ae6f202d49a055f, type: 3}
   speakerPrefab: {fileID: 7267088442761197265, guid: 5f3a172750aa0094eb778afa15073bfd, type: 3}
 --- !u!1 &244835921
 GameObject:

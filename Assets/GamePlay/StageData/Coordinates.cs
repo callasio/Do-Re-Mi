@@ -68,6 +68,11 @@ namespace GamePlay.StageData
         {
             return obj is Direction other && Equals(other);
         }
+        
+        public override string ToString()
+        {
+            return $"Direction({X}, {Y})";
+        }
     }
     
     public readonly struct Coordinates : IEquatable<Coordinates>
@@ -123,7 +128,7 @@ namespace GamePlay.StageData
 
         public override string ToString()
         {
-            return $"({X}, {Y})";
+            return $"Coordinates({X}, {Y})";
         }
     }
 }
