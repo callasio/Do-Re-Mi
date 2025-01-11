@@ -29,7 +29,10 @@ namespace GamePlay.StageData.Tile
         {
             if (!Data.CurrentStageData.Any(element => element.Type == StageElementType.Speaker && element.Coordinates == Data.Coordinates))
             {
-                _animation.Play();
+                if ((Data.Type & StageElementType.NotClickable) == 0)
+                {  
+                    _animation.Play();
+                }
             }
             Player.ElementClicked(Data);
         }

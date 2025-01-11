@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GamePlay.StageData
@@ -37,6 +38,41 @@ namespace GamePlay.StageData
                 elementData.CreateStageElement(parent);
             }
         }
+        
+        public void InitZeroStage()
+        {
+            _currentStageData = ZeroStageData;
+            if (Camera.main != null)
+            {
+                Camera.main.transform.position = ZeroStageCameraLookingPosition + CameraBehaviour.Position;
+                Camera.main.transform.LookAt(ZeroStageCameraLookingPosition);
+            }
+            CreateStageElements(ZeroStageData, StageLoader);
+        }
+
+        private StageElementData[] ZeroStageData
+        {
+            get
+            {
+            var tileList = new List<StageElementData>();
+                tileList.Add(NewData(new(3,-5), Direction.Up, StageElementType.Player));
+                for(int i = 3; i <= 5; i++)
+                {
+                    for(int e = -3; e <= 5; e++)
+                    {
+                        tileList.Add(NewData(new(i, e), Direction.Up, StageElementType.FixTile));
+                    }
+                }
+
+                for (int i = 3; i <= 5; i++)
+                {
+                    tileList.Add(NewData(new(i, -5), Direction.Up, StageElementType.Tile));
+                }
+            return tileList.ToArray();
+            }
+        }
+        
+        private static Vector3 ZeroStageCameraLookingPosition => new (4.5f, 0, 0);
 
         private StageElementData[] FirstStageData => new StageElementData[]
         {
@@ -78,6 +114,7 @@ namespace GamePlay.StageData
             var prefab = type switch
             {
                 StageElementType.Tile => TilePrefab,
+                StageElementType.FixTile => TilePrefab,
                 StageElementType.Player => PlayerPrefab,
                 StageElementType.Speaker => SpeakerPrefab,
                 _ => null
