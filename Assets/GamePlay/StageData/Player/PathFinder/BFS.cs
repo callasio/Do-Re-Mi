@@ -7,7 +7,7 @@ namespace GamePlay.StageData.Player.PathFinder
 {
     public class BFS
     {
-        private static readonly IEnumerable<Direction> _movingDirections = new List<Direction>
+        private static readonly IEnumerable<Direction> MovingDirections = new List<Direction>
         {
             Direction.Up,
             Direction.Down,
@@ -38,7 +38,7 @@ namespace GamePlay.StageData.Player.PathFinder
                     return ReconstructPath(parentMap, from, to);
                 }
 
-                foreach (var direction in _movingDirections)
+                foreach (var direction in MovingDirections)
                 {
                     var neighbor = current + direction;
 

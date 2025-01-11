@@ -96,6 +96,11 @@ namespace GamePlay.StageData
         {
             return new Coordinates(left.X + right.X, left.Y + right.Y);
         }
+        
+        public static Direction operator -(Coordinates left, Coordinates right)
+        {
+            return new Direction(left.X - right.X, left.Y - right.Y);
+        }
 
         public override string ToString()
         {

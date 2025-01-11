@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GamePlay.StageData.Player.PathFinder;
+using GamePlay.StageData.Player.Sound;
 using UnityEngine;
 
 namespace GamePlay.StageData.Player
@@ -10,6 +11,12 @@ namespace GamePlay.StageData.Player
         public const float DefaultMovingSpeed = 4f;
         public static event Action<StageElementData> OnElementClicked;
         public float movingSpeed = DefaultMovingSpeed;
+
+        public Direction MovingDirection => _targetCoordinates - Data.Coordinates;
+
+        private List<Coordinates> _movingQueue = new ();
+        private Coordinates _targetCoordinates;
+        private SoundManager _soundManager;
         
         public static void ElementClicked(StageElementData clickedElementData)
         {
@@ -20,6 +27,7 @@ namespace GamePlay.StageData.Player
         {
             base.Start();
             _targetCoordinates = Data.Coordinates;
+            _soundManager = new SoundManager(this);
             OnElementClicked += ElementClickedHandler;
         }
 
@@ -29,9 +37,6 @@ namespace GamePlay.StageData.Player
         }
 
         public override void OnClicked() { }
-
-        private List<Coordinates> _movingQueue = new ();
-        private Coordinates _targetCoordinates;
         
         private void ElementClickedHandler(StageElementData clickedElementData)
         {
@@ -50,7 +55,9 @@ namespace GamePlay.StageData.Player
 
         public void Update()
         {
+            LookAt(Data.Direction);
             Move();
+            _soundManager.Update();
         }
         
         private void Move()

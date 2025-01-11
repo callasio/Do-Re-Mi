@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GamePlay.StageData
@@ -32,6 +33,11 @@ namespace GamePlay.StageData
         public void InitStage(int stageIndex)
         {
             _currentStageData = StagesData[stageIndex - 1];
+            foreach (var stageElementData in _currentStageData)
+            {
+                stageElementData.CurrentStageData = _currentStageData;
+            }
+            
             var cameraLookingPosition = StagesCameraLookingPositions[stageIndex - 1];
             var camera = Camera.main;
             
@@ -108,40 +114,33 @@ namespace GamePlay.StageData
         
         private static Vector3 ZeroStageCameraLookingPosition => new (4.5f, 0, 0);
 
-        private StageElementData[] FirstStageData => new StageElementData[]
+        private StageElementData[] FirstStageData 
         {
-            NewData(new (0, 0), Direction.Up,  StageElementType.Player),
-            NewData(new (0, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (1, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (2, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (3, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (4, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (5, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (6, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (7, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (8, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (9, 0), Direction.Up, StageElementType.Tile),
-            NewData(new (4, 1), Direction.Up, StageElementType.Tile),
-            NewData(new (4, 2), Direction.Up, StageElementType.Tile),
-            NewData(new (4, 3), Direction.Up, StageElementType.Tile),
-            NewData(new (4, 4), Direction.Up, StageElementType.Tile),
-            NewData(new (4, -1), Direction.Up, StageElementType.Tile),
-            NewData(new (4, -2), Direction.Up, StageElementType.Tile),
-            NewData(new (4, -3), Direction.Up, StageElementType.Tile),
-            NewData(new (4, -4), Direction.Up, StageElementType.Tile),
-            NewData(new (5, 1), Direction.Up, StageElementType.Tile),
-            NewData(new (5, 2), Direction.Up, StageElementType.Tile),
-            NewData(new (5, 3), Direction.Up, StageElementType.Tile),
-            NewData(new (5, 4), Direction.Up, StageElementType.Tile),
-            NewData(new (5, -1), Direction.Up, StageElementType.Tile),
-            NewData(new (5, -2), Direction.Up, StageElementType.Tile),
-            NewData(new (5, -3), Direction.Up, StageElementType.Tile),
-            NewData(new (5, -4), Direction.Up, StageElementType.Tile),
-            NewData(new (4, 4), Direction.Down, StageElementType.Speaker),
-            NewData(new (5, -4), Direction.Up, StageElementType.Speaker),
-        };
+            get
+            {
+                const int size = 4;
+                var elementList = new List<StageElementData>();
+                for (var i = 0; i <= size; i++)
+                {
+                    for (var j = -size; j <= size; j++)
+                    {
+                        if (i + Math.Abs(j) <= size)
+                        {
+                            elementList.Add(NewData(new(-i, j), Direction.None, StageElementType.Tile));
+                            elementList.Add(NewData(new(i + 1, j), Direction.None, StageElementType.Tile));
+                        }
+                    }
+                }
+                
+                elementList.Add(NewData(new(-4, 0), Direction.Right, StageElementType.Player));
+                elementList.Add(NewData(new (0, 4), Direction.Down, StageElementType.Speaker));
+                elementList.Add(NewData(new (1, -4), Direction.Up, StageElementType.Speaker));
+                
+                return elementList.ToArray();
+            }
+        }
         
-        private static Vector3 FirstStageCameraLookingPosition => new (4.5f, 0, 0);
+        private static Vector3 FirstStageCameraLookingPosition => new (0.5f, 0, 0);
 
         private StageElementData[] StageSelectData
         {
@@ -162,6 +161,13 @@ namespace GamePlay.StageData
         }
         
         private static Vector3 StageSelectCameraLookingPosition => new (4.5f, 0, -4.5f);
+
+        private StageElementData NewSpeakerData(Coordinates coordinates, Direction direction, [CanBeNull] string note)
+        {
+            var data = NewData(coordinates, direction, StageElementType.Speaker);
+            data.Metadata["note"] = note;
+            return data;
+        }
 
         private StageElementData NewData(Coordinates coordinates, Direction direction, StageElementType type)
         {
