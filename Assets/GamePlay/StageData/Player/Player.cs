@@ -10,6 +10,7 @@ namespace GamePlay.StageData.Player
     {
         public const float DefaultMovingSpeed = 3f;
         public static event Action<StageElementData> OnElementClicked;
+        public static event Action OnRecordClicked;
         public float movingSpeed = DefaultMovingSpeed;
 
         public Direction MovingDirection { get; private set; }
@@ -23,6 +24,11 @@ namespace GamePlay.StageData.Player
             OnElementClicked?.Invoke(clickedElementData);
         }
         
+        public static void RecordClicked()
+        {
+            OnRecordClicked?.Invoke();
+        }
+        
         public override void Start()
         {
             base.Start();
@@ -30,11 +36,13 @@ namespace GamePlay.StageData.Player
             MovingDirection = Direction.None;
             _soundManager = new SoundManager(this);
             OnElementClicked += ElementClickedHandler;
+            OnRecordClicked += RecordClickedHandler;
         }
 
         public void OnDestroy()
         {
             OnElementClicked -= ElementClickedHandler;
+            OnRecordClicked -= RecordClickedHandler;
         }
 
         public override void OnClicked() { }
@@ -52,6 +60,11 @@ namespace GamePlay.StageData.Player
             {
                 _movingQueue.Insert(0, TargetCoordinates);
             }
+        }
+
+        private void RecordClickedHandler()
+        {
+            _soundManager.Record();
         }
 
         public void Update()

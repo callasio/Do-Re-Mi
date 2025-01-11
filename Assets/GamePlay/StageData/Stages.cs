@@ -32,31 +32,29 @@ namespace GamePlay.StageData
 
         public void InitStage(int stageIndex)
         {
-            _currentStageData = StagesData[stageIndex - 1];
+            InitStage(StagesData[stageIndex], StagesConfiguration[stageIndex]);
+        }
+
+        public void InitStageSelect()
+        {
+            InitStage(StageSelectData, StageSelectConfiguration);
+        }
+
+        private void InitStage(StageElementData[] stageElementsData, StageConfiguration stageConfiguration)
+        {
+            _currentStageData = stageElementsData;
             foreach (var stageElementData in _currentStageData)
             {
                 stageElementData.CurrentStageData = _currentStageData;
             }
             
-            var cameraLookingPosition = StagesCameraLookingPositions[stageIndex - 1];
+            var cameraLookingPosition = stageConfiguration.CameraLookingPosition;
             var camera = Camera.main;
             
             if (camera != null)
             {
                 camera.transform.position = cameraLookingPosition + CameraBehaviour.Position;
                 camera.transform.LookAt(cameraLookingPosition);
-            }
-            CreateStageElements(_currentStageData, StageLoader);
-        }
-
-        public void InitStageSelect()
-        {
-            _currentStageData = StageSelectData;
-            
-            if (Camera.main != null)
-            {
-                Camera.main.transform.position = StageSelectCameraLookingPosition + CameraBehaviour.Position;
-                Camera.main.transform.LookAt(StageSelectCameraLookingPosition);
             }
             CreateStageElements(_currentStageData, StageLoader);
         }
@@ -85,9 +83,9 @@ namespace GamePlay.StageData
             FirstStageData,
         };
         
-        private static Vector3[] StagesCameraLookingPositions => new[]
+        private static StageConfiguration[] StagesConfiguration => new[]
         {
-            FirstStageCameraLookingPosition,
+            FirstStageConfiguration,
         };
         
         private StageElementData[] HomeData
@@ -140,7 +138,11 @@ namespace GamePlay.StageData
             }
         }
         
-        private static Vector3 FirstStageCameraLookingPosition => new (0.5f, 0, 0);
+        private static StageConfiguration FirstStageConfiguration => new (
+            new Vector3(0.5f, 0, 0),
+            new HashSet<UIType> { UIType.Record, UIType.Goal },
+            null
+        );
 
         private StageElementData[] StageSelectData
         {
@@ -159,8 +161,12 @@ namespace GamePlay.StageData
                 return _currentStageData;
             }
         }
-        
-        private static Vector3 StageSelectCameraLookingPosition => new (4.5f, 0, -4.5f);
+
+        private static StageConfiguration StageSelectConfiguration => new (
+            new Vector3(4.5f, 0, -4.5f),
+            new HashSet<UIType>(),
+            null
+        );
 
         private StageElementData NewSpeakerData(Coordinates coordinates, Direction direction, [CanBeNull] string note)
         {
