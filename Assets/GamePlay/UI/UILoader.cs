@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using GamePlay.StageData;
 using GamePlay.UI.Record;
+using GamePlay.UI.Start;
 using UnityEngine;
 
 namespace GamePlay.UI
 {
     public class UILoader : MonoBehaviour
     {
+        public GameObject startButtonPrefab;
         public GameObject recordButtonPrefab;
-
+    
         public void ReloadUI(StageConfiguration stageConfiguration)
         {
             DisposeUI();
@@ -32,6 +34,10 @@ namespace GamePlay.UI
             {
                 switch (uiTypes.ElementAt(i))
                 {
+                    case UIType.Start:
+                        var startButton = Instantiate(startButtonPrefab, transform);
+                        startButton.GetComponent<StartButton>().Index = i;
+                        break;
                     case UIType.Record:
                         var recordButton = Instantiate(recordButtonPrefab, transform);
                         recordButton.GetComponent<RecordButton>().Index = i;

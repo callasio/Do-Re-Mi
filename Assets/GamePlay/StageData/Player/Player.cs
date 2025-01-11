@@ -22,12 +22,13 @@ namespace GamePlay.StageData.Player
         public static event Action OnRecordClicked;
         public static event Action OnRecordHovered;
         public static event Action OnRecordHoverEnded;
+        public static event Action OnStartClicked;
         
         public static void ElementClicked(StageElementData clickedElementData) => OnElementClicked?.Invoke(clickedElementData);
         public static void RecordClicked() => OnRecordClicked?.Invoke();
         public static void RecordHovered() => OnRecordHovered?.Invoke();
         public static void RecordHoverEnded() => OnRecordHoverEnded?.Invoke();
-        
+        public static void StartClicked() => OnStartClicked?.Invoke();
         
         public override void Start()
         {
@@ -39,6 +40,7 @@ namespace GamePlay.StageData.Player
             OnRecordClicked += RecordClickedHandler;
             OnRecordHovered += RecordHoveredHandler;
             OnRecordHoverEnded += RecordHoverEndedHandler;
+            OnStartClicked += StartClickedHandler;
         }
 
         public void OnDestroy()
@@ -47,6 +49,7 @@ namespace GamePlay.StageData.Player
             OnRecordClicked -= RecordClickedHandler;
             OnRecordHovered -= RecordHoveredHandler;
             OnRecordHoverEnded -= RecordHoverEndedHandler;
+            OnStartClicked -= StartClickedHandler;
         }
 
         public override void OnClicked() { }
@@ -79,6 +82,11 @@ namespace GamePlay.StageData.Player
         private void RecordHoverEndedHandler()
         {
             _soundManager.AudioSource = AudioSources.Player;
+        }
+
+        private static void StartClickedHandler()
+        {
+            Debug.Log("StartClickedHandler");
         }
 
         public void Update()
