@@ -16,7 +16,7 @@ namespace GamePlay.StageData.Player.PathFinder
         };
         
         [CanBeNull]
-        public static List<Coordinates> GetPath(StageElementData[] elements, Coordinates from, Coordinates to)
+        public static List<Coordinates> GetPath(StageElement[] elements, Coordinates from, Coordinates to)
         {
             var pathElements = elements.Where(element => element.Type == StageElementType.Tile);
             var pathCoordinates = pathElements.Select(element => element.Coordinates).ToHashSet();

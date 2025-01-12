@@ -54,15 +54,14 @@ namespace GamePlay.StageData.Tile
             }
         }
 
-        public override void OnClicked()
+        public override void OnClicked(Vector3 normal, bool forward = true)
         {
             if (!Data.Metadata.TryGetValue("fix", out var fix) || fix == "false")
             {  
-                var elementOnTile = Data.CurrentStageData.Where(element => element.Coordinates == Data.Coordinates && element.Type != StageElementType.Tile).ToList();
-                elementOnTile.ForEach(element =>
-                {
-                    element.StageElementInstanceBehaviour.OnClicked();
-                });
+                if (forward)
+                    Data.CurrentStageElements
+                        .Where(element => element.Coordinates == Data.Coordinates && element.Type != StageElementType.Tile).ToList()
+                        .ForEach(element => element.StageElementInstanceBehaviour.OnClicked(normal, forward: false));
                 _animation.Stop();
                 _animation.Play();
             }

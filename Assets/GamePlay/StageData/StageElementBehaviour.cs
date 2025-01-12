@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace GamePlay.StageData
 {
@@ -23,13 +24,15 @@ namespace GamePlay.StageData
         Speaker,
     }
     
-    public class StageElementData
+    public class StageElement
     {
         private readonly GameObject _prefab;
         public Coordinates Coordinates { get; set; }
         public Direction Direction { get; set; }
         public StageElementType Type { get; set; }
-        public StageElementData[] CurrentStageData;
+        public StageData CurrentStageData { get; set; }
+        public StageElement[] CurrentStageElements => CurrentStageData.Elements;
+        public static StageLoader StageLoader { get; set; }
         
         /*
          * - Speaker
@@ -43,13 +46,51 @@ namespace GamePlay.StageData
 
         public StageElementBehaviour StageElementInstanceBehaviour { get; private set; }
         
-        public StageElementData(GameObject prefab, Coordinates coordinates, Direction direction, StageElementType type, StageElementData[] currentStageData)
+        public StageElement(GameObject prefab, Coordinates coordinates, Direction direction, StageElementType type, StageData currentStageData)
         {
             _prefab = prefab;
             Coordinates = coordinates;
             Direction = direction;
             Type = type;
             CurrentStageData = currentStageData;
+        }
+        
+        public static StageElement Speaker(
+            Coordinates coordinates, 
+            Direction direction,
+            [CanBeNull] string note,
+            bool pushable = false,
+            bool rotatable = false
+        )
+        {
+            var data = NewData(coordinates, direction, StageElementType.Speaker);
+            data.Metadata["note"] = note;
+            data.Metadata["pushable"] = pushable.ToString();
+            data.Metadata["rotatable"] = rotatable.ToString();
+            return data;
+        }
+        
+        public static StageElement Tile(Coordinates coordinates, Direction direction, string fix, [CanBeNull] string text)
+        {
+            var data = NewData(coordinates, direction, StageElementType.Tile);
+            data.Metadata["fix"] = fix;
+            data.Metadata["text"] = text;
+            return data;
+        }
+        
+        public static StageElement Player(Coordinates coordinates, Direction direction) => NewData(coordinates, direction, StageElementType.Player);
+
+        private static StageElement NewData(Coordinates coordinates, Direction direction, StageElementType type)
+        {
+            var prefab = type switch
+            {
+                StageElementType.Tile => StageLoader.tilePrefab,
+                StageElementType.Player => StageLoader.playerPrefab,
+                StageElementType.Speaker => StageLoader.speakerPrefab,
+                _ => null
+            };
+            
+            return new StageElement(prefab, coordinates, direction, type, new StageData());
         }
 
         public void CreateStageElement(GameObject parent)
@@ -64,16 +105,12 @@ namespace GamePlay.StageData
             StageElementInstanceBehaviour.Data = this;
         }
         
-        public void DestroyStageElement()
-        {
-            CurrentStageData = CurrentStageData.Where(data => data != this).ToArray();
-            Object.Destroy(StageElementInstanceBehaviour.gameObject);
-        }
+        public void DestroyStageElement() => Object.Destroy(StageElementInstanceBehaviour.gameObject);
     }
     
     public abstract class StageElementBehaviour: MonoBehaviour
     {
-        public StageElementData Data { get; set; }
+        public StageElement Data { get; set; }
 
         public virtual void Start()
         {
@@ -87,6 +124,6 @@ namespace GamePlay.StageData
                 transform.LookAt(transform.position + direction.ToVector3());
         }
 
-        public abstract void OnClicked();
+        public abstract void OnClicked(Vector3 normal, bool forward = true);
     }
 }

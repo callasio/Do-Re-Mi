@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GamePlay.StageData.Player.Sound;
 using JetBrains.Annotations;
@@ -24,6 +25,23 @@ namespace GamePlay.StageData
             CameraLookingPosition = cameraLookingPosition;
             UIs = uis.ToHashSet();
             Goal = goal?.ToHashSet();
+        }
+    }
+
+    public class StageData
+    {
+        public StageElement[] Elements { get; set; }
+        public StageConfiguration Configuration { get; }
+
+        public StageData()
+        {
+            Elements = Array.Empty<StageElement>();
+        }
+
+        public StageData(StageElement[] elements, StageConfiguration configuration)
+        {
+            Elements = elements;
+            Configuration = configuration;
         }
     }
 }

@@ -14,8 +14,8 @@ namespace GamePlay.StageData.Player.Sound
     public class SoundManager
     {
         private Player Player { get; }
-        private StageElementData PlayerData => Player.Data;
-        private StageElementData[] CurrentStageData => PlayerData.CurrentStageData;
+        private StageElement PlayerData => Player.Data;
+        private StageElement[] CurrentStageData => PlayerData.CurrentStageElements;
         public AudioSources AudioSource { get; set; }
         
         private HashSet<Note> _currentNotes = new();
@@ -38,8 +38,8 @@ namespace GamePlay.StageData.Player.Sound
         {
             var newNotes = GetNotes();
 
-            var playNotes = newNotes.Except(_currentNotes);
-            var stopNotes = _currentNotes.Except(newNotes);
+            var playNotes = newNotes.Except(_currentNotes).ToList();
+            var stopNotes = _currentNotes.Except(newNotes).ToList();
             _currentNotes = newNotes;
 
             foreach (var playNote in playNotes)
@@ -50,6 +50,11 @@ namespace GamePlay.StageData.Player.Sound
             {
                 Debug.Log("Stop: " + stopNote);
             }
+
+            if (playNotes.Count == 0 && stopNotes.Count == 0) return;
+            
+            var currentNotesString = string.Join(", ", _currentNotes.Select(note => note.ToString()));
+            Debug.Log("Current notes: " + currentNotesString);
         }
 
         private HashSet<Note> GetNotes()

@@ -2,16 +2,33 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace GamePlay.StageData.Speaker
 {
     public class Speaker : MovingElement
     {
         public bool IsSoundOn { get; set; }
+        public Sprite fix;
+        public Sprite move;
+        public Sprite rotate;
+        public Sprite moveAndRotate;
+        
+        private const float AngularVelocity = 180f;
+        private Direction TargetDirection { get; set; }
+
+        protected override bool IsMoving => TargetCoordinates != Data.Coordinates;
+        protected override bool SetNewTarget() => true;
+        protected override void OnReachedTarget() { }
+        public override Direction MovingDirection { get; protected set; }
+        public override Coordinates TargetCoordinates { get; set; }
+        
         private ParticleSystem _soundParticleSystem;
         private const float MaxLifetime = 75f;
         private Animation _animation;
         private bool _canBePushed;
+        private bool _rotatable;
+        private Image _image;
 
         public override void Start()
         {
@@ -19,6 +36,9 @@ namespace GamePlay.StageData.Speaker
             _animation = GetComponentInChildren<Animation>();
             _soundParticleSystem = GetComponentInChildren<ParticleSystem>();
             _canBePushed = Data.Metadata.TryGetValue("pushable", out var pushable) && bool.Parse(pushable);
+            _rotatable = Data.Metadata.TryGetValue("rotatable", out var rotatable) && bool.Parse(rotatable);
+            TargetDirection = Data.Direction;
+            _image = GetComponentInChildren<Image>();
             
             if (Data.Metadata["note"] != null)
             {  
@@ -28,10 +48,31 @@ namespace GamePlay.StageData.Speaker
             {
                 TurnOffSound();
             }
+            
+            if (_rotatable)
+            {
+                _image.sprite = _canBePushed ? moveAndRotate : rotate;
+            }
+            else
+            {
+                _image.sprite = _canBePushed ? move : fix;
+            }
         }
 
-        public override void OnClicked()
+        public override void OnClicked(Vector3 normal, bool forward = true)
         {
+            if (forward)
+            {
+                if (normal == Vector3.up && _rotatable)
+                {
+                    TargetDirection = Data.Direction.CounterClockwise();
+                    return;
+                }
+                Data.CurrentStageElements
+                    .Where(data => data.Coordinates == Data.Coordinates && data != Data).ToList()
+                    .ForEach(data => data.StageElementInstanceBehaviour.OnClicked(normal, forward: false));
+            }
+
             _animation.Stop();
             _animation.Play();
         }
@@ -48,9 +89,27 @@ namespace GamePlay.StageData.Speaker
             IsSoundOn = false;
             _soundParticleSystem.Stop();
         }
+        
+        public override void Update()
+        {
+            base.Update();
+            Rotate();
+        }
 
-        public override Direction MovingDirection { get; protected set; }
-        public override Coordinates TargetCoordinates { get; set; }
+        private void Rotate()
+        {
+            if (Data.Direction == TargetDirection) return;
+
+            if (Quaternion.Angle(transform.rotation, TargetDirection.ToQuaternion()) <
+                AngularVelocity * Time.deltaTime)
+            {
+                Data.Direction = TargetDirection;
+                transform.rotation = TargetDirection.ToQuaternion();
+                return;
+            }
+            
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, TargetDirection.ToQuaternion(), AngularVelocity * Time.deltaTime);
+        }
 
         public override bool Push(Direction direction)
         {
@@ -58,7 +117,7 @@ namespace GamePlay.StageData.Speaker
             
             var targetCoordinates = Data.Coordinates + direction;
 
-            var elementsInTarget = Data.CurrentStageData.Where(data => data.Coordinates == targetCoordinates).ToList();
+            var elementsInTarget = Data.CurrentStageElements.Where(data => data.Coordinates == targetCoordinates).ToList();
             if (elementsInTarget.All(data => data.Type != StageElementType.Tile)) return false;
             
             foreach (var element in elementsInTarget)
@@ -79,14 +138,5 @@ namespace GamePlay.StageData.Speaker
             TargetCoordinates = targetCoordinates;
             return true;
         }
-
-        protected override bool IsMoving => TargetCoordinates != Data.Coordinates;
-
-        protected override bool SetNewTarget()
-        {
-            return true;
-        }
-
-        protected override void OnReachedTarget() { }
     }
 }

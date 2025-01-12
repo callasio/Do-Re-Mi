@@ -34,6 +34,10 @@ namespace GamePlay.StageData
             return X == 0 || Y == 0;
         }
         
+        public Direction CounterClockwise() => new Direction(-Y, X);
+        
+        public Quaternion ToQuaternion() => Quaternion.LookRotation(ToVector3());
+        
         public Vector3 ToVector3()
         {
             return new Vector3(X, 0, Y);

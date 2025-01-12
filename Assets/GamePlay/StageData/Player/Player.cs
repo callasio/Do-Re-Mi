@@ -16,13 +16,13 @@ namespace GamePlay.StageData.Player
         private List<Coordinates> _movingQueue = new ();
         private SoundManager _soundManager;
         
-        public static event Action<StageElementData> OnElementClicked;
+        public static event Action<StageElement> OnElementClicked;
         public static event Action OnRecordClicked;
         public static event Action OnRecordHovered;
         public static event Action OnRecordHoverEnded;
         public static event Action OnStartClicked;
         
-        public static void ElementClicked(StageElementData clickedElementData) => OnElementClicked?.Invoke(clickedElementData);
+        public static void ElementClicked(StageElement clickedElement) => OnElementClicked?.Invoke(clickedElement);
         public static void RecordClicked() => OnRecordClicked?.Invoke();
         public static void RecordHovered() => OnRecordHovered?.Invoke();
         public static void RecordHoverEnded() => OnRecordHoverEnded?.Invoke();
@@ -49,14 +49,14 @@ namespace GamePlay.StageData.Player
             OnStartClicked -= StartClickedHandler;
         }
 
-        public override void OnClicked() { }
+        public override void OnClicked(Vector3 normal, bool forward = true) { }
         
-        private void ElementClickedHandler(StageElementData clickedElementData)
+        private void ElementClickedHandler(StageElement clickedElement)
         {
-            if (clickedElementData.Type != StageElementType.Tile) return;
+            if (clickedElement.Type != StageElementType.Tile) return;
             
-            var clickedCoordinates = clickedElementData.Coordinates;
-            var movePath = BFS.GetPath(Data.CurrentStageData, TargetCoordinates, clickedCoordinates);
+            var clickedCoordinates = clickedElement.Coordinates;
+            var movePath = BFS.GetPath(Data.CurrentStageElements, TargetCoordinates, clickedCoordinates);
             
             if (movePath == null) return;
             _movingQueue = movePath;
@@ -119,7 +119,7 @@ namespace GamePlay.StageData.Player
         
         private bool OnNewMoveEvent(Coordinates targetCoordinates)
         {
-            var elements = Data.CurrentStageData.Where(element => element.Coordinates == targetCoordinates);
+            var elements = Data.CurrentStageElements.Where(element => element.Coordinates == targetCoordinates);
             var direction = targetCoordinates - Data.Coordinates;
             foreach (var element in elements)
             {

@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using GamePlay.StageData.Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,12 +18,23 @@ namespace GamePlay.UI.Record
             
             _button.onClick.AddListener(OnClick);
         }
-        
-        private static void OnClick() => Player.RecordClicked();
+
+        private void OnClick()
+        {
+            Player.RecordClicked();
+            Bump();
+        }
 
         public void OnPointerEnter(PointerEventData eventData) => Player.RecordHovered();
         
         public void OnPointerExit(PointerEventData eventData) => Player.RecordHoverEnded();
-        
+
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                OnClick();
+            }
+        }
     }
 }

@@ -14,11 +14,9 @@ namespace GamePlay
         private Stages _stages;
         private Camera _camera;
         private UILoader _uiLoader;
-        private StageElementData[] _currentStageData;
-
-        private StageConfiguration StageConfiguration
+        private StageData.StageData CurrentStageData
         {
-            set => _uiLoader.ReloadUI(value);
+            set => _uiLoader.ReloadUI(value.Configuration);
         }
 
         // Start is called before the first frame update
@@ -27,25 +25,25 @@ namespace GamePlay
             _camera = Camera.main;
             _stages = new Stages(this);
             _uiLoader = GetComponentInChildren<UILoader>();
-            OnHome();
+            OnStage(2);
         }
 
         void OnHome()
         {
             _stages.DestroyCurrentStage();
-            (_currentStageData, StageConfiguration) = _stages.InitHome();
+            CurrentStageData = _stages.InitHome();
         }
 
         void OnStageSelect()
         {
             _stages.DestroyCurrentStage();
-            (_currentStageData, StageConfiguration) = _stages.InitStageSelect();
+            CurrentStageData = _stages.InitStageSelect();
         }
 
         void OnStage(int stageIndex)
         {
             _stages.DestroyCurrentStage();
-            (_currentStageData, StageConfiguration) = _stages.InitStage(stageIndex);
+            CurrentStageData = _stages.InitStage(stageIndex);
         }
 
         // Update is called once per frame
@@ -60,17 +58,17 @@ namespace GamePlay
         private void OnMouseDown()
         {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
-            var layerMask = 1 << LayerMask.NameToLayer("Default");
+            var layerMask = 1 << LayerMask.NameToLayer("Stage Element");
             
             if (Physics.Raycast(ray, out var hit, float.MaxValue, layerMask))
             {
                 var hitCollider = hit.collider.transform.parent;
                 if (hitCollider.TryGetComponent<StageElementBehaviour>(out var stageElement))
                 {
-                    stageElement.OnClicked();
-                } else if (hitCollider.parent.TryGetComponent<StageElementBehaviour>(out stageElement))
+                    stageElement.OnClicked(hit.normal);
+                } else if (hitCollider.parent.TryGetComponent(out stageElement))
                 {
-                    stageElement.OnClicked();
+                    stageElement.OnClicked(hit.normal);
                 }
             }
         }
