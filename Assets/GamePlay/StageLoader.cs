@@ -27,7 +27,7 @@ namespace GamePlay
             _camera = Camera.main;
             _stages = new Stages(this);
             _uiLoader = GetComponentInChildren<UILoader>();
-            OnStage(2);
+            OnHome();
         }
 
         void OnHome()
