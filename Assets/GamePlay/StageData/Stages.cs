@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GamePlay.StageData.Player.Sound;
 using UnityEngine;
 
 namespace GamePlay.StageData
@@ -33,23 +34,27 @@ namespace GamePlay.StageData
 
         private StageData InitStage(StageData stageData)
         {
-            _currentStageData = stageData; 
-            foreach (var stageElementData in stageData.Elements)
-            {
-                stageElementData.CurrentStageData.Elements = stageData.Elements;
-            }
-            
-            var cameraLookingPosition = stageData.Configuration.CameraLookingPosition;
-            var camera = Camera.main;
-            
-            if (camera != null)
-            {
-                camera.transform.position = cameraLookingPosition + CameraBehaviour.Position;
-                camera.transform.LookAt(cameraLookingPosition);
-            }
+            SetStageDataToElements(stageData);
+            AdjustCameraPosition(stageData.Configuration.CameraLookingPosition);
             CreateStageElements(stageData);
 
-            return stageData;
+            return _currentStageData = stageData; 
+        }
+
+        private void SetStageDataToElements(StageData stageData)
+        {
+            foreach (var stageElementData in stageData.Elements)
+            {
+                stageElementData.CurrentStageData = stageData;
+            }
+        }
+        
+        private void AdjustCameraPosition(Vector3 cameraLookingPosition)
+        {
+            var camera = Camera.main;
+            if (camera is null) return;
+            camera.transform.position = cameraLookingPosition + CameraBehaviour.Position;
+            camera.transform.LookAt(cameraLookingPosition);
         }
         
         private void CreateStageElements(StageData stageData) =>
@@ -99,8 +104,7 @@ namespace GamePlay.StageData
                 return new StageData(
                     tileList.ToArray(),
                     new StageConfiguration(new Vector3(4.5f, 0, 0),
-                        new HashSet<UIType>{UIType.Start},
-                        null));
+                        new HashSet<UIType>{UIType.Start}));
             }
         }
 
@@ -129,7 +133,7 @@ namespace GamePlay.StageData
                 }
                 
                 elementList.Add(StageElement.Player(new(-4, 0), Direction.Right));
-                elementList.Add(StageElement.Speaker(new (0, 4), Direction.Down, "C1"));
+                elementList.Add(StageElement.Speaker(new (0, 4), Direction.Down, "D1"));
                 elementList.Add(StageElement.Speaker(new (1, -4), Direction.Up, null));
                 
                 return elementList.ToArray();
@@ -139,7 +143,8 @@ namespace GamePlay.StageData
         private static StageConfiguration FirstStageConfiguration => new (
             new Vector3(0.5f, 0, 0),
             new HashSet<UIType> { UIType.Record, UIType.Goal },
-            null
+            finishCoordinates: new Coordinates(5, 0),
+            goal: new HashSet<Note> { new ("C1") }
         );
 
         private StageElement[] SecondStageElements
@@ -165,7 +170,8 @@ namespace GamePlay.StageData
         private static StageConfiguration SecondStageConfiguration => new (
             Vector3.zero,
             new HashSet<UIType> { UIType.Record, UIType.Goal },
-            null
+            finishCoordinates: new Coordinates(3, 0),
+            goal: new HashSet<Note> { new ("D1"), new ("F#1") }
         );
 
         private StageData StageSelectData
@@ -184,8 +190,7 @@ namespace GamePlay.StageData
 
                 return new StageData(element, new StageConfiguration(
                     new Vector3(4.5f, 0, -4.5f),
-                    new HashSet<UIType>(),
-                    null
+                    new HashSet<UIType>()
                 ));
             }
         }

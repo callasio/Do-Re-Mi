@@ -17,15 +17,9 @@ namespace GamePlay.StageData.Player
         private SoundManager _soundManager;
         
         public static event Action<StageElement> OnElementClicked;
-        public static event Action OnRecordClicked;
-        public static event Action OnRecordHovered;
-        public static event Action OnRecordHoverEnded;
         public static event Action OnStartClicked;
         
         public static void ElementClicked(StageElement clickedElement) => OnElementClicked?.Invoke(clickedElement);
-        public static void RecordClicked() => OnRecordClicked?.Invoke();
-        public static void RecordHovered() => OnRecordHovered?.Invoke();
-        public static void RecordHoverEnded() => OnRecordHoverEnded?.Invoke();
         public static void StartClicked() => OnStartClicked?.Invoke();
         
         public override void Start()
@@ -34,19 +28,15 @@ namespace GamePlay.StageData.Player
             MovingDirection = Direction.None;
             _soundManager = new SoundManager(this, AudioSources.Player);
             OnElementClicked += ElementClickedHandler;
-            OnRecordClicked += RecordClickedHandler;
-            OnRecordHovered += RecordHoveredHandler;
-            OnRecordHoverEnded += RecordHoverEndedHandler;
             OnStartClicked += StartClickedHandler;
         }
 
         public void OnDestroy()
         {
             OnElementClicked -= ElementClickedHandler;
-            OnRecordClicked -= RecordClickedHandler;
-            OnRecordHovered -= RecordHoveredHandler;
-            OnRecordHoverEnded -= RecordHoverEndedHandler;
             OnStartClicked -= StartClickedHandler;
+            
+            _soundManager.OnDestroy();
         }
 
         public override void OnClicked(Vector3 normal, bool forward = true) { }
@@ -65,26 +55,8 @@ namespace GamePlay.StageData.Player
                 _movingQueue.Insert(0, TargetCoordinates);
             }
         }
-
-        private void RecordClickedHandler()
-        {
-            _soundManager.Record();
-        }
         
-        private void RecordHoveredHandler()
-        {
-            _soundManager.AudioSource = AudioSources.Record;
-        }
-        
-        private void RecordHoverEndedHandler()
-        {
-            _soundManager.AudioSource = AudioSources.Player;
-        }
-
-        private static void StartClickedHandler()
-        {
-            Debug.Log("StartClickedHandler");
-        }
+        private static void StartClickedHandler() => Debug.Log("StartClickedHandler");
 
         public override void Update()
         {
@@ -115,6 +87,7 @@ namespace GamePlay.StageData.Player
         protected override void OnReachedTarget()
         {
             _movingQueue.RemoveAt(0);
+            CheckFinished();
         }
         
         private bool OnNewMoveEvent(Coordinates targetCoordinates)
@@ -136,6 +109,13 @@ namespace GamePlay.StageData.Player
             }
 
             return true;
+        }
+
+        private void CheckFinished()
+        {
+            var finishCoordinates = Data.CurrentStageData.Configuration.FinishCoordinates;
+            if (finishCoordinates == null || Data.Coordinates != finishCoordinates || !_soundManager.RecordedNotes.SetEquals(_soundManager.GoalNotes)) return;
+            Debug.Log("Finished");
         }
     }
 }

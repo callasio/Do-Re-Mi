@@ -14,10 +14,12 @@ namespace GamePlay.StageData.Tile
         // two materials
         public Material material1;
         public Material material2;
+        public Material finishMaterial;
         private Animation _animation;
 
         public TextMeshPro textMesh;
-        private static readonly Dictionary<string, string> LetterColorMap = new Dictionary<string, string>
+        private bool _isFinishTile = false;
+        private static readonly Dictionary<string, string> LetterColorMap = new()
         {
             { "A", "#D04848"},
             { "B", "#F3B95F"},
@@ -36,8 +38,9 @@ namespace GamePlay.StageData.Tile
             var x = Data.Coordinates.X;
             var y = Data.Coordinates.Y;
             
+            _isFinishTile = Data.CurrentStageData.Configuration.FinishCoordinates == Data.Coordinates;
             var cube = transform.GetChild(0).Find("Cube").gameObject;
-            cube.GetComponent<Renderer>().material = (x + y) % 2 == 0 ? material1 : material2;
+            cube.GetComponent<Renderer>().material = _isFinishTile ? finishMaterial : (x + y) % 2 == 0 ? material1 : material2;
             
             _animation = GetComponentInChildren<Animation>();
 
