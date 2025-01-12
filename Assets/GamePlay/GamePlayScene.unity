@@ -565,6 +565,7 @@ MonoBehaviour:
   startButtonPrefab: {fileID: 7116626949185956903, guid: 2b5c3c230bbc64c4da63973bf827b346, type: 3}
   recordButtonPrefab: {fileID: 2855295562254554270, guid: d74e9de157e4a364f90065d8d1c53251, type: 3}
   flagButtonPrefab: {fileID: 471282469855452101, guid: b12b33c48725d92478502cc30cd9ff08, type: 3}
+  restartButtonPrefab: {fileID: 61155706979705703, guid: fa5e4ea2c17893e4d84b944d116dcf33, type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

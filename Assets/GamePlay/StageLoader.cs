@@ -14,18 +14,34 @@ namespace GamePlay
         private Stages _stages;
         private Camera _camera;
         private UILoader _uiLoader;
+        private int? _currentStageIndex;
         private StageData.StageData CurrentStageData
         {
             set => _uiLoader.ReloadUI(value.Configuration);
         }
 
-        // Start is called before the first frame update
+        private static event Action OnFinish;
+        private static event Action OnRestart;
+        public static void Finish() => OnFinish?.Invoke();
+        public static void Restart() => OnRestart?.Invoke();
+        
         void Start()
         {
             _camera = Camera.main;
             _stages = new Stages(this);
             _uiLoader = GetComponentInChildren<UILoader>();
-            OnStage(2);
+            _currentStageIndex = null;
+            
+            OnFinish += FinishedHandler;
+            OnRestart += RestartHandler;
+            
+            OnStage(1);
+        }
+
+        private void OnDestroy()
+        {
+            OnFinish -= FinishedHandler;
+            OnRestart -= RestartHandler;
         }
 
         void OnHome()
@@ -42,8 +58,20 @@ namespace GamePlay
 
         void OnStage(int stageIndex)
         {
+            _currentStageIndex = stageIndex;
             _stages.DestroyCurrentStage();
             CurrentStageData = _stages.InitStage(stageIndex);
+        }
+        
+        private void FinishedHandler()
+        {
+            Debug.Log("Finished: " + _currentStageIndex);
+        }
+        
+        private void RestartHandler()
+        {
+            if (_currentStageIndex == null) return;
+            OnStage(_currentStageIndex.Value);
         }
 
         // Update is called once per frame

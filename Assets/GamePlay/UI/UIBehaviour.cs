@@ -5,9 +5,9 @@ namespace GamePlay.UI
 {
     public abstract class UIBehaviour : MonoBehaviour
     {
-        private const float Padding = 20;
+        private const float Padding = 10;
         private const float Size = 100;
-        private const float Gap = 20;
+        private const float Gap = -10;
         
         public int Index { get; set; }
         private RectTransform _canvasRect;

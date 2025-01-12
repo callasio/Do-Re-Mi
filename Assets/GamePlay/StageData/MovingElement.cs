@@ -44,6 +44,7 @@ namespace GamePlay.StageData
             {
                 transform.position = target;
                 Data.Coordinates = TargetCoordinates;
+                UpdateElementState();
                 OnReachedTarget();
             }
             else

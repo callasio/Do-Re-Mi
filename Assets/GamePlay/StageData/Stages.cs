@@ -104,7 +104,7 @@ namespace GamePlay.StageData
                 return new StageData(
                     tileList.ToArray(),
                     new StageConfiguration(new Vector3(4.5f, 0, 0),
-                        new HashSet<UIType>{UIType.Start}));
+                        new List<UIType>{UIType.Start}));
             }
         }
 
@@ -142,7 +142,7 @@ namespace GamePlay.StageData
         
         private static StageConfiguration FirstStageConfiguration => new (
             new Vector3(0.5f, 0, 0),
-            new HashSet<UIType> { UIType.Record, UIType.Goal },
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
             finishCoordinates: new Coordinates(5, 0),
             goal: new HashSet<Note> { new ("C1") }
         );
@@ -169,7 +169,7 @@ namespace GamePlay.StageData
         
         private static StageConfiguration SecondStageConfiguration => new (
             Vector3.zero,
-            new HashSet<UIType> { UIType.Record, UIType.Goal },
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
             finishCoordinates: new Coordinates(3, 0),
             goal: new HashSet<Note> { new ("D1"), new ("F#1") }
         );
@@ -190,7 +190,7 @@ namespace GamePlay.StageData
 
                 return new StageData(element, new StageConfiguration(
                     new Vector3(4.5f, 0, -4.5f),
-                    new HashSet<UIType>()
+                    new List<UIType>()
                 ));
             }
         }

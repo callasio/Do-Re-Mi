@@ -104,10 +104,10 @@ namespace GamePlay.StageData.Player.Sound
             foreach (var stageElementData in CurrentStageData)
             {
                 if (stageElementData.Type != StageElementType.Speaker) continue;
-                
-                var noteString = stageElementData.Metadata["note"];
-                if (noteString == null) continue;
-                var note = new Note(noteString);
+
+                if (stageElementData.StageElementInstanceBehaviour is not Speaker.Speaker speaker) continue;
+                var speakerNotes = speaker.PlayNote;
+                if (speakerNotes.Count == 0) continue;
                 
                 var direction = PlayerData.Coordinates - stageElementData.Coordinates;
                 if (direction != stageElementData.Direction)
@@ -118,14 +118,23 @@ namespace GamePlay.StageData.Player.Sound
 
                 if (Player.MovingDirection == direction)
                 {
-                    notes.Add(note.Lower());
+                    foreach (var note in speakerNotes)
+                    {
+                        notes.Add(note.Lower());
+                    }
                 } else if (Player.MovingDirection == -direction)
                 {
-                    notes.Add(note.Higher());
+                    foreach (var note in speakerNotes)
+                    {
+                        notes.Add(note.Higher());
+                    }
                 }
                 else
                 {
-                    notes.Add(note);
+                    foreach (var note in speakerNotes)
+                    {
+                        notes.Add(note);
+                    }
                 }
             }
 

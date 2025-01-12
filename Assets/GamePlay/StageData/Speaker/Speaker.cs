@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using GamePlay.StageData.Player.Sound;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,11 +10,21 @@ namespace GamePlay.StageData.Speaker
 {
     public class Speaker : MovingElement
     {
-        public bool IsSoundOn { get; set; }
-        public Sprite fix;
-        public Sprite move;
+        private bool IsSoundOn { get; set; }
+        private HashSet<Note> _playNote;
+        public HashSet<Note> PlayNote
+        {
+            get => _playNote;
+            private set
+            {
+                _playNote = value;
+                var noteColor = Note.GetColor(_playNote);
+                var mainModule = _soundParticleSystem.main;
+                mainModule.startColor = noteColor;
+            }
+        }
         public Sprite rotate;
-        public Sprite moveAndRotate;
+        public Sprite download;
         
         private const float AngularVelocity = 180f;
         private Direction TargetDirection { get; set; }
@@ -29,6 +41,14 @@ namespace GamePlay.StageData.Speaker
         private bool _canBePushed;
         private bool _rotatable;
         private Image _image;
+        private ImageSprite _imageSprite;
+
+        private enum ImageSprite
+        {
+            Rotate,
+            Download,
+            None,
+        }
 
         public override void Start()
         {
@@ -42,21 +62,16 @@ namespace GamePlay.StageData.Speaker
             
             if (Data.Metadata["note"] != null)
             {  
-                TurnOnSound();
+                PlayNote = new HashSet<Note> { new(Data.Metadata["note"]) };
+                TurnOnSound(PlayNote);
             }
             else
             {
+                PlayNote = new HashSet<Note>();
                 TurnOffSound();
             }
             
-            if (_rotatable)
-            {
-                _image.sprite = _canBePushed ? moveAndRotate : rotate;
-            }
-            else
-            {
-                _image.sprite = _canBePushed ? move : fix;
-            }
+            SetImage(_rotatable ? ImageSprite.Rotate : ImageSprite.None);
         }
 
         public override void OnClicked(Vector3 normal, bool forward = true)
@@ -68,6 +83,15 @@ namespace GamePlay.StageData.Speaker
                     TargetDirection = Data.Direction.CounterClockwise();
                     return;
                 }
+                if (normal == Vector3.up && _imageSprite == ImageSprite.Download)
+                {
+                    var player = Player.Player.Current;
+                    if (player is null) return;
+                    if (player.SoundManager.RecordedNotes.Count == 0) return;
+                    SetImage(_rotatable ? ImageSprite.Rotate : ImageSprite.None);
+                    TurnOnSound(player.SoundManager.RecordedNotes);
+                    return;
+                }
                 Data.CurrentStageElements
                     .Where(data => data.Coordinates == Data.Coordinates && data != Data).ToList()
                     .ForEach(data => data.StageElementInstanceBehaviour.OnClicked(normal, forward: false));
@@ -77,8 +101,9 @@ namespace GamePlay.StageData.Speaker
             _animation.Play();
         }
 
-        public void TurnOnSound()
+        public void TurnOnSound(HashSet<Note> note)
         {
+            if (note.Count > 0) PlayNote = note;
             IsSoundOn = true;
             _soundParticleSystem.Simulate(MaxLifetime);
             _soundParticleSystem.Play();
@@ -95,6 +120,41 @@ namespace GamePlay.StageData.Speaker
             base.Update();
             Rotate();
         }
+        
+        public override void OnElementUpdate()
+        {
+            var player = Player.Player.Current;
+            if (Player.Player.Current is null) return;
+            
+            if ((player.Data.Coordinates.ToVector3() - Data.Coordinates.ToVector3()).magnitude > 1.1f)
+            {
+                SetImage(_rotatable ? ImageSprite.Rotate : ImageSprite.None);
+            }
+            else
+            {
+                SetImage(IsSoundOn ? _rotatable ? ImageSprite.Rotate : ImageSprite.None : ImageSprite.Download);
+            }
+        }
+
+        private void SetImage(ImageSprite imageSprite)
+        {
+            _imageSprite = imageSprite;
+            switch (imageSprite)
+            {
+                case ImageSprite.Rotate:
+                    _image.sprite = rotate;
+                    _image.color = Color.white;
+                    break;
+                case ImageSprite.Download:
+                    _image.sprite = download;
+                    _image.color = Color.white;
+                    break;
+                case ImageSprite.None:
+                    _image.sprite = null;
+                    _image.color = Color.clear;
+                    break;
+            }
+        }
 
         private void Rotate()
         {
@@ -109,6 +169,7 @@ namespace GamePlay.StageData.Speaker
             }
             
             transform.rotation = Quaternion.RotateTowards(transform.rotation, TargetDirection.ToQuaternion(), AngularVelocity * Time.deltaTime);
+            UpdateElementState();
         }
 
         public override bool Push(Direction direction)

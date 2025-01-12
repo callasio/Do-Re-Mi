@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace GamePlay.StageData.Player.Sound
 {
@@ -73,6 +75,10 @@ namespace GamePlay.StageData.Player.Sound
         {
             return new Note((NoteIndex + NoteCounts - 1) % NoteCounts);
         }
+
+        public static Color GetColor(HashSet<Note> notes) => Color.HSVToRGB(GetHue(notes) / 360f, 1, 1);
+        private static float GetHue(HashSet<Note> notes) => notes.Average(note => note.GetHue());
+        private float GetHue() => NoteIndex % 12 * 360f / 12f;
         
         public override int GetHashCode()
         {
