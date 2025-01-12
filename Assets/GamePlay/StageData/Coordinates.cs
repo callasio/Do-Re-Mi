@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GamePlay.StageData
 {
-    public readonly struct Direction : IEquatable<Direction>
+    public class Direction : IEquatable<Direction>
     {
         public static readonly Direction None = new Direction(0, 0);
         public static readonly Direction Up = new Direction(0, 1);
@@ -34,7 +34,7 @@ namespace GamePlay.StageData
             return X == 0 || Y == 0;
         }
         
-        public Direction CounterClockwise() => new Direction(-Y, X);
+        public Direction CounterClockwise() => new (-Y, X);
         
         public Quaternion ToQuaternion() => Quaternion.LookRotation(ToVector3());
         
@@ -50,7 +50,7 @@ namespace GamePlay.StageData
 
         public static bool operator ==(Direction left, Direction right)
         {
-            return left.Equals(right);
+            return left?.Equals(right) ?? right is null;
         }
 
         public static bool operator !=(Direction left, Direction right)
@@ -65,7 +65,7 @@ namespace GamePlay.StageData
 
         public bool Equals(Direction other)
         {
-            return X == other.X && Y == other.Y;
+            return X == other?.X && Y == other.Y;
         }
         
         public override bool Equals(object obj)
@@ -79,7 +79,7 @@ namespace GamePlay.StageData
         }
     }
     
-    public readonly struct Coordinates : IEquatable<Coordinates>
+    public class Coordinates : IEquatable<Coordinates>
     {
         public int X { get; }
         public int Y { get; }
@@ -102,7 +102,7 @@ namespace GamePlay.StageData
 
         public static bool operator ==(Coordinates left, Coordinates right)
         {
-            return left.Equals(right);
+            return left?.Equals(right) ?? right is null;
         }
 
         public static bool operator !=(Coordinates left, Coordinates right)
@@ -112,7 +112,7 @@ namespace GamePlay.StageData
 
         public bool Equals(Coordinates other)
         {
-            return X == other.X && Y == other.Y;
+            return X == other?.X && Y == other.Y;
         }
         
         public override bool Equals(object obj)

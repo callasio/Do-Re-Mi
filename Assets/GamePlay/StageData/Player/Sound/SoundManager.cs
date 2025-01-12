@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,18 @@ namespace GamePlay.StageData.Player.Sound
     
     public class SoundManager
     {
+        public static event Action OnRecordClicked;
+        public static event Action OnRecordHovered;
+        public static event Action OnRecordHoverEnded;
+        public static event Action OnFlagHovered;
+        public static event Action OnFlagHoverEnded;
+        public static void RecordClicked() => OnRecordClicked?.Invoke();
+        public static void RecordHovered() => OnRecordHovered?.Invoke();
+        public static void RecordHoverEnded() => OnRecordHoverEnded?.Invoke();
+        public static void FlagHovered() => OnFlagHovered?.Invoke();
+        public static void FlagHoverEnded() => OnFlagHoverEnded?.Invoke();
+        
+        
         private Player Player { get; }
         private StageElement PlayerData => Player.Data;
         private StageElement[] CurrentStageData => PlayerData.CurrentStageElements;
@@ -21,17 +34,34 @@ namespace GamePlay.StageData.Player.Sound
         private HashSet<Note> _currentNotes = new();
 
         public HashSet<Note> RecordedNotes { get; private set; } = new();
-        // public HashSet<Note> GoalNotes { get; private set; } = new();
+        public HashSet<Note> GoalNotes { get; }
 
         public SoundManager(Player player, AudioSources audioSource)
         {
             Player = player;
             AudioSource = audioSource;
+            GoalNotes = player.Data.CurrentStageData.Configuration.Goal;
+            
+            OnRecordClicked += RecordClickedHandler;
+            OnRecordHovered += RecordHoveredHandler;
+            OnRecordHoverEnded += RecordHoverEndedHandler;
+            OnFlagHovered += FlagHoveredHandler;
+            OnFlagHoverEnded += FlagHoverEndedHandler;
         }
 
-        public void Record()
+        public void RecordClickedHandler() => RecordedNotes = GetPlayerNotes();
+        private void RecordHoveredHandler() => AudioSource = AudioSources.Record;
+        private void RecordHoverEndedHandler() => AudioSource = AudioSources.Player;
+        private void FlagHoveredHandler() => AudioSource = AudioSources.Goal;
+        private void FlagHoverEndedHandler() => AudioSource = AudioSources.Player;
+
+        public void OnDestroy()
         {
-            RecordedNotes = GetPlayerNotes();
+            OnRecordClicked -= RecordClickedHandler;
+            OnRecordHovered -= RecordHoveredHandler;
+            OnRecordHoverEnded -= RecordHoverEndedHandler;
+            OnFlagHovered -= FlagHoveredHandler;
+            OnFlagHoverEnded -= FlagHoverEndedHandler;
         }
 
         public void Update()
@@ -63,6 +93,7 @@ namespace GamePlay.StageData.Player.Sound
             {
                 AudioSources.Player => GetPlayerNotes(),
                 AudioSources.Record => RecordedNotes,
+                AudioSources.Goal => GoalNotes,
                 _ => null
             };
         }

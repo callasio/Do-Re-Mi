@@ -1,6 +1,5 @@
-using System;
-using DG.Tweening;
 using GamePlay.StageData.Player;
+using GamePlay.StageData.Player.Sound;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,13 +20,13 @@ namespace GamePlay.UI.Record
 
         private void OnClick()
         {
-            Player.RecordClicked();
+            SoundManager.RecordClicked();
             Bump();
         }
 
-        public void OnPointerEnter(PointerEventData eventData) => Player.RecordHovered();
+        public void OnPointerEnter(PointerEventData eventData) => SoundManager.RecordHovered();
         
-        public void OnPointerExit(PointerEventData eventData) => Player.RecordHoverEnded();
+        public void OnPointerExit(PointerEventData eventData) => SoundManager.RecordHoverEnded();
 
         public void Update()
         {
