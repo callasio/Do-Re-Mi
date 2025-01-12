@@ -4,6 +4,7 @@ using GamePlay.StageData.Player.Sound;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
 
 namespace GamePlay.StageData
 {
@@ -12,12 +13,13 @@ namespace GamePlay.StageData
         Start,
         Record,
         Goal,
+        Restart,
     }
     
     public class StageConfiguration
     {
         public Vector3 CameraLookingPosition { get; }
-        public HashSet<UIType> UIs { get; }
+        public List<UIType> UIs { get; }
         [CanBeNull] public Coordinates FinishCoordinates { get; }
         [CanBeNull] public HashSet<Note> Goal { get; }
         
@@ -25,8 +27,8 @@ namespace GamePlay.StageData
         {
             CameraLookingPosition = cameraLookingPosition;
             FinishCoordinates = finishCoordinates;
-            UIs = uis.ToHashSet();
-            Goal = goal?.ToHashSet();
+            UIs = uis.ToList();
+            Goal = goal is null ? null : new HashSet<Note>(goal);
         }
     }
 

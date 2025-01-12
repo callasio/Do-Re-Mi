@@ -9,24 +9,22 @@ namespace GamePlay.StageData.Player
 {
     public class Player: MovingElement
     {
-        public const float DefaultMovingSpeed = 3f;
-        
-        public float movingSpeed = DefaultMovingSpeed;
-
         private List<Coordinates> _movingQueue = new ();
-        private SoundManager _soundManager;
+        public SoundManager SoundManager { get; private set; }
         
         public static event Action<StageElement> OnElementClicked;
         public static event Action OnStartClicked;
         
         public static void ElementClicked(StageElement clickedElement) => OnElementClicked?.Invoke(clickedElement);
         public static void StartClicked() => OnStartClicked?.Invoke();
+        public static Player Current { get; private set; }
         
         public override void Start()
         {
             base.Start();
             MovingDirection = Direction.None;
-            _soundManager = new SoundManager(this, AudioSources.Player);
+            SoundManager = new SoundManager(this, AudioSources.Player);
+            Current = this;
             OnElementClicked += ElementClickedHandler;
             OnStartClicked += StartClickedHandler;
         }
@@ -36,7 +34,8 @@ namespace GamePlay.StageData.Player
             OnElementClicked -= ElementClickedHandler;
             OnStartClicked -= StartClickedHandler;
             
-            _soundManager.OnDestroy();
+            Current = null;
+            SoundManager.OnDestroy();
         }
 
         public override void OnClicked(Vector3 normal, bool forward = true) { }
@@ -62,7 +61,7 @@ namespace GamePlay.StageData.Player
         {
             base.Update();
             LookAt(Data.Direction);
-            _soundManager.Update();
+            SoundManager.Update();
         }
 
         public override Direction MovingDirection { get; protected set; }
@@ -114,8 +113,8 @@ namespace GamePlay.StageData.Player
         private void CheckFinished()
         {
             var finishCoordinates = Data.CurrentStageData.Configuration.FinishCoordinates;
-            if (finishCoordinates == null || Data.Coordinates != finishCoordinates || !_soundManager.RecordedNotes.SetEquals(_soundManager.GoalNotes)) return;
-            Debug.Log("Finished");
+            if (finishCoordinates == null || Data.Coordinates != finishCoordinates || !SoundManager.RecordedNotes.SetEquals(SoundManager.GoalNotes)) return;
+            StageLoader.Finish();
         }
     }
 }

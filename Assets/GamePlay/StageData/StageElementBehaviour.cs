@@ -124,6 +124,13 @@ namespace GamePlay.StageData
                 transform.LookAt(transform.position + direction.ToVector3());
         }
 
+        public void UpdateElementState()
+        {
+            Data.CurrentStageData.Elements.ToList().ForEach(elementData => elementData.StageElementInstanceBehaviour.OnElementUpdate());
+        }
+
+        public virtual void OnElementUpdate() { }
+        
         public abstract void OnClicked(Vector3 normal, bool forward = true);
     }
 }

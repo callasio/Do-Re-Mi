@@ -4,6 +4,7 @@ using System.Linq;
 using GamePlay.StageData;
 using GamePlay.UI.Flag;
 using GamePlay.UI.Record;
+using GamePlay.UI.Restart;
 using GamePlay.UI.Start;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace GamePlay.UI
         public GameObject startButtonPrefab;
         public GameObject recordButtonPrefab;
         public GameObject flagButtonPrefab;
+        public GameObject restartButtonPrefab;
     
         public void ReloadUI(StageConfiguration stageConfiguration)
         {
@@ -49,8 +51,10 @@ namespace GamePlay.UI
                         var flagButton = Instantiate(flagButtonPrefab, transform);
                         flagButton.GetComponent<FlagButton>().Index = i;
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    case UIType.Restart:
+                        var restartButton = Instantiate(restartButtonPrefab, transform);
+                        restartButton.GetComponent<RestartButton>().Index = i;
+                        break;
                 }
             }
         }
