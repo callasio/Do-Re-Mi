@@ -1,11 +1,113 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Audio;
+using Object = UnityEngine.Object;
 
 namespace GamePlay.StageData.Player.Sound
 {
-    public readonly struct Note
+    public class PlayingNote : IEquatable<PlayingNote>
+    {
+        public readonly Note Note;
+        public int PitchDelta;
+        private static Player Player => Player.Current;
+        private static AudioClip CClip => Player.cClip;
+        private static AudioMixerGroup ReverbMixerGroup => Player.reverbMixerGroup;
+        private AudioSource _source;
+
+        private const float FadeDuration = 0.5f;
+        private const float PitchInterpolationDuration = 0.2f;
+        private const float MaxVolume = 0.2f;
+        
+        public PlayingNote(Note note, int pitchDelta)
+        {
+            Note = note;
+            PitchDelta = pitchDelta;
+            _source = null;
+        }
+
+        public Note GetNote() => new (Note.NoteIndex + PitchDelta);
+        
+        public void PlayNote() => Player.StartCoroutine(PlayNoteWithFade());
+
+        public void StopNote() => Player.StartCoroutine(StopNoteWithFade());
+
+        public void AdjustPitch(int pitchDelta)
+        {
+            PitchDelta = pitchDelta;
+            Player.StartCoroutine(AdjustPitchWithInterpolation());
+        }
+        
+        private IEnumerator PlayNoteWithFade()
+        {
+            var noteObject = new GameObject($"Note_{Note}")
+            {
+                transform =
+                {
+                    parent = Player.gameObject.transform
+                }
+            };
+        
+            var audioSource = noteObject.AddComponent<AudioSource>();
+            audioSource.clip = CClip;
+            audioSource.outputAudioMixerGroup = ReverbMixerGroup;
+            audioSource.pitch = Mathf.Pow(2f, GetNote().PitchFromC() / 12f);
+            audioSource.loop = true;
+            audioSource.Play();
+            
+            _source = audioSource;
+            yield return Player.StartCoroutine(FadeVolume(0, MaxVolume));
+        }
+        
+        private IEnumerator StopNoteWithFade()
+        {
+            yield return Player.StartCoroutine(FadeVolume(_source.volume, 0));
+            _source.Stop();
+            Object.Destroy(_source.gameObject);
+        }
+
+        private IEnumerator FadeVolume(float from, float to)
+        {
+            var startTime = Time.time;
+            while (Time.time - startTime < FadeDuration)
+            {
+                var t = (Time.time - startTime) / FadeDuration;
+                _source.volume = Mathf.Lerp(from, to, t);
+                yield return null;
+            }
+            _source.volume = to;
+        }
+        
+        private IEnumerator AdjustPitchWithInterpolation()
+        {
+            var from = _source.pitch;
+            var to = Mathf.Pow(2f, GetNote().PitchFromC() / 12f);
+            yield return InterpolatePitch(from, to);
+        }
+        
+        private IEnumerator InterpolatePitch(float from, float to)
+        {
+            var startTime = Time.time;
+            while (Time.time - startTime < PitchInterpolationDuration)
+            {
+                var t = (Time.time - startTime) / PitchInterpolationDuration;
+                _source.pitch = Mathf.Lerp(from, to, t);
+                yield return null;
+            }
+            _source.pitch = to;
+        }
+
+        public bool Equals(PlayingNote other) => Note.Equals(other?.Note) && PitchDelta == other?.PitchDelta;
+
+        public override int GetHashCode() => Note.GetHashCode();
+
+        public override string ToString() => $"{Note}({PitchDelta})";
+    }   
+    
+    public readonly struct Note : IEquatable<Note>
     {
         private static readonly List<string> NoteStrings = new ()
         {
@@ -60,14 +162,11 @@ namespace GamePlay.StageData.Player.Sound
             return notes.Average(note => note.GetHue());
         }
         private float GetHue() => NoteIndex % 12 * 360f / 12f;
-        
+
         public int NoteIndex { get; }
         
-        private Note(int noteIndex)
-        {
-            NoteIndex = noteIndex;
-        }
-        
+        public Note(int noteIndex) => NoteIndex = noteIndex;
+
         public Note([NotNull] string noteString)
         {
             var index = NoteStrings.IndexOf(noteString);
@@ -78,28 +177,12 @@ namespace GamePlay.StageData.Player.Sound
             NoteIndex = index;
         }
 
-        public int PitchFromCSharp() => NoteIndex - new Note("C#1").NoteIndex;
+        public int PitchFromC() => NoteIndex - new Note("C1").NoteIndex;
+        
+        public override int GetHashCode() => NoteIndex;
 
-        public Note Higher()
-        {
-            return new Note((NoteIndex + 1) % NoteCounts);
-        }
+        public override bool Equals(object obj) => obj is Note note && NoteIndex == note.NoteIndex;
 
-        public Note Lower()
-        {
-            return new Note((NoteIndex + NoteCounts - 1) % NoteCounts);
-        }
-        
-        public override int GetHashCode()
-        {
-            return NoteIndex;
-        }
-        
-        public override bool Equals(object obj)
-        {
-            return obj is Note note && NoteIndex == note.NoteIndex;
-        }
-        
         public static bool operator ==(Note left, Note right)
         {
             return left.Equals(right);
@@ -110,9 +193,8 @@ namespace GamePlay.StageData.Player.Sound
             return !(left == right);
         }
         
-        public override string ToString()
-        {
-            return NoteStrings[(NoteIndex + NoteCounts) % NoteCounts];
-        }
+        public override string ToString() => NoteStrings[(NoteIndex + NoteCounts) % NoteCounts];
+
+        public bool Equals(Note other) => NoteIndex == other.NoteIndex;
     }
 }

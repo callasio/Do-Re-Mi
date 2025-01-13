@@ -5,6 +5,7 @@ using GamePlay.StageData.Player.PathFinder;
 using GamePlay.StageData.Player.Sound;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 namespace GamePlay.StageData.Player
 {
@@ -12,7 +13,7 @@ namespace GamePlay.StageData.Player
     {
         private List<Coordinates> _movingQueue = new ();
         public SoundManager SoundManager { get; private set; }
-        public AudioClip cSharpClip;
+        public AudioClip cClip;
         public AudioMixerGroup reverbMixerGroup;
         
         public static event Action<StageElement> OnElementClicked;
