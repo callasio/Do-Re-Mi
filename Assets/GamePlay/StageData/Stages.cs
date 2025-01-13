@@ -162,7 +162,7 @@ namespace GamePlay.StageData
                 }
                 elementList.Add(StageElement.Player(new(-3, 0), Direction.Right));
                 elementList.Add(StageElement.Speaker(new (0, 3), Direction.Down, "D1", pushable: true, rotatable: true));
-                elementList.Add(StageElement.Speaker(new (0, -3), Direction.Up, "F1", pushable: true, rotatable: true));
+                elementList.Add(StageElement.Speaker(new (0, -3), Direction.Up, "A#1", pushable: true, rotatable: true));
                 return elementList.ToArray();
             }
         }
@@ -171,7 +171,7 @@ namespace GamePlay.StageData
             Vector3.zero,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
             finishCoordinates: new Coordinates(3, 0),
-            goal: new HashSet<Note> { new ("D1"), new ("F#1") }
+            goal: new HashSet<Note> { new ("D1"), new ("B1") }
         );
 
         private StageData StageSelectData

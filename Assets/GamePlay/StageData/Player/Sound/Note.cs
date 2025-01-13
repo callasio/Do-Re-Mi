@@ -13,20 +13,21 @@ namespace GamePlay.StageData.Player.Sound
     {
         public readonly Note Note;
         public int PitchDelta;
-        private static Player Player => Player.Current;
-        private static AudioClip CClip => Player.cClip;
-        private static AudioMixerGroup ReverbMixerGroup => Player.reverbMixerGroup;
+        private Player Player { get; set; }
+        private AudioClip CClip => Player.cClip;
+        private AudioMixerGroup ReverbMixerGroup => Player.reverbMixerGroup;
         private AudioSource _source;
 
         private const float FadeDuration = 0.5f;
-        private const float PitchInterpolationDuration = 0.2f;
+        private const float PitchInterpolationDuration = 0.1f;
         private const float MaxVolume = 0.2f;
         
-        public PlayingNote(Note note, int pitchDelta)
+        public PlayingNote(Note note, int pitchDelta, Player player)
         {
             Note = note;
             PitchDelta = pitchDelta;
             _source = null;
+            Player = player;
         }
 
         public Note GetNote() => new (Note.NoteIndex + PitchDelta);

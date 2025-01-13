@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b2d6dd39ef47d08fb1778386cde557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cClip: {fileID: 8300000, guid: 1ed83042f9bcd774d8e36464dac84de1, type: 3}
+  cClip: {fileID: 8300000, guid: 9aed9d918843b2c43ae4fe69a787dd17, type: 3}
   reverbMixerGroup: {fileID: -781237253157000512, guid: 65cfad13e7b641b42bd65889c973dc43, type: 2}
 --- !u!111 &-4899021187478143650
 Animation:
