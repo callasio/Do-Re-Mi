@@ -19,13 +19,15 @@ namespace GamePlay.StageData
     public class StageConfiguration
     {
         public Vector3 CameraLookingPosition { get; }
+        public float CameraLookingSize { get; }
         public List<UIType> UIs { get; }
         [CanBeNull] public Coordinates FinishCoordinates { get; }
         [CanBeNull] public HashSet<Note> Goal { get; }
         
-        public StageConfiguration(Vector3 cameraLookingPosition, IEnumerable<UIType> uis, [CanBeNull] Coordinates finishCoordinates = null, [CanBeNull] IEnumerable<Note> goal = null)
+        public StageConfiguration(Vector3 cameraLookingPosition, float cameraLookingSize,IEnumerable<UIType> uis, [CanBeNull] Coordinates finishCoordinates = null, [CanBeNull] IEnumerable<Note> goal = null)
         {
             CameraLookingPosition = cameraLookingPosition;
+            CameraLookingSize = cameraLookingSize;
             FinishCoordinates = finishCoordinates;
             UIs = uis.ToList();
             Goal = goal is null ? null : new HashSet<Note>(goal);
