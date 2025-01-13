@@ -21,14 +21,12 @@ namespace GamePlay.StageData.Player
         
         public static void ElementClicked(StageElement clickedElement) => OnElementClicked?.Invoke(clickedElement);
         public static void StartClicked() => OnStartClicked?.Invoke();
-        public static Player Current { get; private set; }
         
         public override void Start()
         {
             base.Start();
             MovingDirection = Direction.None;
             SoundManager = new SoundManager(this, AudioSources.Player);
-            Current = this;
             OnElementClicked += ElementClickedHandler;
             OnStartClicked += StartClickedHandler;
         }
@@ -38,7 +36,6 @@ namespace GamePlay.StageData.Player
             OnElementClicked -= ElementClickedHandler;
             OnStartClicked -= StartClickedHandler;
             
-            Current = null;
             SoundManager.OnDestroy();
         }
 

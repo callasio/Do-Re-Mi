@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GamePlay.StageData.Player.Sound;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GamePlay.StageData.Speaker
@@ -42,6 +40,10 @@ namespace GamePlay.StageData.Speaker
         private bool _rotatable;
         private Image _image;
         private ImageSprite _imageSprite;
+
+        private Player.Player Player => 
+            Data.CurrentStageData.Elements.First(data => data.Type == StageElementType.Player)
+            .StageElementInstanceBehaviour as Player.Player;
 
         private enum ImageSprite
         {
@@ -85,7 +87,7 @@ namespace GamePlay.StageData.Speaker
                 }
                 if (normal == Vector3.up && _imageSprite == ImageSprite.Download)
                 {
-                    var player = Player.Player.Current;
+                    var player = Player;
                     if (player is null) return;
                     if (player.SoundManager.RecordedNotes.Count == 0) return;
                     SetImage(_rotatable ? ImageSprite.Rotate : ImageSprite.None);
@@ -123,8 +125,8 @@ namespace GamePlay.StageData.Speaker
         
         public override void OnElementUpdate()
         {
-            var player = Player.Player.Current;
-            if (Player.Player.Current is null) return;
+            var player = Player;
+            if (Player is null) return;
             
             if ((player.Data.Coordinates.ToVector3() - Data.Coordinates.ToVector3()).magnitude > 1.1f)
             {
