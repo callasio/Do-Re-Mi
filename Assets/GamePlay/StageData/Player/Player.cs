@@ -61,6 +61,7 @@ namespace GamePlay.StageData.Player
         public override void Update()
         {
             base.Update();
+            Data.Direction = MovingDirection;
             LookAt(Data.Direction);
             SoundManager.Update();
         }
