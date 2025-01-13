@@ -79,7 +79,7 @@ namespace GamePlay.StageData
         }
     }
     
-    public class Coordinates : IEquatable<Coordinates>
+    public class Coordinates : IEquatable<Coordinates>, IComparable<Coordinates>
     {
         public int X { get; }
         public int Y { get; }
@@ -114,12 +114,18 @@ namespace GamePlay.StageData
         {
             return X == other?.X && Y == other.Y;
         }
-        
-        public override bool Equals(object obj)
+
+        public int CompareTo(Coordinates other)
         {
-            return obj is Coordinates other && Equals(other);
+            if (Y == other.Y)
+            {
+                return X.CompareTo(other.X);
+            }
+            return Y.CompareTo(other.Y);
         }
-        
+
+        public override bool Equals(object obj) => obj is Coordinates other && Equals(other);
+
         public static Coordinates operator +(Coordinates left, Direction right)
         {
             return new Coordinates(left.X + right.X, left.Y + right.Y);
@@ -130,9 +136,6 @@ namespace GamePlay.StageData
             return new Direction(left.X - right.X, left.Y - right.Y);
         }
 
-        public override string ToString()
-        {
-            return $"Coordinates({X}, {Y})";
-        }
+        public override string ToString() => $"Coordinates({X}, {Y})";
     }
 }
