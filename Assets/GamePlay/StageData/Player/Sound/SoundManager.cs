@@ -33,18 +33,14 @@ namespace GamePlay.StageData.Player.Sound
         private Player Player { get; }
         private StageElement PlayerData => Player.Data;
         private StageElement[] CurrentStageData => PlayerData.CurrentStageElements;
-        private AudioClip CSharpClip => Player.cSharpClip;
-        private AudioMixerGroup ReverbMixerGroup => Player.reverbMixerGroup;
+
+        private AudioSources AudioSource { get; set; }
         
-        public AudioSources AudioSource { get; set; }
-        
-        private HashSet<Note> _currentNotes = new();
+        private List<PlayingNote> _currentNotes = new();
+        private AudioSources _currentAudioSource = AudioSources.Player;
 
         public HashSet<Note> RecordedNotes { get; private set; } = new();
         public HashSet<Note> GoalNotes { get; }
-
-        private const float FadeDuration = 0.2f;
-        private readonly Dictionary<Note, AudioSource> _activeSources = new();
 
         public SoundManager(Player player, AudioSources audioSource)
         {
@@ -59,7 +55,8 @@ namespace GamePlay.StageData.Player.Sound
             OnFlagHoverEnded += FlagHoverEndedHandler;
         }
 
-        public void RecordClickedHandler() => RecordedNotes = GetPlayerNotes();
+        private void RecordClickedHandler() => RecordedNotes = new HashSet<Note>(
+            GetPlayerNotes().Select(playingNote => playingNote.GetNote()));
         private void RecordHoveredHandler() => AudioSource = AudioSources.Record;
         private void RecordHoverEndedHandler() => AudioSource = AudioSources.Player;
         private void FlagHoveredHandler() => AudioSource = AudioSources.Goal;
@@ -77,63 +74,68 @@ namespace GamePlay.StageData.Player.Sound
         public void Update()
         {
             var newNotes = GetNotes();
-
+            
             var playNotes = newNotes.Except(_currentNotes).ToList();
             var stopNotes = _currentNotes.Except(newNotes).ToList();
-            _currentNotes = newNotes;
-
-            foreach (var playNote in playNotes)
-            {
-                PlayNote(playNote);
-            }
-            foreach (var stopNote in stopNotes)
-            {
-                StopNote(stopNote);
-            }
-        }
-
-        private void PlayNote(Note note)
-        {
-            var noteObject = new GameObject($"Note_{note}")
-            {
-                transform =
-                {
-                    parent = Player.gameObject.transform
-                }
-            };
-
-            var audioSource = noteObject.AddComponent<AudioSource>();
-            audioSource.clip = CSharpClip;
-            audioSource.outputAudioMixerGroup = ReverbMixerGroup;
-            audioSource.pitch = Mathf.Pow(2f, note.PitchFromCSharp() / 12f);
-            audioSource.loop = true;
-            audioSource.Play();
+            var unChangedNotes = _currentNotes
+                .Intersect(newNotes)
+                .ToList();
             
-            _activeSources[note] = audioSource;
-        }
-        
-        private void StopNote(Note note)
-        {
-            var source = _activeSources[note];
-            _activeSources.Remove(note);
-            source.Stop();
-            Object.Destroy(source.gameObject);
+            if (AudioSource != AudioSources.Player || _currentAudioSource != AudioSources.Player)
+            {
+                playNotes.ForEach(playingNote => playingNote.PlayNote());
+                stopNotes.ForEach(playingNote => playingNote.StopNote());
+                _currentNotes = unChangedNotes.Concat(playNotes).ToList();
+            }
+            else
+            {
+                var newPlayNotes = playNotes
+                    .Where(playingNote => stopNotes.All(stopNote => playingNote.Note != stopNote.Note))
+                    .ToList();
+                
+                var newStopNotes = stopNotes
+                    .Where(stopNote => playNotes.All(playingNote => stopNote.Note != playingNote.Note))
+                    .ToList();
+                
+                var pitchChangedNotes = stopNotes
+                    .Where(stopNote => playNotes.Any(playingNote =>
+                        playingNote.Note == stopNote.Note && playingNote.PitchDelta != stopNote.PitchDelta))
+                    .ToList();
+                
+                newPlayNotes.ForEach(playingNote => playingNote.PlayNote());
+                newStopNotes.ForEach(playingNote => playingNote.StopNote());
+                pitchChangedNotes.ForEach(stopNote =>
+                {
+                    var playingNote = playNotes.First(playingNote =>
+                        playingNote.Note == stopNote.Note && playingNote.PitchDelta != stopNote.PitchDelta);
+                    stopNote.AdjustPitch(playingNote.PitchDelta);
+                });
+                 
+                _currentNotes = newPlayNotes
+                    .Concat(pitchChangedNotes)
+                    .Concat(unChangedNotes)
+                    .ToList();
+            }
+            
+            _currentAudioSource = AudioSource;
         }
 
-        private HashSet<Note> GetNotes()
+        private List<PlayingNote> GetNotes()
         {
             return AudioSource switch
             {
                 AudioSources.Player => GetPlayerNotes(),
-                AudioSources.Record => RecordedNotes,
-                AudioSources.Goal => GoalNotes,
+                AudioSources.Record => new List<PlayingNote>(
+                    RecordedNotes.Select(note => new PlayingNote(note, 0))),
+                AudioSources.Goal => new List<PlayingNote>(
+                    GoalNotes.Select(note => new PlayingNote(note, 0))),
                 _ => null
             };
         }
         
-        private HashSet<Note> GetPlayerNotes()
+        private List<PlayingNote> GetPlayerNotes()
         {
-            var notes = new HashSet<Note>();
+            var notes = new List<PlayingNote>();
             foreach (var stageElementData in CurrentStageData)
             {
                 if (stageElementData.Type != StageElementType.Speaker) continue;
@@ -142,32 +144,19 @@ namespace GamePlay.StageData.Player.Sound
                 var speakerNotes = speaker.PlayNote;
                 if (speakerNotes.Count == 0) continue;
                 
-                var direction = PlayerData.Coordinates - stageElementData.Coordinates;
-                if (direction != stageElementData.Direction)
-                {
-                    direction = Player.TargetCoordinates - stageElementData.Coordinates;
-                    if (direction != stageElementData.Direction) continue;
-                }
+                var direction = Player.TargetCoordinates - stageElementData.Coordinates;
+                if (direction != stageElementData.Direction) continue;
 
                 if (Player.MovingDirection == direction)
                 {
-                    foreach (var note in speakerNotes)
-                    {
-                        notes.Add(note.Lower());
-                    }
+                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, -1)));
                 } else if (Player.MovingDirection == -direction)
                 {
-                    foreach (var note in speakerNotes)
-                    {
-                        notes.Add(note.Higher());
-                    }
+                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, 1)));
                 }
                 else
                 {
-                    foreach (var note in speakerNotes)
-                    {
-                        notes.Add(note);
-                    }
+                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, 0)));
                 }
             }
 

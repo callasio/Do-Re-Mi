@@ -4,7 +4,7 @@ namespace GamePlay.StageData
 {
     public abstract class MovingElement : StageElementBehaviour
     {
-        private const float MovingSpeed = 4f;
+        private const float MovingSpeed = 2f;
         public abstract Direction MovingDirection { get; protected set; }
         public abstract Coordinates TargetCoordinates { get; set; }
         public abstract bool Push(Direction direction);
