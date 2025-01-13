@@ -489,6 +489,10 @@ PrefabInstance:
       propertyPath: targetImage
       value: 
       objectReference: {fileID: 1183251162}
+    - target: {fileID: 30403794887608877, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: nextSceneName
+      value: SettingScene
+      objectReference: {fileID: 0}
     - target: {fileID: 516109898177561356, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_SizeDelta.x
       value: 180
@@ -831,6 +835,14 @@ PrefabInstance:
     - target: {fileID: -188806129251937016, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 30403794887608877, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: targetImage
+      value: 
+      objectReference: {fileID: 1441474667}
+    - target: {fileID: 30403794887608877, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: nextSceneName
+      value: AboutScene
       objectReference: {fileID: 0}
     - target: {fileID: 516109898177561356, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_SizeDelta.x
