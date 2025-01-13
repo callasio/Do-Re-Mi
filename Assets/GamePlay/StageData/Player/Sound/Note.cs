@@ -48,6 +48,18 @@ namespace GamePlay.StageData.Player.Sound
         };
         
         private static readonly int NoteCounts = NoteStrings.Count;
+
+        public static Color GetColor(HashSet<Note> notes) => Color.HSVToRGB(GetHue(notes) / 360f, 1, 1);
+
+        private static float GetHue(HashSet<Note> notes)
+        {
+            if (notes.Count == 0)
+            {
+                return 0;
+            }
+            return notes.Average(note => note.GetHue());
+        }
+        private float GetHue() => NoteIndex % 12 * 360f / 12f;
         
         public int NoteIndex { get; }
         
@@ -66,6 +78,8 @@ namespace GamePlay.StageData.Player.Sound
             NoteIndex = index;
         }
 
+        public int PitchFromCSharp() => NoteIndex - new Note("C#1").NoteIndex;
+
         public Note Higher()
         {
             return new Note((NoteIndex + 1) % NoteCounts);
@@ -75,10 +89,6 @@ namespace GamePlay.StageData.Player.Sound
         {
             return new Note((NoteIndex + NoteCounts - 1) % NoteCounts);
         }
-
-        public static Color GetColor(HashSet<Note> notes) => Color.HSVToRGB(GetHue(notes) / 360f, 1, 1);
-        private static float GetHue(HashSet<Note> notes) => notes.Average(note => note.GetHue());
-        private float GetHue() => NoteIndex % 12 * 360f / 12f;
         
         public override int GetHashCode()
         {
