@@ -26,7 +26,7 @@ namespace GamePlay.StageData
             }
         }
 
-        public StageData InitStage(int stageIndex) => InitStage(StagesData[stageIndex-1]);
+        public StageData InitStage(int stageIndex) => InitStage(StagesData[stageIndex]);
         
         public StageData InitStageSelect() => InitStage(StageSelectData);
 
@@ -110,9 +110,37 @@ namespace GamePlay.StageData
 
         private StageData[] StagesData => new[]
         {
+            new StageData(TutorialStageElements, TutorialStageConfiguration),
             new StageData(FirstStageElements, FirstStageConfiguration),
             new StageData(SecondStageElements, SecondStageConfiguration),
         };
+
+        private StageElement[] TutorialStageElements => new[]
+        {
+            StageElement.Tile(new(-2, 2), Direction.None, "false", null),
+            StageElement.Tile(new(-2, 1), Direction.None, "false", null),
+            StageElement.Tile(new(-2, 0), Direction.None, "false", null),
+            StageElement.Tile(new(-2, -1), Direction.None, "false", null),
+            StageElement.Tile(new(-2, -2), Direction.None, "false", null),
+            StageElement.Tile(new(-1, -2), Direction.None, "false", null),
+            StageElement.Tile(new(0, -2), Direction.None, "false", null),
+            StageElement.Tile(new(1, -2), Direction.None, "false", null),
+            StageElement.Tile(new(2, -2), Direction.None, "false", null),
+            StageElement.Tile(new(2, -1), Direction.None, "false", null),
+            StageElement.Tile(new(2, -0), Direction.None, "false", null),
+            StageElement.Tile(new(2, 1), Direction.None, "false", null),
+            StageElement.Tile(new(2, 2), Direction.None, "false", null),
+            StageElement.Tile(new(0, 0), Direction.None, "true", null),
+            StageElement.Speaker(new(0, 0), Direction.Down, "A1"),
+            StageElement.Player(new(-2, 2), Direction.Right),
+        };
+        
+        private StageConfiguration TutorialStageConfiguration => new (
+            Vector3.zero,
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
+            finishCoordinates: new Coordinates(2, 2),
+            goal: new HashSet<Note> { new ("A1") }
+        );
         
         private StageElement[] FirstStageElements 
         {
