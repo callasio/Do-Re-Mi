@@ -35,7 +35,7 @@ namespace GamePlay.StageData
         private StageData InitStage(StageData stageData)
         {
             SetStageDataToElements(stageData);
-            AdjustCameraPosition(stageData.Configuration.CameraLookingPosition);
+            AdjustCamera(stageData.Configuration.CameraLookingPosition, stageData.Configuration.CameraLookingSize);
             CreateStageElements(stageData);
 
             return _currentStageData = stageData; 
@@ -49,12 +49,13 @@ namespace GamePlay.StageData
             }
         }
         
-        private void AdjustCameraPosition(Vector3 cameraLookingPosition)
+        private void AdjustCamera(Vector3 cameraLookingPosition, float cameraLookingSize)
         {
             var camera = Camera.main;
             if (camera is null) return;
             camera.transform.position = cameraLookingPosition + CameraBehaviour.Position;
             camera.transform.LookAt(cameraLookingPosition);
+            camera.orthographicSize = cameraLookingSize;
         }
         
         private void CreateStageElements(StageData stageData) =>
@@ -65,45 +66,22 @@ namespace GamePlay.StageData
             get
             {
                 var tileList = new List<StageElement>();
-                    tileList.Add(StageElement.Player(new(3,-5), Direction.Up));
+                    tileList.Add(StageElement.Player(new(5,1), Direction.Up));
                     
-                    tileList.Add(StageElement.Tile(new(3, 4), Direction.Up, "true", "A"));
-                    tileList.Add(StageElement.Tile(new(3, 3), Direction.Up, "true", "B"));
-                    tileList.Add(StageElement.Tile(new(3, 2), Direction.Up, "true", "O"));
-                    tileList.Add(StageElement.Tile(new(3, 1), Direction.Up, "true", "U"));
-                    tileList.Add(StageElement.Tile(new(3, 0), Direction.Up, "true", "T"));
+                    tileList.Add(StageElement.Tile(new(3, 1), Direction.Up, "false", "C"));
+                    tileList.Add(StageElement.Tile(new(3, 0), Direction.Up, "false", "D"));
+                    tileList.Add(StageElement.Tile(new(3, -1), Direction.Up, "false", "B"));
+                    tileList.Add(StageElement.Tile(new(4, 1), Direction.Up, "false", "0"));
+                    tileList.Add(StageElement.Tile(new(4, 0), Direction.Up, "false", "E"));
+                    tileList.Add(StageElement.Tile(new(4, -1), Direction.Up, "false", "A"));
+                    tileList.Add(StageElement.Tile(new(5, 1), Direction.Up, "false", null));
+                    tileList.Add(StageElement.Tile(new(5, 0), Direction.Up, "false", "F"));
+                    tileList.Add(StageElement.Tile(new(5, -1), Direction.Up, "false", "G"));
                     
-                    tileList.Add(StageElement.Tile(new(4, 4), Direction.Up, "true", "S"));
-                    tileList.Add(StageElement.Tile(new(4, 3), Direction.Up, "true", "E"));
-                    tileList.Add(StageElement.Tile(new(4, 2), Direction.Up, "true", "T"));
-                    tileList.Add(StageElement.Tile(new(4, 1), Direction.Up, "true", "T"));
-                    tileList.Add(StageElement.Tile(new(4, 0), Direction.Up, "true", "I"));
-                    tileList.Add(StageElement.Tile(new(4, -1), Direction.Up, "true", "N"));
-                    tileList.Add(StageElement.Tile(new(4, -2), Direction.Up, "true", "G"));
-                    tileList.Add(StageElement.Tile(new(4, -3), Direction.Up, "true", "S"));
-                    
-                    tileList.Add(StageElement.Tile(new(5, 4), Direction.Up, "true", "S"));
-                    tileList.Add(StageElement.Tile(new(5, 3), Direction.Up, "true", "T"));
-                    tileList.Add(StageElement.Tile(new(5, 2), Direction.Up, "true", "A"));
-                    tileList.Add(StageElement.Tile(new(5, 1), Direction.Up, "true", "R"));
-                    tileList.Add(StageElement.Tile(new(5, 0), Direction.Up, "true", "T"));
-                    
-                    tileList.Add(StageElement.Tile(new(3, -1),Direction.Up,"true", null));
-                    tileList.Add(StageElement.Tile(new(3, -2),Direction.Up,"true", null));
-                    tileList.Add(StageElement.Tile(new(3, -3),Direction.Up,"true", null));
-                    tileList.Add(StageElement.Tile(new(5, -1),Direction.Up,"true", null));
-                    tileList.Add(StageElement.Tile(new(5, -2),Direction.Up,"true", null));
-                    tileList.Add(StageElement.Tile(new(5, -3),Direction.Up,"true", null));
-                    
-                    for (int i = 3; i <= 5; i++)
-                    {
-                        tileList.Add(StageElement.Tile(new(i, 5),Direction.Up,"true", null));
-                        tileList.Add(StageElement.Tile(new(i, -5), Direction.Up, "false", null));
-                        tileList.Add(StageElement.Speaker(new(i, 5), Direction.Down, null));
-                    }
                 return new StageData(
                     tileList.ToArray(),
                     new StageConfiguration(new Vector3(4.5f, 0, 0),
+                        3,
                         new List<UIType>{UIType.Start}));
             }
         }
@@ -142,6 +120,7 @@ namespace GamePlay.StageData
         
         private static StageConfiguration FirstStageConfiguration => new (
             new Vector3(0.5f, 0, 0),
+            5,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
             finishCoordinates: new Coordinates(5, 0),
             goal: new HashSet<Note> { new ("C1") }
@@ -169,6 +148,7 @@ namespace GamePlay.StageData
         
         private static StageConfiguration SecondStageConfiguration => new (
             Vector3.zero,
+            5,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
             finishCoordinates: new Coordinates(3, 0),
             goal: new HashSet<Note> { new ("D1"), new ("B1") }
@@ -190,6 +170,7 @@ namespace GamePlay.StageData
 
                 return new StageData(element, new StageConfiguration(
                     new Vector3(4.5f, 0, -4.5f),
+                    5,
                     new List<UIType>()
                 ));
             }

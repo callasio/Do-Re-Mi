@@ -5,14 +5,12 @@ using GamePlay.StageData;
 using GamePlay.UI.Flag;
 using GamePlay.UI.Record;
 using GamePlay.UI.Restart;
-using GamePlay.UI.Start;
 using UnityEngine;
 
 namespace GamePlay.UI
 {
     public class UILoader : MonoBehaviour
     {
-        public GameObject startButtonPrefab;
         public GameObject recordButtonPrefab;
         public GameObject flagButtonPrefab;
         public GameObject restartButtonPrefab;
@@ -39,10 +37,6 @@ namespace GamePlay.UI
             {
                 switch (uiTypes.ElementAt(i))
                 {
-                    case UIType.Start:
-                        var startButton = Instantiate(startButtonPrefab, transform);
-                        startButton.GetComponent<StartButton>().Index = i;
-                        break;
                     case UIType.Record:
                         var recordButton = Instantiate(recordButtonPrefab, transform);
                         recordButton.GetComponent<RecordButton>().Index = i;
