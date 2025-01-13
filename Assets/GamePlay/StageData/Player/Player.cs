@@ -46,7 +46,7 @@ namespace GamePlay.StageData.Player
             if (clickedElement.Type != StageElementType.Tile) return;
             
             var clickedCoordinates = clickedElement.Coordinates;
-            var movePath = BFS.GetPath(Data.CurrentStageElements, TargetCoordinates, clickedCoordinates);
+            var movePath = Dijkstra.GetPath(Data.CurrentStageElements, TargetCoordinates, clickedCoordinates);
             
             if (movePath == null) return;
             _movingQueue = movePath;

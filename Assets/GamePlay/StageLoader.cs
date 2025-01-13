@@ -34,8 +34,8 @@ namespace GamePlay
             
             OnFinish += FinishedHandler;
             OnRestart += RestartHandler;
-            
-            OnStage(1);
+
+            OnStage(2);
         }
 
         private void OnDestroy()
