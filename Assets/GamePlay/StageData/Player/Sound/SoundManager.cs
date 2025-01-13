@@ -126,9 +126,9 @@ namespace GamePlay.StageData.Player.Sound
             {
                 AudioSources.Player => GetPlayerNotes(),
                 AudioSources.Record => new List<PlayingNote>(
-                    RecordedNotes.Select(note => new PlayingNote(note, 0))),
+                    RecordedNotes.Select(note => new PlayingNote(note, 0, Player))),
                 AudioSources.Goal => new List<PlayingNote>(
-                    GoalNotes.Select(note => new PlayingNote(note, 0))),
+                    GoalNotes.Select(note => new PlayingNote(note, 0, Player))),
                 _ => null
             };
         }
@@ -145,18 +145,22 @@ namespace GamePlay.StageData.Player.Sound
                 if (speakerNotes.Count == 0) continue;
                 
                 var direction = Player.TargetCoordinates - stageElementData.Coordinates;
-                if (direction != stageElementData.Direction) continue;
+                if (direction != stageElementData.Direction)
+                {
+                    direction = Player.Data.Coordinates - stageElementData.Coordinates;
+                    if (direction != stageElementData.Direction) continue;
+                }
 
                 if (Player.MovingDirection == direction)
                 {
-                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, -1)));
+                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, -1, Player)));
                 } else if (Player.MovingDirection == -direction)
                 {
-                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, 1)));
+                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, 1, Player)));
                 }
                 else
                 {
-                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, 0)));
+                    notes.AddRange(speakerNotes.Select(note => new PlayingNote(note, 0, Player)));
                 }
             }
 
