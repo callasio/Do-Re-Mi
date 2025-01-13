@@ -115,6 +115,7 @@ namespace GamePlay.StageData
         
         private StageConfiguration TutorialStageConfiguration => new (
             Vector3.zero,
+            4,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
             finishCoordinates: new Coordinates(2, 2),
             goal: new HashSet<Note> { new ("A1") }
