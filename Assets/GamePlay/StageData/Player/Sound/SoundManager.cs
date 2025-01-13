@@ -1,7 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
+using Object = UnityEngine.Object;
 
 namespace GamePlay.StageData.Player.Sound
 {
@@ -29,12 +33,18 @@ namespace GamePlay.StageData.Player.Sound
         private Player Player { get; }
         private StageElement PlayerData => Player.Data;
         private StageElement[] CurrentStageData => PlayerData.CurrentStageElements;
+        private AudioClip CSharpClip => Player.cSharpClip;
+        private AudioMixerGroup ReverbMixerGroup => Player.reverbMixerGroup;
+        
         public AudioSources AudioSource { get; set; }
         
         private HashSet<Note> _currentNotes = new();
 
         public HashSet<Note> RecordedNotes { get; private set; } = new();
         public HashSet<Note> GoalNotes { get; }
+
+        private const float FadeDuration = 0.2f;
+        private readonly Dictionary<Note, AudioSource> _activeSources = new();
 
         public SoundManager(Player player, AudioSources audioSource)
         {
@@ -74,17 +84,40 @@ namespace GamePlay.StageData.Player.Sound
 
             foreach (var playNote in playNotes)
             {
-                Debug.Log("Play: " + playNote);
+                PlayNote(playNote);
             }
             foreach (var stopNote in stopNotes)
             {
-                Debug.Log("Stop: " + stopNote);
+                StopNote(stopNote);
             }
+        }
 
-            if (playNotes.Count == 0 && stopNotes.Count == 0) return;
+        private void PlayNote(Note note)
+        {
+            var noteObject = new GameObject($"Note_{note}")
+            {
+                transform =
+                {
+                    parent = Player.gameObject.transform
+                }
+            };
+
+            var audioSource = noteObject.AddComponent<AudioSource>();
+            audioSource.clip = CSharpClip;
+            audioSource.outputAudioMixerGroup = ReverbMixerGroup;
+            audioSource.pitch = Mathf.Pow(2f, note.PitchFromCSharp() / 12f);
+            audioSource.loop = true;
+            audioSource.Play();
             
-            var currentNotesString = string.Join(", ", _currentNotes.Select(note => note.ToString()));
-            Debug.Log("Current notes: " + currentNotesString);
+            _activeSources[note] = audioSource;
+        }
+        
+        private void StopNote(Note note)
+        {
+            var source = _activeSources[note];
+            _activeSources.Remove(note);
+            source.Stop();
+            Object.Destroy(source.gameObject);
         }
 
         private HashSet<Note> GetNotes()
