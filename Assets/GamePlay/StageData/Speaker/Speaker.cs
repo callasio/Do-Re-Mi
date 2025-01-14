@@ -80,11 +80,6 @@ namespace GamePlay.StageData.Speaker
         {
             if (forward)
             {
-                if (normal == Vector3.up && _rotatable)
-                {
-                    TargetDirection = Data.Direction.CounterClockwise();
-                    return;
-                }
                 if (normal == Vector3.up && _imageSprite == ImageSprite.Download)
                 {
                     var player = Player;
@@ -92,6 +87,11 @@ namespace GamePlay.StageData.Speaker
                     if (player.SoundManager.RecordedNotes.Count == 0) return;
                     SetImage(_rotatable ? ImageSprite.Rotate : ImageSprite.None);
                     TurnOnSound(player.SoundManager.RecordedNotes);
+                    return;
+                }
+                if (normal == Vector3.up && _rotatable)
+                {
+                    TargetDirection = Data.Direction.CounterClockwise();
                     return;
                 }
                 Data.CurrentStageElements

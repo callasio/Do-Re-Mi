@@ -91,6 +91,7 @@ namespace GamePlay.StageData
             new StageData(TutorialStageElements, TutorialStageConfiguration),
             new StageData(FirstStageElements, FirstStageConfiguration),
             new StageData(SecondStageElements, SecondStageConfiguration),
+            new StageData(LastStageElements, LastStageConfiguration),
         };
 
         private StageElement[] TutorialStageElements => new[]
@@ -183,6 +184,47 @@ namespace GamePlay.StageData
             goal: new HashSet<Note> { new ("D1"), new ("B1") }
         );
 
+        private StageElement[] LastStageElements
+        {
+            get
+            {
+                var elementList = new List<StageElement>();
+
+                for (var i = -3; i <= 3; i++)
+                {
+                    for (var j = -3; j <= 3; j++)
+                    {
+                        elementList.Add(StageElement.Tile(new (i, j), Direction.None, "false", null));
+                    }
+                }
+                elementList.Add(StageElement.Tile(new (1, 5), Direction.Down, "true", null));
+                elementList.Add(StageElement.Tile(new (-1, 5), Direction.Down, "true", null));
+                elementList.Add(StageElement.Tile(new (5, 1), Direction.Left, "true", null));
+                elementList.Add(StageElement.Tile(new (5, -1), Direction.Left, "true", null));
+                
+                elementList.Add(StageElement.Speaker(new (1, 5), Direction.Down, "D#1"));
+                elementList.Add(StageElement.Speaker(new (-1, 5), Direction.Down, "B2"));
+                elementList.Add(StageElement.Speaker(new (5, 1), Direction.Left, "A2"));
+                elementList.Add(StageElement.Speaker(new (5, -1), Direction.Left, "G1"));
+                
+                elementList.Add(StageElement.Speaker(new(-3, 3), Direction.Up, null, rotatable: true));
+                elementList.Add(StageElement.Speaker(new(3, -3), Direction.Up, null, rotatable: true));
+                elementList.Add(StageElement.Speaker(new(-3, -3), Direction.Up, null, rotatable: true));
+                
+                elementList.Add(StageElement.Player(new(0, 0), Direction.Right));
+                
+                return elementList.ToArray();
+            }
+        }
+        
+        private StageConfiguration LastStageConfiguration => new (
+            new Vector3(0.5f, 0, 0.5f),
+            5,
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
+            finishCoordinates: new Coordinates(3, 3),
+            goal: new HashSet<Note> { new ("E1"), new ("F#1"), new ("A2"), new ("B2"), new ("C#2") }
+        );
+        
         private StageData StageSelectData
         {
             get
