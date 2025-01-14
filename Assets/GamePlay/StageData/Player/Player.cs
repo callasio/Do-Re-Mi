@@ -1,21 +1,30 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Sound;
 using GamePlay.StageData.Player.PathFinder;
-using GamePlay.StageData.Player.Sound;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Serialization;
 
 namespace GamePlay.StageData.Player
 {
-    public class Player: MovingElement
+    public class Player: MovingElement, IAudioPlayer
     {
         private List<Coordinates> _movingQueue = new ();
         public SoundManager SoundManager { get; private set; }
         public AudioClip cClip;
         public AudioMixerGroup reverbMixerGroup;
         
+        public GameObject GameObject => gameObject;
+        public AudioClip CClip => cClip;
+        public AudioMixerGroup ReverbMixerGroup => reverbMixerGroup;
+        public new Coroutine StartCoroutine(IEnumerator coroutine)
+        {
+            return base.StartCoroutine(coroutine);
+        }
+
         public static event Action<StageElement> OnElementClicked;
         public static event Action OnReHomeClicked;
         

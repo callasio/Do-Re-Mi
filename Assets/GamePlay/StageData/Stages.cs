@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GamePlay.StageData.Player.Sound;
+using Common.Sound;
 using UnityEngine;
 
 namespace GamePlay.StageData

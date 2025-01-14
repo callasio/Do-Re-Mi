@@ -1,5 +1,5 @@
+using Common.Sound;
 using GamePlay.StageData.Player;
-using GamePlay.StageData.Player.Sound;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

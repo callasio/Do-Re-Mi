@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using GamePlay.StageData.Player.Sound;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
+using Common.Sound;
 
 namespace GamePlay.StageData
 {
