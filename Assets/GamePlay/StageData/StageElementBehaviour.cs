@@ -60,7 +60,7 @@ namespace GamePlay.StageData
             Coordinates coordinates, 
             Direction direction,
             [CanBeNull] string note,
-            bool pushable = false,
+            bool pushable = true,
             bool rotatable = false
         )
         {

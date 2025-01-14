@@ -91,6 +91,7 @@ namespace GamePlay.StageData
             new StageData(TutorialStageElements, TutorialStageConfiguration),
             new StageData(FirstStageElements, FirstStageConfiguration),
             new StageData(SecondStageElements, SecondStageConfiguration),
+            new StageData(FourthStageElements, FourthStageConfiguration),
             new StageData(LastStageElements, LastStageConfiguration),
         };
 
@@ -182,6 +183,46 @@ namespace GamePlay.StageData
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(3, 0),
             goal: new HashSet<Note> { new ("D1"), new ("B1") }
+        );
+
+        private StageElement[] FourthStageElements => new[]
+        {
+            StageElement.Tile(new (0, 0), Direction.None, "false", null),
+            StageElement.Tile(new (0, 1), Direction.None, "false", null),
+            StageElement.Tile(new (1, 1), Direction.None, "false", null),
+            StageElement.Tile(new (1, 0), Direction.None, "false", null),
+            StageElement.Tile(new (1, -1), Direction.None, "false", null),
+            StageElement.Tile(new (0, -1), Direction.None, "false", null),
+            StageElement.Tile(new (-1, -1), Direction.None, "false", null),
+            StageElement.Tile(new (-1, 1), Direction.None, "false", null),
+            StageElement.Tile(new (-1, 0), Direction.None, "false", null),
+            StageElement.Tile(new (0, 2), Direction.None, "false", null),
+            StageElement.Tile(new (0, 3), Direction.None, "false", null),
+            StageElement.Tile(new (-1, 2), Direction.None, "false", null),
+            StageElement.Tile(new (-1, 3), Direction.None, "false", null),
+            StageElement.Tile(new (-2, 3), Direction.None, "false", null),
+            StageElement.Tile(new (-2, 2), Direction.None, "false", null),
+            StageElement.Tile(new (-2, 1), Direction.None, "false", null),
+            StageElement.Tile(new (2, 0), Direction.None, "false", null),
+            StageElement.Tile(new (3, 0), Direction.None, "false", null),
+            StageElement.Tile(new (2, -1), Direction.None, "false", null),
+            StageElement.Tile(new (3, -1), Direction.None, "false", null),
+            StageElement.Tile(new (3, -2), Direction.None, "false", null),
+            StageElement.Tile(new (2, -2), Direction.None, "false", null),
+            StageElement.Tile(new (1, -2), Direction.None, "false", null),
+            StageElement.Tile(new (3, 3), Direction.None, "true", null),
+            StageElement.Speaker(new (0, 0), Direction.Up, "B2", rotatable: true),
+            StageElement.Speaker(new (-1, 3), Direction.Right, null, rotatable: true),
+            StageElement.Speaker(new (3, 3), Direction.Down, "F#1"),
+            StageElement.Player(new (2, -2), Direction.Right),
+        };
+        
+        private StageConfiguration FourthStageConfiguration => new (
+            new Vector3(0.5f, 0, 0.5f),
+            5,
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
+            finishCoordinates: new Coordinates(1, 1),
+            goal: new HashSet<Note> { new ("F1"), new ("A2"), new ("C2") }
         );
 
         private StageElement[] LastStageElements
