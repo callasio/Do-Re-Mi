@@ -30,14 +30,12 @@ namespace Home
         public void OnPointerEnter(PointerEventData eventData)
         {
             _playingNote.ForEach(note => note.PlayNote());
-            Debug.Log("Audio Source is playing");
         }
 
         // 마우스가 텍스트에서 나갔을 때
         public void OnPointerExit(PointerEventData eventData)
         {
             _playingNote.ForEach(note => note.StopNote());
-            Debug.Log("Audio Source is stopping");
         }
     }
 }

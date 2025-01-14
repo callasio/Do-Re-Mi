@@ -24,7 +24,6 @@ namespace GamePlay.StageData.Clear
             }
             else
             {
-                Debug.Log("last stage");
             }
         }
     }

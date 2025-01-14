@@ -183,9 +183,7 @@ namespace TMPro.Examples
 
                 yield return k_WaitForEndOfFrame;
             }
-
-            //Debug.Log("Done Counting down.");
-
+            
             yield return k_WaitForSecondsRandom[Random.Range(0, 20)];
 
             m_floatingText_Transform.position = start_pos;
