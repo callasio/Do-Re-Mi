@@ -88,14 +88,25 @@ namespace GamePlay.StageData
 
         private StageData[] StagesData => new[]
         {
-            new StageData(TutorialStageElements, TutorialStageConfiguration),
-            new StageData(FirstStageElements, FirstStageConfiguration),
-            new StageData(SecondStageElements, SecondStageConfiguration),
-            new StageData(FourthStageElements, FourthStageConfiguration),
-            new StageData(LastStageElements, LastStageConfiguration),
+            new StageData(DoStageElements, DoStageConfiguration),
+            new StageData(ReStageElements, FirstStageConfiguration),
+            new StageData(MiStageElements, SecondStageConfiguration),
+            new StageData(FaStageElements, FaStageConfiguration),
+            new StageData(LaStageElements, LaStageConfiguration),
+            new StageData(TiStageElements, TiStageConfiguration),
         };
 
-        private StageElement[] TutorialStageElements => new[]
+        public static StageConfiguration[] StageConfigurations => new[]
+        {
+            DoStageConfiguration,
+            FirstStageConfiguration,
+            SecondStageConfiguration,
+            FaStageConfiguration,
+            LaStageConfiguration,
+            TiStageConfiguration,
+        };
+
+        private StageElement[] DoStageElements => new[]
         {
             StageElement.Tile(new(-2, 2), Direction.None, "false", null),
             StageElement.Tile(new(-2, 1), Direction.None, "false", null),
@@ -111,19 +122,19 @@ namespace GamePlay.StageData
             StageElement.Tile(new(2, 1), Direction.None, "false", null),
             StageElement.Tile(new(2, 2), Direction.None, "false", null),
             StageElement.Tile(new(0, 0), Direction.None, "true", null),
-            StageElement.Speaker(new(0, 0), Direction.Down, "A1"),
+            StageElement.Speaker(new(0, 0), Direction.Down, "C1"),
             StageElement.Player(new(-2, 2), Direction.Right),
         };
         
-        private StageConfiguration TutorialStageConfiguration => new (
+        private static StageConfiguration DoStageConfiguration => new (
             Vector3.zero,
             4,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(2, 2),
-            goal: new HashSet<Note> { new ("A1") }
+            goal: new HashSet<Note> { new ("C1") }
         );
         
-        private StageElement[] FirstStageElements 
+        private StageElement[] ReStageElements 
         {
             get
             {
@@ -142,7 +153,7 @@ namespace GamePlay.StageData
                 }
                 
                 elementList.Add(StageElement.Player(new(-4, 0), Direction.Right));
-                elementList.Add(StageElement.Speaker(new (0, 4), Direction.Down, "D1"));
+                elementList.Add(StageElement.Speaker(new (0, 4), Direction.Down, "E1"));
                 elementList.Add(StageElement.Speaker(new (1, -4), Direction.Up, null));
                 
                 return elementList.ToArray();
@@ -154,10 +165,10 @@ namespace GamePlay.StageData
             5,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(5, 0),
-            goal: new HashSet<Note> { new ("C1") }
+            goal: new HashSet<Note> { new ("D1") }
         );
 
-        private StageElement[] SecondStageElements
+        private StageElement[] MiStageElements
         {
             get
             {
@@ -171,8 +182,8 @@ namespace GamePlay.StageData
                     }
                 }
                 elementList.Add(StageElement.Player(new(-3, 0), Direction.Right));
-                elementList.Add(StageElement.Speaker(new (0, 3), Direction.Down, "D1", pushable: true, rotatable: true));
-                elementList.Add(StageElement.Speaker(new (0, -3), Direction.Up, "A#1", pushable: true, rotatable: true));
+                elementList.Add(StageElement.Speaker(new (0, 3), Direction.Down, "E1", pushable: true, rotatable: true));
+                elementList.Add(StageElement.Speaker(new (0, -3), Direction.Up, "C2", pushable: true, rotatable: true));
                 return elementList.ToArray();
             }
         }
@@ -182,10 +193,10 @@ namespace GamePlay.StageData
             5,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(3, 0),
-            goal: new HashSet<Note> { new ("D1"), new ("B1") }
+            goal: new HashSet<Note> { new ("E1"), new ("B2") }
         );
 
-        private StageElement[] FourthStageElements => new[]
+        private StageElement[] FaStageElements => new[]
         {
             StageElement.Tile(new (0, 0), Direction.None, "false", null),
             StageElement.Tile(new (0, 1), Direction.None, "false", null),
@@ -217,7 +228,7 @@ namespace GamePlay.StageData
             StageElement.Player(new (2, -2), Direction.Right),
         };
         
-        private StageConfiguration FourthStageConfiguration => new (
+        private static StageConfiguration FaStageConfiguration => new (
             new Vector3(0.5f, 0, 0.5f),
             5,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
@@ -225,7 +236,42 @@ namespace GamePlay.StageData
             goal: new HashSet<Note> { new ("F1"), new ("A2"), new ("C2") }
         );
 
-        private StageElement[] LastStageElements
+        private StageElement[] LaStageElements
+        {
+            get
+            {
+                var elementList = new List<StageElement>();
+                for (var i = -2; i <= 2; i++)
+                {
+                    for (var j = -2; j <= 1; j++)
+                    {
+                        if (Math.Abs(i) == 2 && (j == -2 || j == 1)) continue;
+                        elementList.Add(StageElement.Tile(new (i, j), Direction.None, "false", null));
+                    }
+                }
+
+                elementList.Add(StageElement.Speaker(new (1, -1), Direction.Right, "B1", rotatable: true));
+                elementList.Add(StageElement.Speaker(new (1, 0), Direction.Right, "F1", rotatable: true));
+                elementList.Add(StageElement.Speaker(new (-1, 0), Direction.Left, "B1", rotatable: true));
+                elementList.Add(StageElement.Speaker(new (-1, -1), Direction.Left, "A#2", rotatable: true));
+                elementList.Add(StageElement.Speaker(new (0, -2), Direction.Up, null));
+                elementList.Add(StageElement.Speaker(new (0, 1), Direction.Down, null));
+                
+                elementList.Add(StageElement.Player(new (0, 0), Direction.Right));
+
+                return elementList.ToArray();
+            }
+        }
+        
+        private static StageConfiguration LaStageConfiguration => new (
+            new Vector3(0, 0, -0.5f), 
+            3.5f,
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
+            finishCoordinates: new Coordinates(0, 0),
+            goal: new HashSet<Note> { new ("A1"), new ("C#1"), new ("E1"), new ("B2") }
+        );
+
+        private StageElement[] TiStageElements
         {
             get
             {
@@ -243,10 +289,10 @@ namespace GamePlay.StageData
                 elementList.Add(StageElement.Tile(new (5, 1), Direction.Left, "true", null));
                 elementList.Add(StageElement.Tile(new (5, -1), Direction.Left, "true", null));
                 
-                elementList.Add(StageElement.Speaker(new (1, 5), Direction.Down, "D#1"));
-                elementList.Add(StageElement.Speaker(new (-1, 5), Direction.Down, "B2"));
-                elementList.Add(StageElement.Speaker(new (5, 1), Direction.Left, "A2"));
-                elementList.Add(StageElement.Speaker(new (5, -1), Direction.Left, "G1"));
+                elementList.Add(StageElement.Speaker(new (1, 5), Direction.Down, "A#1"));
+                elementList.Add(StageElement.Speaker(new (-1, 5), Direction.Down, "F#1"));
+                elementList.Add(StageElement.Speaker(new (5, 1), Direction.Left, "E1"));
+                elementList.Add(StageElement.Speaker(new (5, -1), Direction.Left, "D1"));
                 
                 elementList.Add(StageElement.Speaker(new(-3, 3), Direction.Up, null, rotatable: true));
                 elementList.Add(StageElement.Speaker(new(3, -3), Direction.Up, null, rotatable: true));
@@ -258,12 +304,12 @@ namespace GamePlay.StageData
             }
         }
         
-        private StageConfiguration LastStageConfiguration => new (
+        private static StageConfiguration TiStageConfiguration => new (
             new Vector3(0.5f, 0, 0.5f),
             5,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(3, 3),
-            goal: new HashSet<Note> { new ("E1"), new ("F#1"), new ("A2"), new ("B2"), new ("C#2") }
+            goal: new HashSet<Note> { new ("B1"), new ("C#1"), new ("E1"), new ("F#1"), new ("G#1") }
         );
         
         private StageData StageSelectData

@@ -268,6 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1625118628680988584}
   - component: {fileID: 7170481894498579588}
+  - component: {fileID: 3133861075541315782}
   m_Layer: 0
   m_Name: SelectPrefab
   m_TagString: Untagged
@@ -308,3 +309,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0960b5aa3e6c02547a64dbbdf3e6d661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3133861075541315782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6059690764195251886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba1bd5ccc3748be90a4a83c73956444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundGadient: {fileID: 0}
+  notes: []
+  cClip: {fileID: 8300000, guid: 9aed9d918843b2c43ae4fe69a787dd17, type: 3}
+  reverbMixerGroup: {fileID: -781237253157000512, guid: 65cfad13e7b641b42bd65889c973dc43, type: 2}
