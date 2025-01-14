@@ -10,7 +10,7 @@ public class Scroll : MonoBehaviour
     [SerializeField] private GameObject prefab;  // 사용할 Prefab
     private void Start()
     {
-        for (int i = 0; i <= 2; i++)
+        for (int i = 0; i < CurrentStage.StageCount; i++)
         {
             var newObject = Instantiate(prefab, transform, true);
             newObject.name = "Item " + (i+1);  // 오브젝트 이름 지정
