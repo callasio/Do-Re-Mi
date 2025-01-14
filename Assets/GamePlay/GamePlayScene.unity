@@ -562,10 +562,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdae3c80b424f499124a93c87ab8070, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButtonPrefab: {fileID: 7116626949185956903, guid: 2b5c3c230bbc64c4da63973bf827b346, type: 3}
   recordButtonPrefab: {fileID: 2855295562254554270, guid: d74e9de157e4a364f90065d8d1c53251, type: 3}
   flagButtonPrefab: {fileID: 471282469855452101, guid: b12b33c48725d92478502cc30cd9ff08, type: 3}
   restartButtonPrefab: {fileID: 61155706979705703, guid: fa5e4ea2c17893e4d84b944d116dcf33, type: 3}
+  rehomeButtonPrefab: {fileID: 2761987034566532830, guid: 79672a183e1956a42bd1accc082dc7c5, type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ namespace Home
     public class ImageSound : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private AudioSource audioSource;
+        [SerializeField] private GameObject backgroundGadient;
 
         private void Awake()
         {
@@ -13,6 +14,9 @@ namespace Home
             {
                 audioSource = GetComponent<AudioSource>();
             }
+
+            audioSource.Stop();
+            backgroundGadient.SetActive(false);
         }
 
         // 마우스가 이미지 위로 들어왔을 때
@@ -22,6 +26,12 @@ namespace Home
             {
                 audioSource.Play();
             }
+
+            if (backgroundGadient != null)
+            {
+                backgroundGadient.SetActive(true);
+            }
+            
         }
 
         // 마우스가 이미지에서 나갔을 때
@@ -30,6 +40,10 @@ namespace Home
             if (audioSource != null && audioSource.isPlaying)
             {
                 audioSource.Stop();
+            }
+            if (backgroundGadient != null)
+            {
+                backgroundGadient.SetActive(false);
             }
         }
     }

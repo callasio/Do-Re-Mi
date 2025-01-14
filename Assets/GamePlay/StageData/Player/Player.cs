@@ -17,10 +17,8 @@ namespace GamePlay.StageData.Player
         public AudioMixerGroup reverbMixerGroup;
         
         public static event Action<StageElement> OnElementClicked;
-        public static event Action OnReHomeClicked;
         
         public static void ElementClicked(StageElement clickedElement) => OnElementClicked?.Invoke(clickedElement);
-        public static void ReHomeClicked() => OnReHomeClicked?.Invoke();
         
         public override void Start()
         {
@@ -28,13 +26,11 @@ namespace GamePlay.StageData.Player
             MovingDirection = Direction.None;
             SoundManager = new SoundManager(this, AudioSources.Player);
             OnElementClicked += ElementClickedHandler;
-            OnReHomeClicked += ReHomeClickedHandler;
         }
 
         public void OnDestroy()
         {
             OnElementClicked -= ElementClickedHandler;
-            OnReHomeClicked -= ReHomeClickedHandler;
             
             SoundManager.OnDestroy();
         }
@@ -56,7 +52,6 @@ namespace GamePlay.StageData.Player
             }
         }
         
-        private static void ReHomeClickedHandler() => Debug.Log("ReHomeClickedHandler");
 
         public override void Update()
         {
