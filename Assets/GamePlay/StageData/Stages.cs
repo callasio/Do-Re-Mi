@@ -92,6 +92,7 @@ namespace GamePlay.StageData
             new StageData(ReStageElements, FirstStageConfiguration),
             new StageData(MiStageElements, SecondStageConfiguration),
             new StageData(FaStageElements, FaStageConfiguration),
+            new StageData(SoStageElements, SoStageConfiguration),
             new StageData(LaStageElements, LaStageConfiguration),
             new StageData(TiStageElements, TiStageConfiguration),
         };
@@ -102,6 +103,7 @@ namespace GamePlay.StageData
             FirstStageConfiguration,
             SecondStageConfiguration,
             FaStageConfiguration,
+            SoStageConfiguration,
             LaStageConfiguration,
             TiStageConfiguration,
         };
@@ -198,6 +200,40 @@ namespace GamePlay.StageData
 
         private StageElement[] FaStageElements => new[]
         {
+            StageElement.Tile(new (-1, 1), Direction.None, "false", null),
+            StageElement.Tile(new (0, 1), Direction.None, "false", null),
+            StageElement.Tile(new (1, 1), Direction.None, "false", null),
+            StageElement.Tile(new (2, 1), Direction.None, "false", null),
+            StageElement.Tile(new (3, 1), Direction.None, "false", null),
+            StageElement.Tile(new (-1, 0), Direction.None, "false", null),
+            StageElement.Tile(new (0, 0), Direction.None, "false", null),
+            StageElement.Tile(new (3, 0), Direction.None, "false", null),
+            StageElement.Tile(new (2, 0), Direction.None, "false", null),
+            StageElement.Tile(new (-2, -1), Direction.None, "false", null),
+            StageElement.Tile(new (-1, -1), Direction.None, "false", null),
+            StageElement.Tile(new (1, -1), Direction.None, "false", null),
+            StageElement.Tile(new (2, -1), Direction.None, "false", null),
+            StageElement.Tile(new (-2, -2), Direction.None, "false", null),
+            StageElement.Tile(new (-1, -2), Direction.None, "false", null),
+            StageElement.Tile(new (0, -2), Direction.None, "false", null),
+            StageElement.Tile(new (1, -2), Direction.None, "false", null),
+            StageElement.Tile(new (2, -2), Direction.None, "false", null),
+            StageElement.Speaker(new (-1, 0), Direction.Down, "A#1", rotatable: true),
+            StageElement.Speaker(new (2, 0), Direction.Down, null, rotatable: true),
+            StageElement.Speaker(new (-1, -2), Direction.Up, "F#1", rotatable: true),
+            StageElement.Player(new (-2, -2), Direction.Right), 
+        };
+        
+        private static StageConfiguration FaStageConfiguration => new (
+            new Vector3(0.5f, 0, -0.5f),
+            4.5f,
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
+            finishCoordinates: new Coordinates(1, -1),
+            goal: new HashSet<Note> { new ("F1"), new ("A1") }
+        );
+
+        private StageElement[] SoStageElements => new[]
+        {
             StageElement.Tile(new (0, 0), Direction.None, "false", null),
             StageElement.Tile(new (0, 1), Direction.None, "false", null),
             StageElement.Tile(new (1, 1), Direction.None, "false", null),
@@ -222,18 +258,18 @@ namespace GamePlay.StageData
             StageElement.Tile(new (2, -2), Direction.None, "false", null),
             StageElement.Tile(new (1, -2), Direction.None, "false", null),
             StageElement.Tile(new (3, 3), Direction.None, "true", null),
-            StageElement.Speaker(new (0, 0), Direction.Up, "B2", rotatable: true),
+            StageElement.Speaker(new (0, 0), Direction.Up, "C#2", rotatable: true),
             StageElement.Speaker(new (-1, 3), Direction.Right, null, rotatable: true),
-            StageElement.Speaker(new (3, 3), Direction.Down, "F#1"),
+            StageElement.Speaker(new (3, 3), Direction.Down, "G#1"),
             StageElement.Player(new (2, -2), Direction.Right),
         };
         
-        private static StageConfiguration FaStageConfiguration => new (
+        private static StageConfiguration SoStageConfiguration => new (
             new Vector3(0.5f, 0, 0.5f),
             5,
             new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(1, 1),
-            goal: new HashSet<Note> { new ("F1"), new ("A2"), new ("C2") }
+            goal: new HashSet<Note> { new ("G1"), new ("B2"), new ("D2") }
         );
 
         private StageElement[] LaStageElements
