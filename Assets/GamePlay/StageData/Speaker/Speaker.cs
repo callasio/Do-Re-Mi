@@ -9,7 +9,7 @@ namespace GamePlay.StageData.Speaker
     public class Speaker : MovingElement
     {
         private bool IsSoundOn { get; set; }
-        private HashSet<Note> _playNote;
+        private HashSet<Note> _playNote = new ();
         public HashSet<Note> PlayNote
         {
             get => _playNote;
