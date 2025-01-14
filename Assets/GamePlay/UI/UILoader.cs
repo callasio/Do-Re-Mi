@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GamePlay.StageData;
+using GamePlay.UI.Back;
 using GamePlay.UI.Flag;
 using GamePlay.UI.ReHome;
 using GamePlay.UI.Record;
@@ -16,6 +17,7 @@ namespace GamePlay.UI
         public GameObject flagButtonPrefab;
         public GameObject restartButtonPrefab;
         public GameObject rehomeButtonPrefab;
+        public GameObject backButtonPrefab;
         
         public void ReloadUI(StageConfiguration stageConfiguration)
         {
@@ -54,6 +56,10 @@ namespace GamePlay.UI
                     case UIType.ReHome:
                         var rehomeButton = Instantiate(rehomeButtonPrefab, transform);
                         rehomeButton.GetComponent<ReHomeButton>().Index = i;
+                        break;
+                    case UIType.Back:
+                        var backButton = Instantiate(backButtonPrefab, transform);
+                        backButton.GetComponent<BackButton>().Index = i;
                         break;
                 }
             }

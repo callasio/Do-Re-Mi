@@ -183,7 +183,7 @@ namespace Common.Sound
         
         private static readonly int NoteCounts = NoteStrings.Count;
 
-        public static Color GetColor(HashSet<Note> notes) => Color.HSVToRGB(GetHue(notes) / 360f, 1, 1);
+        public static Color GetColor(HashSet<Note> notes) => Color.HSVToRGB(GetHue(notes), 1, 1);
 
         private static float GetHue(HashSet<Note> notes)
         {
@@ -193,7 +193,7 @@ namespace Common.Sound
             }
             return notes.Average(note => note.GetHue());
         }
-        private float GetHue() => NoteIndex % 12 * 360f / 12f;
+        private float GetHue() => NoteIndex % 12 / 12f;
 
         public int NoteIndex { get; }
         
