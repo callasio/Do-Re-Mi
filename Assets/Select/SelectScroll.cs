@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using GamePlay.StageData;
+using Home;
 using Monotone;
 using TMPro;
 using UnityEngine;
@@ -21,17 +23,21 @@ public class Scroll : MonoBehaviour
             var item = newObject.GetComponent<NewMonoBehaviourScript>();
             item.Text = nameList[i];
             item.Index = i;
+
+            var sound = newObject.GetComponent<ImageSound>();
+            if (Stages.StageConfigurations.Length <= i) continue;
+            sound.notes = Stages.StageConfigurations[i].Goal?.Select(note => note.ToString()).ToList() ?? new List<string>();
         }
     }
     string[] nameList = new []
     {
-        "Doe, a deer, a female deer",
-        "Ray(Re), a drop of golden sun",
-        "Me(Mi), a name I call myself",
-        "Far(Fa), a long, long way to run",
-        "Sew(So), a needle pulling thread",
-        "La(La), a note to follow Sew",
-        "Tea(Ti), a drink with jam and bread",
+        "Do",
+        "Re",
+        "Mi",
+        "Fa",
+        "So",
+        "La",
+        "Ti",
     };
 }
 
