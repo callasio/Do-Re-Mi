@@ -19,7 +19,7 @@ namespace GamePlay.StageData.Clear
             }
             else
             {
-                background.SetActive(false);
+                Destroy(this);
             }
         }
 
