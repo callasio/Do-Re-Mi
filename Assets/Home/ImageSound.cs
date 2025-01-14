@@ -24,8 +24,11 @@ namespace Home
         {
             _playingNote = notes.Select(note => new PlayingNote(new Note(note), 0, this)).ToList();
         }
-        
-        private void Awake() => backgroundGadient.SetActive(false);
+
+        private void Awake()
+        {
+            if (backgroundGadient != null) backgroundGadient.SetActive(false);
+        }
 
         // 마우스가 이미지 위로 들어왔을 때
         public void OnPointerEnter(PointerEventData eventData)
@@ -35,7 +38,6 @@ namespace Home
             {
                 backgroundGadient.SetActive(true);
             }
-            
         }
 
         // 마우스가 이미지에서 나갔을 때
