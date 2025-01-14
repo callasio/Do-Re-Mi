@@ -116,7 +116,7 @@ namespace GamePlay.StageData
         private StageConfiguration TutorialStageConfiguration => new (
             Vector3.zero,
             4,
-            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(2, 2),
             goal: new HashSet<Note> { new ("A1") }
         );
@@ -150,7 +150,7 @@ namespace GamePlay.StageData
         private static StageConfiguration FirstStageConfiguration => new (
             new Vector3(0.5f, 0, 0),
             5,
-            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(5, 0),
             goal: new HashSet<Note> { new ("C1") }
         );
@@ -178,7 +178,7 @@ namespace GamePlay.StageData
         private static StageConfiguration SecondStageConfiguration => new (
             Vector3.zero,
             5,
-            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart },
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
             finishCoordinates: new Coordinates(3, 0),
             goal: new HashSet<Note> { new ("D1"), new ("B1") }
         );
