@@ -37,10 +37,7 @@ namespace GamePlay
             OnFinish += FinishedHandler;
             OnRestart += RestartHandler;
             
-            if (CurrentStage.Index == CurrentStage.HOME_SCREEN)
-                OnHome();
-            else
-                OnStage(CurrentStage.Index);
+            OnStage(CurrentStage.Index);
         }
 
         private void OnDestroy()
@@ -72,7 +69,6 @@ namespace GamePlay
         {
             if (_currentStageIndex == null) return;
             PlayerPrefs.SetInt("StageIndex", _currentStageIndex.Value);
-            CurrentStage.Index = CurrentStage.HOME_SCREEN;
             SceneManager.LoadScene("GamePlayScene");
         }
         
