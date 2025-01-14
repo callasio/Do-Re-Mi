@@ -423,6 +423,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -50
       objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: notes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[0]'
+      value: E1
+      objectReference: {fileID: 0}
     - target: {fileID: 1832316334298233559, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_SizeDelta.x
       value: 430
@@ -660,6 +668,7 @@ GameObject:
   - component: {fileID: 942411867}
   - component: {fileID: 942411869}
   - component: {fileID: 942411868}
+  - component: {fileID: 942411870}
   m_Layer: 5
   m_Name: ClearText
   m_TagString: Untagged
@@ -724,6 +733,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 942411866}
   m_CullTransparentMesh: 1
+--- !u!114 &942411870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942411866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba1bd5ccc3748be90a4a83c73956444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundGadient: {fileID: 0}
+  notes:
+  - A1
+  - C1
+  - E1
+  cClip: {fileID: 8300000, guid: 9aed9d918843b2c43ae4fe69a787dd17, type: 3}
+  reverbMixerGroup: {fileID: -781237253157000512, guid: 65cfad13e7b641b42bd65889c973dc43, type: 2}
 --- !u!1 &954440616
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,6 +949,26 @@ PrefabInstance:
     - target: {fileID: 516109898177561356, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: notes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[0]'
+      value: G1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[1]'
+      value: B2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[2]'
+      value: A1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[3]'
+      value: C1
       objectReference: {fileID: 0}
     - target: {fileID: 1832316334298233559, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_SizeDelta.x
