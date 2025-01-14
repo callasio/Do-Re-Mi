@@ -20,7 +20,7 @@ public class Scroll : MonoBehaviour
             newObject.SetActive(true);  // 필요할 경우 활성화
 
             // 텍스트 설정
-            var item = newObject.GetComponent<NewMonoBehaviourScript>();
+            var item = newObject.GetComponentInChildren<NewMonoBehaviourScript>();
             item.Text = nameList[i];
             item.Index = i;
 

@@ -13,7 +13,6 @@ namespace GamePlay.StageData
         Record,
         Goal,
         Restart,
-        ReHome,
         Back,
     }
     
