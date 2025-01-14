@@ -2,27 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GamePlay.StageData.Player;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Audio;
 using Object = UnityEngine.Object;
 
-namespace GamePlay.StageData.Player.Sound
+namespace Common.Sound
 {
     public class PlayingNote : IEquatable<PlayingNote>
     {
         public readonly Note Note;
         public int PitchDelta;
-        private Player Player { get; set; }
-        private AudioClip CClip => Player.cClip;
-        private AudioMixerGroup ReverbMixerGroup => Player.reverbMixerGroup;
+        private IAudioPlayer Player { get; set; }
+        private AudioClip CClip => Player.CClip;
+        private AudioMixerGroup ReverbMixerGroup => Player.ReverbMixerGroup;
         private AudioSource _source;
 
         private const float FadeDuration = 0.5f;
         private const float PitchInterpolationDuration = 0.1f;
         private const float MaxVolume = 0.2f;
         
-        public PlayingNote(Note note, int pitchDelta, Player player)
+        public PlayingNote(Note note, int pitchDelta, IAudioPlayer player)
         {
             Note = note;
             PitchDelta = pitchDelta;
@@ -48,7 +49,7 @@ namespace GamePlay.StageData.Player.Sound
             {
                 transform =
                 {
-                    parent = Player.gameObject.transform
+                    parent = Player.GameObject.transform
                 }
             };
         

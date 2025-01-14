@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Audio;
-using Object = UnityEngine.Object;
+using GamePlay.StageData;
+using GamePlay.StageData.Player;
 
-namespace GamePlay.StageData.Player.Sound
+namespace Common.Sound
 {
     public enum AudioSources
     {
@@ -140,7 +137,7 @@ namespace GamePlay.StageData.Player.Sound
             {
                 if (stageElementData.Type != StageElementType.Speaker) continue;
 
-                if (stageElementData.StageElementInstanceBehaviour is not Speaker.Speaker speaker) continue;
+                if (stageElementData.StageElementInstanceBehaviour is not GamePlay.StageData.Speaker.Speaker speaker) continue;
                 var speakerNotes = speaker.PlayNote;
                 if (speakerNotes.Count == 0) continue;
                 
