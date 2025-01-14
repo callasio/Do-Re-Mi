@@ -23,10 +23,8 @@ namespace GamePlay
 
         private static event Action OnFinish;
         private static event Action OnRestart;
-        private static event Action OnReHome;
         public static void Finish() => OnFinish?.Invoke();
         public static void Restart() => OnRestart?.Invoke();
-        public static void ReHome() => OnReHome?.Invoke();
         
         void Start()
         {
@@ -37,7 +35,6 @@ namespace GamePlay
             
             OnFinish += FinishedHandler;
             OnRestart += RestartHandler;
-            OnReHome += ReHomeHandler;
             
             if (CurrentStage.Index == CurrentStage.HOME_SCREEN)
                 OnHome();
@@ -49,7 +46,6 @@ namespace GamePlay
         {
             OnFinish -= FinishedHandler;
             OnRestart -= RestartHandler;
-            OnReHome -= ReHomeHandler;
         }
 
         void OnHome()
@@ -80,12 +76,6 @@ namespace GamePlay
         {
             if (_currentStageIndex == null) return;
             OnStage(_currentStageIndex.Value);
-        }
-
-        private void ReHomeHandler()
-        {
-            if (_currentStageIndex == null) return;
-            OnHome();
         }
 
         // Update is called once per frame
