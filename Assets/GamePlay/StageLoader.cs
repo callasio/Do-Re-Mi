@@ -4,6 +4,7 @@ using GamePlay.UI;
 using Monotone;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GamePlay
 {
@@ -73,7 +74,10 @@ namespace GamePlay
         
         private void FinishedHandler()
         {
-            Debug.Log("Finished: " + _currentStageIndex);
+            if (_currentStageIndex == null) return;
+            PlayerPrefs.SetInt("StageIndex", _currentStageIndex.Value);
+            CurrentStage.Index = CurrentStage.HOME_SCREEN;
+            SceneManager.LoadScene("GamePlayScene");
         }
         
         private void RestartHandler()
