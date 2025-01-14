@@ -30,8 +30,6 @@ namespace GamePlay.StageData
         
         public StageData InitStageSelect() => InitStage(StageSelectData);
 
-        public StageData InitHome() => InitStage(HomeData);
-
         private StageData InitStage(StageData stageData)
         {
             SetStageDataToElements(stageData);
@@ -60,31 +58,6 @@ namespace GamePlay.StageData
         
         private void CreateStageElements(StageData stageData) =>
             stageData.Elements.ToList().ForEach(elementData => elementData.CreateStageElement(StageLoader.gameObject));
-        
-        private StageData HomeData
-        {
-            get
-            {
-                var tileList = new List<StageElement>();
-                    tileList.Add(StageElement.Player(new(5,1), Direction.Up));
-                    
-                    tileList.Add(StageElement.Tile(new(3, 1), Direction.Up, "false", "C"));
-                    tileList.Add(StageElement.Tile(new(3, 0), Direction.Up, "false", "D"));
-                    tileList.Add(StageElement.Tile(new(3, -1), Direction.Up, "false", "B"));
-                    tileList.Add(StageElement.Tile(new(4, 1), Direction.Up, "false", "0"));
-                    tileList.Add(StageElement.Tile(new(4, 0), Direction.Up, "false", "E"));
-                    tileList.Add(StageElement.Tile(new(4, -1), Direction.Up, "false", "A"));
-                    tileList.Add(StageElement.Tile(new(5, 1), Direction.Up, "false", null));
-                    tileList.Add(StageElement.Tile(new(5, 0), Direction.Up, "false", "F"));
-                    tileList.Add(StageElement.Tile(new(5, -1), Direction.Up, "false", "G"));
-                    
-                return new StageData(
-                    tileList.ToArray(),
-                    new StageConfiguration(new Vector3(4.5f, 0, 0),
-                        3,
-                        new List<UIType>{UIType.ReHome}));
-            }
-        }
 
         private StageData[] StagesData => new[]
         {

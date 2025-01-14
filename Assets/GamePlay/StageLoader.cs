@@ -46,12 +46,6 @@ namespace GamePlay
             OnRestart -= RestartHandler;
         }
 
-        void OnHome()
-        {
-            _stages.DestroyCurrentStage();
-            CurrentStageData = _stages.InitHome();
-        }
-
         void OnStageSelect()
         {
             _stages.DestroyCurrentStage();
@@ -69,6 +63,10 @@ namespace GamePlay
         {
             if (_currentStageIndex == null) return;
             PlayerPrefs.SetInt("StageIndex", _currentStageIndex.Value);
+            string stageKey = $"StageClear_{_currentStageIndex.Value}";
+            PlayerPrefs.SetInt(stageKey, 1);
+            PlayerPrefs.Save();
+            
             SceneManager.LoadScene("ClearScene");
         }
         
