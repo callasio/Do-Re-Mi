@@ -15,12 +15,11 @@ namespace Home.setting
             _button = GetComponent<Button>();
             _button.onClick.AddListener(OnImageClick);
             // _button.onClick.Invoke();
-            Debug.Log("Image clicked");
         }
 
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.H))
+            if (Input.GetKeyUp(KeyCode.Escape))
             {
                 OnImageClick();
             }

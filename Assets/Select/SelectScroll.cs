@@ -21,8 +21,6 @@ public class Scroll : MonoBehaviour
             item.Text = "Stage " + (i+1);
             item.Index = i;
         }
-        // 레이아웃 리빌드
-        // LayoutRebuilder.ForceRebuildLayoutImmediate(contentParent);
     }
 }
 

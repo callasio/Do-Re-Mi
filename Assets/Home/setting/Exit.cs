@@ -13,7 +13,6 @@ namespace Home.setting
         {
             _button = GetComponentInChildren<Button>();
             _button.onClick.AddListener(OnImageClick);
-            Debug.Log("Image clicked");
         }
 
         private void Update()
@@ -28,7 +27,6 @@ namespace Home.setting
         private void OnImageClick()
         {
             // 다음 씬 이름을 설정하세요.
-            Debug.Log("Quitting...");
             Application.Quit();
         }
     }
