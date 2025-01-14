@@ -38,8 +38,11 @@ namespace GamePlay
             OnFinish += FinishedHandler;
             OnRestart += RestartHandler;
             OnReHome += ReHomeHandler;
-
-            OnStage(CurrentStage.Index);
+            
+            if (CurrentStage.Index == CurrentStage.HOME_SCREEN)
+                OnHome();
+            else
+                OnStage(CurrentStage.Index);
         }
 
         private void OnDestroy()
