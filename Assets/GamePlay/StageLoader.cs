@@ -1,6 +1,7 @@
 using System;
 using GamePlay.StageData;
 using GamePlay.UI;
+using Monotone;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace GamePlay
             OnRestart += RestartHandler;
             OnReHome += ReHomeHandler;
 
-            OnHome();
+            OnStage(CurrentStage.Index);
         }
 
         private void OnDestroy()
