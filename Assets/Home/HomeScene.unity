@@ -611,7 +611,7 @@ PrefabInstance:
       objectReference: {fileID: 2076136149}
     - target: {fileID: 30403794887608877, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: nextSceneName
-      value: GamePlayScene
+      value: SelectScene
       objectReference: {fileID: 0}
     - target: {fileID: 516109898177561356, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_AnchoredPosition.y
