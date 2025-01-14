@@ -8,11 +8,19 @@ namespace GamePlay.StageData.Clear
     public class NextStage: MonoBehaviour
     {
         private int _currentStageIndex;
+        [SerializeField] private GameObject background;
         private Button _nextButton;
         private void Start()
         {
-            _nextButton = GetComponentInChildren<Button>();
-            _nextButton.onClick.AddListener(OnClick);
+            if (_currentStageIndex != CurrentStage.StageCount - 1)
+            {
+                _nextButton = GetComponentInChildren<Button>();
+                _nextButton.onClick.AddListener(OnClick);
+            }
+            else
+            {
+                background.SetActive(false);
+            }
         }
 
         public void OnClick()

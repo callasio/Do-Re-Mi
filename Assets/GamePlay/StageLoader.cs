@@ -66,7 +66,6 @@ namespace GamePlay
             string stageKey = $"StageClear_{_currentStageIndex.Value}";
             PlayerPrefs.SetInt(stageKey, 1);
             PlayerPrefs.Save();
-            
             SceneManager.LoadScene("ClearScene");
         }
         
