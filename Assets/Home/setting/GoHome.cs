@@ -16,6 +16,14 @@ public class GoHome : MonoBehaviour
         Debug.Log("Image clicked");
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.H))
+        {
+            OnImageClick();
+        }
+    }
+
     // 클릭 시 실행되는 함수
     private void OnImageClick()
     {
