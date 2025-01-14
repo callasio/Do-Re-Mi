@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GamePlay.StageData.Player;
 using JetBrains.Annotations;
+using Monotone;
 using UnityEngine;
 using UnityEngine.Audio;
 using Object = UnityEngine.Object;
@@ -66,7 +67,7 @@ namespace Common.Sound
         
         private IEnumerator StopNoteWithFade()
         {
-            yield return Player.StartCoroutine(FadeVolume(_source.volume, 0));
+            yield return Player.StartCoroutine(FadeVolume(_source.volume * Volume.GetNoteVolume(), 0));
             _source.Stop();
             Object.Destroy(_source.gameObject);
         }
@@ -77,10 +78,10 @@ namespace Common.Sound
             while (Time.time - startTime < FadeDuration)
             {
                 var t = (Time.time - startTime) / FadeDuration;
-                _source.volume = Mathf.Lerp(from, to, t);
+                _source.volume = Mathf.Lerp(from, to, t) * Volume.GetNoteVolume();
                 yield return null;
             }
-            _source.volume = to;
+            _source.volume = to * Volume.GetNoteVolume();
         }
         
         private IEnumerator AdjustPitchWithInterpolation()
