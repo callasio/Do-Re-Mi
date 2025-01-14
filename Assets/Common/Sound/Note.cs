@@ -114,6 +114,9 @@ namespace Common.Sound
     {
         private static readonly List<string> NoteStrings = new ()
         {
+            "A0",
+            "A#0",
+            "B0",
             "C0",
             "C#0",
             "D0",
@@ -123,9 +126,9 @@ namespace Common.Sound
             "F#0",
             "G0",
             "G#0",
-            "A0",
-            "A#0",
-            "B0",
+            "A1",
+            "A#1",
+            "B1",
             "C1",
             "C#1",
             "D1",
@@ -135,9 +138,9 @@ namespace Common.Sound
             "F#1",
             "G1",
             "G#1",
-            "A1",
-            "A#1",
-            "B1",
+            "A2",
+            "A#2",
+            "B2",
             "C2",
             "C#2",
             "D2",
@@ -147,9 +150,6 @@ namespace Common.Sound
             "F#2",
             "G2",
             "G#2",
-            "A2",
-            "A#2",
-            "B2",
         };
         
         private static readonly int NoteCounts = NoteStrings.Count;
