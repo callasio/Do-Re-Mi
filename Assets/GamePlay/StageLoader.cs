@@ -69,7 +69,7 @@ namespace GamePlay
         {
             if (_currentStageIndex == null) return;
             PlayerPrefs.SetInt("StageIndex", _currentStageIndex.Value);
-            SceneManager.LoadScene("SelectScene");
+            SceneManager.LoadScene("ClearScene");
         }
         
         private void RestartHandler()
