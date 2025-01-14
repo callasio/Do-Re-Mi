@@ -359,3 +359,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundGadient: {fileID: 3559063367687081302}
+  cClip: {fileID: 8300000, guid: 9aed9d918843b2c43ae4fe69a787dd17, type: 3}
+  reverbMixerGroup: {fileID: -781237253157000512, guid: 65cfad13e7b641b42bd65889c973dc43, type: 2}

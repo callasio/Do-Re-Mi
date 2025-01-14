@@ -625,6 +625,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: notes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[0]'
+      value: A1
+      objectReference: {fileID: 0}
     - target: {fileID: 1832316334298233559, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_SizeDelta.y
       value: 80
@@ -896,6 +904,18 @@ PrefabInstance:
     - target: {fileID: 1005395210446522360, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_TagString
       value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: notes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[0]'
+      value: E1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[1]'
+      value: G1
       objectReference: {fileID: 0}
     - target: {fileID: 1832316334298233559, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1442,6 +1462,18 @@ PrefabInstance:
     - target: {fileID: 1005395210446522360, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_Name
       value: about
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: notes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[0]'
+      value: A1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164087151375758776, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
+      propertyPath: 'notes.Array.data[1]'
+      value: B1
       objectReference: {fileID: 0}
     - target: {fileID: 1832316334298233559, guid: 3ac4b2e2c98d59a49bb62c40bdc906fb, type: 3}
       propertyPath: m_SizeDelta.y
