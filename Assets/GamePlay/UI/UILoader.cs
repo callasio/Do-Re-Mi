@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GamePlay.StageData;
 using GamePlay.UI.Flag;
+using GamePlay.UI.ReHome;
 using GamePlay.UI.Record;
 using GamePlay.UI.Restart;
 using UnityEngine;
@@ -14,7 +15,8 @@ namespace GamePlay.UI
         public GameObject recordButtonPrefab;
         public GameObject flagButtonPrefab;
         public GameObject restartButtonPrefab;
-    
+        public GameObject rehomeButtonPrefab;
+        
         public void ReloadUI(StageConfiguration stageConfiguration)
         {
             DisposeUI();
@@ -48,6 +50,10 @@ namespace GamePlay.UI
                     case UIType.Restart:
                         var restartButton = Instantiate(restartButtonPrefab, transform);
                         restartButton.GetComponent<RestartButton>().Index = i;
+                        break;
+                    case UIType.ReHome:
+                        var rehomeButton = Instantiate(rehomeButtonPrefab, transform);
+                        rehomeButton.GetComponent<ReHomeButton>().Index = i;
                         break;
                 }
             }

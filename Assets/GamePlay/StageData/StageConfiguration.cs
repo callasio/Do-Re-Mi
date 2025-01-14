@@ -10,10 +10,10 @@ namespace GamePlay.StageData
 {
     public enum UIType
     {
-        Start,
         Record,
         Goal,
         Restart,
+        ReHome,
     }
     
     public class StageConfiguration

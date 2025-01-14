@@ -82,7 +82,7 @@ namespace GamePlay.StageData
                     tileList.ToArray(),
                     new StageConfiguration(new Vector3(4.5f, 0, 0),
                         3,
-                        new List<UIType>{UIType.Start}));
+                        new List<UIType>{UIType.ReHome}));
             }
         }
 
