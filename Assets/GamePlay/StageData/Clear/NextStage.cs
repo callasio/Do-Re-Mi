@@ -7,32 +7,26 @@ namespace GamePlay.StageData.Clear
 {
     public class NextStage: MonoBehaviour
     {
-        private int _currentStageIndex;
         [SerializeField] private GameObject background;
         private Button _nextButton;
         private void Start()
         {
-            if (_currentStageIndex != CurrentStage.StageCount - 1)
+            if (CurrentStage.Index != CurrentStage.StageCount - 1)
             {
                 _nextButton = GetComponentInChildren<Button>();
                 _nextButton.onClick.AddListener(OnClick);
             }
             else
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
 
         public void OnClick()
         {
-            if (CurrentStage.Index + 1 < CurrentStage.StageCount)
-            {
-                CurrentStage.Index += 1;
-                SceneManager.LoadScene("GamePlayScene");
-            }
-            else
-            {
-            }
+            if (CurrentStage.Index + 1 >= CurrentStage.StageCount) return;
+            CurrentStage.Index += 1;
+            SceneManager.LoadScene("GamePlayScene");
         }
     }
 }
