@@ -20,14 +20,7 @@ public class Scroll : MonoBehaviour
             // 텍스트 설정
             var item = newObject.GetComponent<NewMonoBehaviourScript>();
             item.Text = "Stage " + (i + 1);
-            
-            // 버튼 클릭 이벤트 설정
-            Button itemButton = newObject.GetComponentInChildren<Button>();
-            if (itemButton != null)
-            {
-                CurrentStage.Index = i;
-                itemButton.onClick.AddListener(() => SceneManager.LoadScene("GamePlayScene"));
-            }
+            item.Index = i;
         }
         // 레이아웃 리빌드
         // LayoutRebuilder.ForceRebuildLayoutImmediate(contentParent);
