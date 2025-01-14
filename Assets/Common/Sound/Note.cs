@@ -5,6 +5,7 @@ using System.Linq;
 using GamePlay.StageData.Player;
 using JetBrains.Annotations;
 using Monotone;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using Object = UnityEngine.Object;
@@ -23,6 +24,7 @@ namespace Common.Sound
         private const float FadeDuration = 0.5f;
         private const float PitchInterpolationDuration = 0.1f;
         private const float MaxVolume = 0.2f;
+        private bool _isPlaying = false;
         
         public PlayingNote(Note note, int pitchDelta, IAudioPlayer player)
         {
@@ -34,9 +36,17 @@ namespace Common.Sound
 
         public Note GetNote() => new (Note.NoteIndex + PitchDelta);
         
-        public void PlayNote() => Player.StartCoroutine(PlayNoteWithFade());
+        public void PlayNote()
+        {
+            _isPlaying = true;
+            Player.StartCoroutine(PlayNoteWithFade());
+        }
 
-        public void StopNote() => Player.StartCoroutine(StopNoteWithFade());
+        public void StopNote()
+        {
+            _isPlaying = false;
+            Player.StartCoroutine(StopNoteWithFade());
+        }
 
         public void AdjustPitch(int pitchDelta)
         {
@@ -53,21 +63,37 @@ namespace Common.Sound
                     parent = Player.GameObject.transform
                 }
             };
-        
-            var audioSource = noteObject.AddComponent<AudioSource>();
-            audioSource.clip = CClip;
-            audioSource.outputAudioMixerGroup = ReverbMixerGroup;
-            audioSource.pitch = Mathf.Pow(2f, GetNote().PitchFromC() / 12f);
-            audioSource.loop = true;
-            audioSource.Play();
-            
+
+            var audioSource = _source;
+            var startVolume = 0f;
+
+            if (_source is null || _source.IsDestroyed())
+            {
+                audioSource = noteObject.AddComponent<AudioSource>();
+                audioSource.clip = CClip;
+                audioSource.outputAudioMixerGroup = ReverbMixerGroup;
+                audioSource.pitch = Mathf.Pow(2f, GetNote().PitchFromC() / 12f);
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+            else
+            {
+                startVolume = _source.volume;
+                Object.Destroy(_source.gameObject);
+            }
+
             _source = audioSource;
-            yield return Player.StartCoroutine(FadeVolume(0, MaxVolume));
+            
+            yield return Player.StartCoroutine(FadeVolume(startVolume, MaxVolume));
         }
         
         private IEnumerator StopNoteWithFade()
         {
+            if (_source is null || _source.IsDestroyed()) yield break;
             yield return Player.StartCoroutine(FadeVolume(_source.volume * Volume.GetNoteVolume(), 0));
+            if (_source is null || _source.IsDestroyed()) yield break;
+            if (_isPlaying) yield break;
+            
             _source.Stop();
             Object.Destroy(_source.gameObject);
         }
@@ -78,10 +104,13 @@ namespace Common.Sound
             while (Time.time - startTime < FadeDuration)
             {
                 var t = (Time.time - startTime) / FadeDuration;
+                if (_source is null || _source.IsDestroyed()) break;
                 _source.volume = Mathf.Lerp(from, to, t) * Volume.GetNoteVolume();
                 yield return null;
             }
-            _source.volume = to * Volume.GetNoteVolume();
+
+            if (_source is not null && !_source.IsDestroyed())
+                _source.volume = to * Volume.GetNoteVolume();
         }
         
         private IEnumerator AdjustPitchWithInterpolation()
