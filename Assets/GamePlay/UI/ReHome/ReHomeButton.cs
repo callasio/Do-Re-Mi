@@ -16,14 +16,13 @@ namespace GamePlay.UI.ReHome
             _button.onClick.AddListener(OnClick);
             Debug.Log("Image clicked");
         }
-        private static void OnClick() => StageLoader.ReHome();
-        
-        public void Update()
+
+        private static void OnClick()
         {
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                OnClick();
-            }
+            // 다음 씬 이름을 설정하세요.
+            string nextSceneName = "HomeScene";
+            // 씬을 로드합니다.
+            SceneManager.LoadScene(nextSceneName);
         }
     }
 }
