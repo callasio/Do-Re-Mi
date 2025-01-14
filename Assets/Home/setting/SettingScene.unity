@@ -172,7 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  volumeSlider: {fileID: 0}
 --- !u!114 &268720770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +505,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  volumeSlider: {fileID: 0}
 --- !u!114 &401739245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2101,7 +2099,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  volumeSlider: {fileID: 0}
 --- !u!114 &1809965805
 MonoBehaviour:
   m_ObjectHideFlags: 0
