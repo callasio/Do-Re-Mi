@@ -5,10 +5,10 @@ public class NewMonoBehaviourScript : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public string Text { get; set; }
-    private TextMeshPro _textMesh;
+    private TextMeshProUGUI _textMesh;
     void Start()
     {
-        _textMesh = GetComponentInChildren<TextMeshPro>();
+        _textMesh = GetComponentInChildren<TextMeshProUGUI>();
         _textMesh.text = Text;
     }
 
