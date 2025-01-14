@@ -24,7 +24,7 @@ namespace GamePlay.UI.Back
 
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 OnClick();
             }
