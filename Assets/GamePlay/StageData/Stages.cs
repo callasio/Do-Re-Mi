@@ -62,8 +62,8 @@ namespace GamePlay.StageData
         private StageData[] StagesData => new[]
         {
             new StageData(DoStageElements, DoStageConfiguration),
-            new StageData(ReStageElements, FirstStageConfiguration),
-            new StageData(MiStageElements, SecondStageConfiguration),
+            new StageData(ReStageElements, ReStageConfiguration),
+            new StageData(MiStageElements, MiStageConfiguration),
             new StageData(FaStageElements, FaStageConfiguration),
             new StageData(SoStageElements, SoStageConfiguration),
             new StageData(LaStageElements, LaStageConfiguration),
@@ -73,8 +73,8 @@ namespace GamePlay.StageData
         public static StageConfiguration[] StageConfigurations => new[]
         {
             DoStageConfiguration,
-            FirstStageConfiguration,
-            SecondStageConfiguration,
+            ReStageConfiguration,
+            MiStageConfiguration,
             FaStageConfiguration,
             SoStageConfiguration,
             LaStageConfiguration,
@@ -104,7 +104,7 @@ namespace GamePlay.StageData
         private static StageConfiguration DoStageConfiguration => new (
             Vector3.zero,
             4,
-            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back, UIType.Guide },
             finishCoordinates: new Coordinates(2, 2),
             goal: new HashSet<Note> { new ("C1") }
         );
@@ -135,10 +135,10 @@ namespace GamePlay.StageData
             }
         }
         
-        private static StageConfiguration FirstStageConfiguration => new (
+        private static StageConfiguration ReStageConfiguration => new (
             new Vector3(0.5f, 0, 0),
             5,
-            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back, UIType.Guide },
             finishCoordinates: new Coordinates(5, 0),
             goal: new HashSet<Note> { new ("D1") }
         );
@@ -163,10 +163,10 @@ namespace GamePlay.StageData
             }
         }
         
-        private static StageConfiguration SecondStageConfiguration => new (
+        private static StageConfiguration MiStageConfiguration => new (
             Vector3.zero,
             5,
-            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back },
+            new List<UIType> { UIType.Record, UIType.Goal, UIType.Restart, UIType.Back, UIType.Guide },
             finishCoordinates: new Coordinates(3, 0),
             goal: new HashSet<Note> { new ("E1"), new ("B2") }
         );

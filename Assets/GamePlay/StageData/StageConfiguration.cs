@@ -14,6 +14,7 @@ namespace GamePlay.StageData
         Goal,
         Restart,
         Back,
+        Guide,
     }
     
     public class StageConfiguration
