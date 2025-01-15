@@ -6,7 +6,8 @@
 
 ### 음을 수집하고, 재생하고, 변형해서 아름다운✨ 화음을 만들어보아요
 
-![image](https://github.com/user-attachments/assets/6c5312cc-f270-430d-997f-40f404ed2754)
+![image](https://github.com/user-attachments/assets/2a9d6c2d-8f9b-40d0-927e-9105177a0546)
+
 
 ## 권장 사양
 
