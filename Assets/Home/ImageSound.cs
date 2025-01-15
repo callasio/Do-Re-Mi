@@ -23,6 +23,7 @@ namespace Home
         public void Start()
         {
             _playingNote = notes.Select(note => new PlayingNote(new Note(note), 0, this)).ToList();
+            backgroundGadient.SetActive(false);
         }
 
         private void Awake()
