@@ -4,6 +4,7 @@ using System.Linq;
 using GamePlay.StageData;
 using GamePlay.UI.Back;
 using GamePlay.UI.Flag;
+using GamePlay.UI.Guide;
 using GamePlay.UI.Record;
 using GamePlay.UI.Restart;
 using UnityEngine;
@@ -15,8 +16,8 @@ namespace GamePlay.UI
         public GameObject recordButtonPrefab;
         public GameObject flagButtonPrefab;
         public GameObject restartButtonPrefab;
-        public GameObject rehomeButtonPrefab;
         public GameObject backButtonPrefab;
+        public GameObject guideButtonPrefab;
         
         public void ReloadUI(StageConfiguration stageConfiguration)
         {
@@ -55,6 +56,10 @@ namespace GamePlay.UI
                     case UIType.Back:
                         var backButton = Instantiate(backButtonPrefab, transform);
                         backButton.GetComponent<BackButton>().Index = i;
+                        break;
+                    case UIType.Guide:
+                        var guideButton = Instantiate(guideButtonPrefab, transform);
+                        guideButton.GetComponent<GuideButton>().Index = i;
                         break;
                 }
             }
